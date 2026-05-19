@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #0d0f12;
+  --bg2: #13161b;
+  --bg3: #1a1e25;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #e8eaf0;
+  --text2: #8a8f9e;
+  --text3: #4a4f5e;
+  --green: #00d68f;
+  --green-dim: rgba(0,214,143,0.12);
+  --red: #ff4d6d;
+  --red-dim: rgba(255,77,109,0.12);
+  --amber: #f0a500;
+  --amber-dim: rgba(240,165,0,0.12);
+  --blue: #4d9fff;
+  --blue-dim: rgba(77,159,255,0.10);
+  --yellow: #ffe066;
+  --yellow-dim: rgba(255,224,102,0.12);
+  --accent: #00d68f;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --font: 'Syne', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --sidebar-w: 220px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
+
+/* Layout */
+.shell{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar-w);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:200;transition:transform .25s ease}
+.main{margin-left:var(--sidebar-w);flex:1;padding:2rem;max-width:1200px;transition:margin-left .25s ease}
+
+/* Sidebar */
+.logo{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border)}
+.logo-text{font-size:17px;font-weight:700;letter-spacing:-.3px;color:var(--text)}
+.logo-sub{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:2px}
+.nav{padding:1rem 0;flex:1;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 1.25rem;font-size:14px;color:var(--text2);cursor:pointer;border-left:2px solid transparent;transition:all .15s}
+.nav-item:hover{color:var(--text);background:var(--bg3)}
+.nav-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(0,214,143,0.06)}
+.nav-item i{font-size:18px}
+.nav-section{padding:8px 1.25rem 4px;font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+.sidebar-footer{padding:1rem 1.25rem;border-top:1px solid var(--border);font-size:12px;color:var(--text3);font-family:var(--mono)}
+
+/* Mobile hamburger */
+.hamburger{display:none;position:fixed;top:14px;left:14px;z-index:300;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:6px 8px;cursor:pointer;font-size:20px;color:var(--text2)}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150}
+
+/* Pages */
+.page{display:none}
+.page.active{display:block}
+.page-header{margin-bottom:2rem}
+.page-title{font-size:24px;font-weight:700;letter-spacing:-.5px}
+.page-sub{font-size:13px;color:var(--text2);margin-top:4px;font-family:var(--mono)}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.25rem}
+.card-title{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+.card-title i{font-size:16px;color:var(--accent)}
+
+/* Grid */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem}
+
+/* Fields */
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11px;font-weight:500;color:var(--text2);font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase}
+.field input,.field select,.field textarea{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);
+  color:var(--text);font-size:13px;font-family:var(--mono);padding:9px 12px;
+  outline:none;transition:border .15s;width:100%
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field select{cursor:pointer}
+.field textarea{resize:vertical;min-height:70px;font-family:var(--font);font-size:13px}
+.field input::placeholder{color:var(--text3)}
+.field input[readonly]{color:var(--accent);border-color:rgba(0,214,143,.25);background:rgba(0,214,143,.05)}
+
+/* Auto-calc highlight */
+.auto-calc{position:relative}
+.auto-calc::after{content:'AUTO';position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:9px;font-family:var(--mono);color:var(--accent);opacity:.6;letter-spacing:.06em;pointer-events:none}
+
+/* Risk bar */
+.risk-bar-wrap{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:12px;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
+.risk-bar-label{font-size:11px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.risk-bar-val{font-size:22px;font-weight:700;font-family:var(--mono);color:var(--accent);letter-spacing:-1px}
+.risk-bar-sep{width:1px;height:28px;background:var(--border2)}
+.risk-bar-item{display:flex;flex-direction:column;gap:2px}
+
+/* Radio groups */
+.radio-group{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.radio-group label{
+  display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;
+  padding:5px 10px;border-radius:20px;border:1px solid var(--border2);
+  color:var(--text2);transition:all .15s;font-family:var(--mono)
+}
+.radio-group label:hover{border-color:var(--accent);color:var(--accent)}
+.radio-group input[type=radio]{display:none}
+.radio-group input[type=radio]:checked + span{color:var(--accent)}
+.radio-group label:has(input:checked){background:rgba(0,214,143,0.1);border-color:var(--accent);color:var(--accent)}
+.radio-group label:has(input[data-color="yellow"]:checked){background:var(--yellow-dim);border-color:var(--yellow);color:var(--yellow)}
+.radio-group label:has(input[data-color="blue"]:checked){background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
+.radio-group label.yellow-opt:hover{border-color:var(--yellow);color:var(--yellow)}
+.radio-group label.blue-opt:hover{border-color:var(--blue);color:var(--blue)}
+
+/* Buttons */
+.btn{padding:9px 18px;font-size:13px;font-family:var(--mono);border:1px solid var(--border2);border-radius:var(--radius);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--border2);color:var(--text);background:var(--bg3)}
+.btn.primary{background:var(--accent);color:#0d0f12;border-color:var(--accent);font-weight:600}
+.btn.primary:hover{opacity:.85}
+.btn.danger{color:var(--red);border-color:rgba(255,77,109,.3)}
+.btn.danger:hover{background:var(--red-dim)}
+.btn.sm{padding:5px 10px;font-size:11px}
+.btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
+
+/* Metric cards */
+.metric{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem}
+.metric-label{font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.metric-val{font-size:26px;font-weight:700;font-family:var(--mono);letter-spacing:-1px}
+.metric-val.pos{color:var(--green)}
+.metric-val.neg{color:var(--red)}
+.metric-sub{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:3px}
+
+/* Badges */
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--mono)}
+.badge.win{background:var(--green-dim);color:var(--green)}
+.badge.loss{background:var(--red-dim);color:var(--red)}
+.badge.be{background:var(--amber-dim);color:var(--amber)}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead{background:var(--bg3)}
+th{padding:10px 12px;text-align:left;font-weight:500;color:var(--text3);font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;color:var(--text2);font-family:var(--mono);font-size:12px}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg3)}
+td b{color:var(--text);font-weight:600}
+
+/* Filter pills */
+.pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.pill{padding:5px 14px;border-radius:20px;font-size:12px;font-family:var(--mono);border:1px solid var(--border2);cursor:pointer;background:transparent;color:var(--text2);transition:all .15s}
+.pill.active{background:var(--accent);color:#0d0f12;border-color:var(--accent);font-weight:600}
+.pill:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+
+/* Calc result box */
+.calc-box{background:var(--bg3);border-radius:var(--radius);padding:1.25rem;margin-top:1rem;border:1px solid var(--border)}
+.calc-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;font-family:var(--mono)}
+.calc-row:last-child{border-bottom:none;font-weight:600;color:var(--accent);font-size:14px}
+.calc-row .lbl{color:var(--text3)}
+.calc-row .val{color:var(--text)}
+.calc-row:last-child .val{color:var(--accent)}
+
+/* Info box */
+.info-box{background:var(--blue-dim);border:1px solid rgba(77,159,255,.2);border-radius:var(--radius);padding:.85rem 1rem;font-size:12px;color:var(--blue);margin-bottom:1rem;font-family:var(--mono);display:flex;align-items:flex-start;gap:8px}
+
+/* Separator */
+.sep{height:1px;background:var(--border);margin:1rem 0}
+
+/* Empty state */
+.empty{text-align:center;padding:4rem 1rem;color:var(--text3)}
+.empty i{font-size:40px;display:block;margin-bottom:12px;opacity:.4}
+.empty p{font-size:13px;font-family:var(--mono)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* Top bar on main */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.topbar-right{display:flex;gap:8px}
+
+/* Chart containers */
+.chart-wrap{position:relative;height:220px}
+
+/* Indicator section labels */
+.ind-section{font-size:12px;font-family:var(--mono);color:var(--accent);margin-bottom:8px;margin-top:4px;font-weight:600}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .g4{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 640px) {
+  .hamburger{display:flex;align-items:center;justify-content:center}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0;padding:1rem;padding-top:3.5rem}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .risk-bar-wrap{flex-direction:column;align-items:flex-start;gap:.75rem}
+  .risk-bar-sep{display:none}
+  .page-title{font-size:20px}
+  .topbar{flex-direction:column;align-items:flex-start;gap:.75rem}
+  .topbar-right{flex-wrap:wrap}
+  .btn-row{flex-wrap:wrap}
+  .radio-group{flex-wrap:wrap}
+  .metric-val{font-size:22px}
+  table{font-size:11px}
+  th,td{padding:8px 8px}
+}
+@media (max-width: 420px) {
+  .main{padding:.75rem;padding-top:3.5rem}
+  .card{padding:1rem}
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" id="hamburger-btn"><i class="ti ti-menu-2"></i></button>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="logo-text">TJ — Trading Journal</div>
+      <div class="logo-sub">v1.1 · local storage</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">Trade</div>
+      <div class="nav-item active" onclick="switchTab('new');closeSidebar()"><i class="ti ti-plus"></i> New Position</div>
+      <div class="nav-item" onclick="switchTab('log');closeSidebar()"><i class="ti ti-list-details"></i> Position Log</div>
+      <div class="nav-section">Tools</div>
+      <div class="nav-item" onclick="switchTab('calc');closeSidebar()"><i class="ti ti-calculator"></i> Risk Calculator</div>
+      <div class="nav-item" onclick="switchTab('stats');closeSidebar()"><i class="ti ti-chart-bar"></i> Statistics</div>
+      <div class="nav-section">Config</div>
+      <div class="nav-item" onclick="switchTab('settings');closeSidebar()"><i class="ti ti-settings"></i> Settings</div>
+    </nav>
+    <div class="sidebar-footer" id="sb-balance">Balance: —</div>
+  </aside>
+
+  <main class="main">
+
+    <!-- NEW POSITION -->
+    <div id="page-new" class="page active">
+      <div class="page-header">
+        <div class="page-title">New Position</div>
+        <div class="page-sub">Log a new trade entry</div>
+      </div>
+
+      <!-- RISK / CAPITAL INPUTS (at top of form) -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-shield-dollar"></i> Position Risk & Capital</div>
+        <div class="g2" style="margin-bottom:12px">
+          <div class="field">
+            <label>Capital for this Position ($)</label>
+            <input type="number" id="f-capital" step="any" placeholder="e.g. 1000" oninput="autoCalcFromForm()">
+          </div>
+          <div class="field">
+            <label>Risk on this Position (%)</label>
+            <input type="number" id="f-risk-pct" step="any" placeholder="e.g. 1" oninput="autoCalcFromForm()">
+          </div>
+        </div>
+        <!-- Live display bar -->
+        <div class="risk-bar-wrap" id="risk-bar" style="display:none">
+          <div class="risk-bar-item"><div class="risk-bar-label">Risk $</div><div class="risk-bar-val" id="rb-risk">—</div></div>
+          <div class="risk-bar-sep"></div>
+          <div class="risk-bar-item"><div class="risk-bar-label">Position Size</div><div class="risk-bar-val" id="rb-size">—</div></div>
+          <div class="risk-bar-sep"></div>
+          <div class="risk-bar-item"><div class="risk-bar-label">Leverage</div><div class="risk-bar-val" id="rb-lev">—</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="ti ti-info-circle"></i> Basic Info</div>
+        <div class="g2">
+          <div class="field"><label>Date</label><input type="date" id="f-date"></div>
+          <div class="field"><label>Symbol</label><input type="text" id="f-symbol" placeholder="BTCUSDT"></div>
+        </div>
+        <div class="g3">
+          <div class="field"><label>Time Open</label><input type="time" id="f-topen"></div>
+          <div class="field"><label>Time Close</label><input type="time" id="f-tclose"></div>
+          <div class="field"><label>Time Frame</label>
+            <select id="f-tf"><option>1m</option><option>5m</option><option>15m</option><option>30m</option><option selected>1H</option><option>4H</option><option>1D</option><option>1W</option></select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="ti ti-trending-up"></i> Position Details</div>
+        <div class="g3">
+          <div class="field"><label>Entry Price</label><input type="number" id="f-entry" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
+          <div class="field"><label>Stop Price</label><input type="number" id="f-exit" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
+          <div class="field"><label>Take Profit (TP)</label><input type="number" id="f-tp" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
+        </div>
+        <div class="g3">
+          <div class="field auto-calc">
+            <label>Stop Loss (%)</label>
+            <input type="number" id="f-sl" step="any" placeholder="auto" readonly>
+          </div>
+          <div class="field auto-calc"><label>R/R</label><input type="number" id="f-rr" step="any" placeholder="auto" readonly></div>
+          <div class="field auto-calc">
+            <label>Position Size ($)</label>
+            <input type="number" id="f-possize" step="any" placeholder="auto" readonly>
+          </div>
+        </div>
+        <div class="g3">
+          <div class="field auto-calc">
+            <label>Leverage</label>
+            <input type="number" id="f-lev" step="any" placeholder="auto" readonly>
+          </div>
+          <div class="field"><label>Direction</label>
+            <select id="f-dir"><option value="Long">Long</option><option value="Short">Short</option></select>
+          </div>
+          <div class="field"><label>Result</label>
+            <select id="f-result"><option value="Win">Win</option><option value="Loss">Loss</option><option value="BE">Break Even</option></select>
+          </div>
+        </div>
+        <div class="g3">
+          <div class="field"><label>PNL ($)</label><input type="number" id="f-pnl" step="any" placeholder="0.00"></div>
+          <div class="field"><label>Balance ($)</label><input type="number" id="f-bal" step="any" placeholder="0.00"></div>
+          <div class="field"><label>Fee / Commission ($)</label><input type="number" id="f-fee" step="any" placeholder="0.00"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="ti ti-activity"></i> Indicators</div>
+
+        <div class="ind-section">SMA 7</div>
+        <div class="g2" style="margin-bottom:12px">
+          <div class="field"><label>Candle Position</label>
+            <div class="radio-group">
+              <label><input type="radio" name="sma7" value="Above"><span>Above</span></label>
+              <label><input type="radio" name="sma7" value="Below"><span>Below</span></label>
+              <label><input type="radio" name="sma7" value="Cross Up"><span>Cross Up</span></label>
+              <label><input type="radio" name="sma7" value="Cross Down"><span>Cross Down</span></label>
+            </div>
+          </div>
+          <div class="field"><label>Candle Color</label>
+            <div class="radio-group">
+              <label><input type="radio" name="sma7c" value="Green"><span>Green</span></label>
+              <label><input type="radio" name="sma7c" value="Red"><span>Red</span></label>
+              <label><input type="radio" name="sma7c" value="Doji"><span>Doji</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+        <div class="ind-section">SMA 29</div>
+        <div class="g2" style="margin-bottom:12px">
+          <div class="field"><label>Candle Position</label>
+            <div class="radio-group">
+              <label><input type="radio" name="sma29" value="Above"><span>Above</span></label>
+              <label><input type="radio" name="sma29" value="Below"><span>Below</span></label>
+              <label><input type="radio" name="sma29" value="Cross Up"><span>Cross Up</span></label>
+              <label><input type="radio" name="sma29" value="Cross Down"><span>Cross Down</span></label>
+            </div>
+          </div>
+          <div class="field"><label>Candle Color</label>
+            <div class="radio-group">
+              <label><input type="radio" name="sma29c" value="Green"><span>Green</span></label>
+              <label><input type="radio" name="sma29c" value="Red"><span>Red</span></label>
+              <label><input type="radio" name="sma29c" value="Doji"><span>Doji</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+        <div class="ind-section">SMA 99</div>
+        <div class="g2" style="margin-bottom:12px">
+          <div class="field"><label>Candle Position</label>
+            <div class="radio-group">
+              <label><input type="radio" name="sma99" value="Above"><span>Above</span></label>
+              <label><input type="radio" name="sma99" value="Below"><span>Below</span></label>
+              <label><input type="radio" name="sma99" value="Cross Up"><span>Cross Up</span></label>
+              <label><input type="radio" name="sma99" value="Cross Down"><span>Cross Down</span></label>
+            </div>
+          </div>
+          <div class="field"><label>Candle Color</label>
+            <div class="radio-group">
+              <label><input type="radio" name="sma99c" value="Green"><span>Green</span></label>
+              <label><input type="radio" name="sma99c" value="Red"><span>Red</span></label>
+              <label><input type="radio" name="sma99c" value="Doji"><span>Doji</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+        <div class="ind-section">VWAP</div>
+        <div class="g2" style="margin-bottom:12px">
+          <div class="field"><label>Candle Position</label>
+            <div class="radio-group">
+              <label><input type="radio" name="vwap" value="Above"><span>Above</span></label>
+              <label><input type="radio" name="vwap" value="Below"><span>Below</span></label>
+              <label><input type="radio" name="vwap" value="Cross Up"><span>Cross Up</span></label>
+              <label><input type="radio" name="vwap" value="Cross Down"><span>Cross Down</span></label>
+            </div>
+          </div>
+          <div class="field"><label>Candle Color</label>
+            <div class="radio-group">
+              <label><input type="radio" name="vwapc" value="Green"><span>Green</span></label>
+              <label><input type="radio" name="vwapc" value="Red"><span>Red</span></label>
+              <label><input type="radio" name="vwapc" value="Doji"><span>Doji</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPOSITE DIVERGENCE -->
+        <div class="sep"></div>
+        <div class="ind-section">Composite Divergence</div>
+        <div class="g2" style="margin-bottom:12px">
+          <div class="field">
+            <label>First Cross Color</label>
+            <div class="radio-group">
+              <label class="yellow-opt"><input type="radio" name="cd-cross" value="Yellow" data-color="yellow"><span>Yellow</span></label>
+              <label class="blue-opt"><input type="radio" name="cd-cross" value="Blue" data-color="blue"><span>Blue</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Divergence Type</label>
+            <div class="radio-group">
+              <label><input type="radio" name="cd-type" value="Regular+"><span>Regular +</span></label>
+              <label><input type="radio" name="cd-type" value="Regular-"><span>Regular −</span></label>
+              <label><input type="radio" name="cd-type" value="Hidden+"><span>Hidden +</span></label>
+              <label><input type="radio" name="cd-type" value="Hidden-"><span>Hidden −</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="ti ti-camera"></i> Screenshots & Notes</div>
+        <div class="g2" style="margin-bottom:12px">
+          <div class="field"><label>Pic Before (URL or filename)</label><input type="text" id="f-picb" placeholder="chart_before.png"></div>
+          <div class="field"><label>Pic After (URL or filename)</label><input type="text" id="f-pica" placeholder="chart_after.png"></div>
+        </div>
+        <div class="field"><label>Notes / Analysis</label><textarea id="f-note" placeholder="Entry reason, mistakes, lessons learned..."></textarea></div>
+        <div class="btn-row">
+          <button class="btn" onclick="clearForm()"><i class="ti ti-eraser"></i> Clear</button>
+          <button class="btn primary" onclick="savePosition()"><i class="ti ti-device-floppy"></i> Save Position</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- POSITION LOG -->
+    <div id="page-log" class="page">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Position Log</div>
+          <div class="page-sub" id="log-count">0 positions</div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
+          <button class="btn danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear All</button>
+        </div>
+      </div>
+      <div class="pill-row" id="filter-pills">
+        <button class="pill active" onclick="filterLog('all',this)">All</button>
+        <button class="pill" onclick="filterLog('Win',this)">Win</button>
+        <button class="pill" onclick="filterLog('Loss',this)">Loss</button>
+        <button class="pill" onclick="filterLog('BE',this)">BE</button>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>#</th><th>Date</th><th>Symbol</th><th>TF</th><th>Dir</th>
+            <th>Entry</th><th>Stoploss</th><th>TP</th><th>SL%</th><th>R/R</th>
+            <th>Size</th><th>Lev</th><th>PNL</th><th>Balance</th><th>Result</th>
+            <th>SMA7</th><th>SMA29</th><th>SMA99</th><th>VWAP</th><th>CD Cross</th><th>CD Type</th><th>Notes</th><th></th>
+          </tr></thead>
+          <tbody id="log-body"></tbody>
+        </table>
+      </div>
+      <div id="log-empty" class="empty"><i class="ti ti-database-off"></i><p>No positions logged yet</p></div>
+    </div>
+
+    <!-- RISK CALCULATOR -->
+    <div id="page-calc" class="page">
+      <div class="page-header">
+        <div class="page-title">Risk Calculator</div>
+        <div class="page-sub">Calculate position size from SL%</div>
+      </div>
+      <div class="info-box"><i class="ti ti-bulb" style="font-size:16px;flex-shrink:0"></i> Set default capital and risk % in Settings. Enter SL% to auto-calculate size and leverage.</div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-calculator"></i> Position Size Calculator</div>
+        <div class="g3">
+          <div class="field"><label>Account Balance ($)</label><input type="number" id="c-bal" step="any" placeholder="1000" oninput="calcPos()"></div>
+          <div class="field"><label>Risk per Trade (%)</label><input type="number" id="c-risk" step="any" placeholder="1" oninput="calcPos()"></div>
+          <div class="field"><label>Stop Loss (%)</label><input type="number" id="c-sl" step="any" placeholder="0.5" oninput="calcPos()"></div>
+        </div>
+        <div class="calc-box">
+          <div class="calc-row"><span class="lbl">Risk Amount ($)</span><span class="val" id="cr-risk">—</span></div>
+          <div class="calc-row"><span class="lbl">Position Size ($)</span><span class="val" id="cr-size">—</span></div>
+          <div class="calc-row"><span class="lbl">Required Leverage</span><span class="val" id="cr-lev">—</span></div>
+          <div class="calc-row"><span class="lbl">Margin Used ($)</span><span class="val" id="cr-margin">—</span></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn primary" onclick="applyToForm()"><i class="ti ti-arrow-right"></i> Apply to New Position</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div id="page-stats" class="page">
+      <div class="page-header">
+        <div class="page-title">Statistics</div>
+        <div class="page-sub">Performance overview</div>
+      </div>
+      <div class="g4">
+        <div class="metric"><div class="metric-label">Total Trades</div><div class="metric-val" id="s-total">0</div></div>
+        <div class="metric"><div class="metric-label">Win Rate</div><div class="metric-val pos" id="s-wr">—</div></div>
+        <div class="metric"><div class="metric-label">Total PNL</div><div class="metric-val" id="s-pnl">—</div></div>
+        <div class="metric"><div class="metric-label">Avg R/R</div><div class="metric-val" id="s-rr">—</div></div>
+      </div>
+      <div class="g2">
+        <div class="metric"><div class="metric-label">Best Trade</div><div class="metric-val pos" id="s-best">—</div></div>
+        <div class="metric"><div class="metric-label">Worst Trade</div><div class="metric-val neg" id="s-worst">—</div></div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="card-title"><i class="ti ti-chart-donut"></i> Result Distribution</div>
+          <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-trending-up"></i> Balance Growth</div>
+          <div class="chart-wrap"><canvas id="bal-chart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="page-settings" class="page">
+      <div class="page-header">
+        <div class="page-title">Settings</div>
+        <div class="page-sub">Default risk management configuration</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-shield"></i> Risk Management Defaults</div>
+        <div class="g2" style="margin-bottom:12px">
+          <div class="field"><label>Starting Capital ($)</label><input type="number" id="s-initbal" value="1000"></div>
+          <div class="field"><label>Default Risk per Trade (%)</label><input type="number" id="s-defrisk" value="1" step="0.1"></div>
+        </div>
+        <div class="btn-row"><button class="btn primary" onclick="saveSettings()"><i class="ti ti-check"></i> Save Settings</button></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-database"></i> Backup & Restore</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" onclick="exportJSON()"><i class="ti ti-download"></i> Download JSON Backup</button>
+          <label class="btn" style="cursor:pointer"><i class="ti ti-upload"></i> Load Backup <input type="file" accept=".json" style="display:none" onchange="importJSON(this)"></label>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+let positions = JSON.parse(localStorage.getItem('tj_positions') || '[]');
+let settings = JSON.parse(localStorage.getItem('tj_settings') || '{"initBal":1000,"defRisk":1}');
+let filterMode = 'all';
+let pieChart, balChart;
+
+// ── Mobile sidebar ──
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+// ── Auto-calc SL% and R/R from entry / stop / tp prices ──
+function autoCalcPrices() {
+  const entry = parseFloat(document.getElementById('f-entry').value) || 0;
+  const stop  = parseFloat(document.getElementById('f-exit').value)  || 0;
+  const tp    = parseFloat(document.getElementById('f-tp').value)    || 0;
+
+  if (entry > 0 && stop > 0) {
+    const slPct = Math.abs((entry - stop) / entry) * 100;
+    document.getElementById('f-sl').value = slPct.toFixed(4);
+
+    if (tp > 0) {
+      const tpDist = Math.abs(tp - entry);
+      const slDist = Math.abs(entry - stop);
+      const rr = slDist > 0 ? (tpDist / slDist) : 0;
+      document.getElementById('f-rr').value = rr.toFixed(2);
+    } else {
+      document.getElementById('f-rr').value = '';
+    }
+  } else {
+    document.getElementById('f-sl').value = '';
+    document.getElementById('f-rr').value = '';
+  }
+  // Re-run size/lev calc since SL% may have changed
+  autoCalcFromForm();
+}
+
+// ── Auto-calc position size & leverage from form inputs ──
+function autoCalcFromForm() {
+  const capital = parseFloat(document.getElementById('f-capital').value) || 0;
+  const riskPct = parseFloat(document.getElementById('f-risk-pct').value) || 0;
+  const sl      = parseFloat(document.getElementById('f-sl').value) || 0;
+
+  const bar = document.getElementById('risk-bar');
+
+  if (capital > 0 && riskPct > 0) {
+    bar.style.display = 'flex';
+    const riskAmt = capital * riskPct / 100;
+    document.getElementById('rb-risk').textContent = '$' + riskAmt.toFixed(2);
+
+    if (sl > 0) {
+      const posSize = riskAmt / (sl / 100);
+      const lev     = posSize / capital;
+      document.getElementById('rb-size').textContent = '$' + posSize.toFixed(2);
+      document.getElementById('rb-lev').textContent  = lev.toFixed(2) + 'x';
+      document.getElementById('f-possize').value = posSize.toFixed(2);
+      document.getElementById('f-lev').value     = lev.toFixed(2);
+    } else {
+      document.getElementById('rb-size').textContent = '—';
+      document.getElementById('rb-lev').textContent  = '—';
+      document.getElementById('f-possize').value = '';
+      document.getElementById('f-lev').value     = '';
+    }
+  } else {
+    bar.style.display = 'none';
+    document.getElementById('f-possize').value = '';
+    document.getElementById('f-lev').value     = '';
+  }
+}
+
+function switchTab(t) {
+  document.querySelectorAll('.nav-item').forEach((n, i) => {
+    n.classList.toggle('active', ['new','log','calc','stats','settings'][i] === t);
+  });
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + t).classList.add('active');
+  if (t === 'stats') renderCharts();
+  if (t === 'calc') {
+    document.getElementById('c-bal').value  = getCurrentBalance();
+    document.getElementById('c-risk').value = settings.defRisk;
+    calcPos();
+  }
+  if (t === 'log') renderLog();
+}
+
+function getRadio(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : '';
+}
+
+function getCurrentBalance() {
+  if (!positions.length) return settings.initBal;
+  const last = positions[positions.length - 1];
+  return last.balance || settings.initBal;
+}
+
+function updateSidebarBalance() {
+  const b = getCurrentBalance();
+  document.getElementById('sb-balance').textContent = 'Balance: $' + parseFloat(b).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function savePosition() {
+  const today = new Date().toISOString().split('T')[0];
+  // Auto-assign sequential position number
+  const nextNum = positions.length + 1;
+  const row = {
+    id:        Date.now(),
+    row:       nextNum,
+    date:      document.getElementById('f-date').value || today,
+    topen:     document.getElementById('f-topen').value,
+    tclose:    document.getElementById('f-tclose').value,
+    tf:        document.getElementById('f-tf').value,
+    symbol:    document.getElementById('f-symbol').value.toUpperCase() || '—',
+    entry:     parseFloat(document.getElementById('f-entry').value)   || 0,
+    exit:      parseFloat(document.getElementById('f-exit').value)    || 0,
+    tp:        parseFloat(document.getElementById('f-tp').value)      || 0,
+    sl:        parseFloat(document.getElementById('f-sl').value)      || 0,
+    rr:        parseFloat(document.getElementById('f-rr').value)      || 0,
+    possize:   parseFloat(document.getElementById('f-possize').value) || 0,
+    lev:       parseFloat(document.getElementById('f-lev').value)     || 1,
+    direction: document.getElementById('f-dir').value,
+    result:    document.getElementById('f-result').value,
+    pnl:       parseFloat(document.getElementById('f-pnl').value)     || 0,
+    balance:   parseFloat(document.getElementById('f-bal').value)     || 0,
+    fee:       parseFloat(document.getElementById('f-fee').value)     || 0,
+    picb:      document.getElementById('f-picb').value,
+    pica:      document.getElementById('f-pica').value,
+    note:      document.getElementById('f-note').value,
+    capital:   parseFloat(document.getElementById('f-capital').value) || 0,
+    riskPct:   parseFloat(document.getElementById('f-risk-pct').value) || 0,
+    sma7:  getRadio('sma7'),  sma7c:  getRadio('sma7c'),
+    sma29: getRadio('sma29'), sma29c: getRadio('sma29c'),
+    sma99: getRadio('sma99'), sma99c: getRadio('sma99c'),
+    vwap:  getRadio('vwap'),  vwapc:  getRadio('vwapc'),
+    cdCross: getRadio('cd-cross'),
+    cdType:  getRadio('cd-type'),
+  };
+  positions.push(row);
+  localStorage.setItem('tj_positions', JSON.stringify(positions));
+  updateSidebarBalance();
+  clearForm();
+  alert('✅ Position #' + nextNum + ' saved!');
+  switchTab('log');
+}
+
+function clearForm() {
+  ['f-date','f-topen','f-tclose','f-symbol','f-entry','f-exit','f-tp',
+   'f-sl','f-rr','f-possize','f-lev','f-pnl','f-bal','f-fee','f-picb','f-pica','f-note',
+   'f-capital','f-risk-pct'
+  ].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+  document.getElementById('risk-bar').style.display = 'none';
+}
+
+function filterLog(mode, btn) {
+  filterMode = mode;
+  document.querySelectorAll('#filter-pills .pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderLog();
+}
+
+function renderLog() {
+  const filtered = filterMode === 'all' ? positions : positions.filter(p => p.result === filterMode);
+  const tbody  = document.getElementById('log-body');
+  const empty  = document.getElementById('log-empty');
+  document.getElementById('log-count').textContent = positions.length + ' position' + (positions.length !== 1 ? 's' : '');
+  if (!filtered.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  tbody.innerHTML = filtered.map(p => `<tr>
+    <td><b>#${p.row}</b></td>
+    <td>${p.date}</td>
+    <td><b>${p.symbol}</b></td>
+    <td>${p.tf}</td>
+    <td style="color:${p.direction==='Long'?'var(--green)':'var(--red)'}">${p.direction}</td>
+    <td>${p.entry || '—'}</td>
+    <td>${p.sl || '—'}%</td>
+    <td>${p.tp || '—'}</td>
+    <td>${p.sl || '—'}%</td>
+    <td>${p.rr || '—'}</td>
+    <td>$${p.possize || '—'}</td>
+    <td>${p.lev || '—'}x</td>
+    <td style="color:${p.pnl >= 0 ? 'var(--green)' : 'var(--red)'}">${p.pnl >= 0 ? '+' : ''}$${p.pnl}</td>
+    <td>$${p.balance}</td>
+    <td><span class="badge ${p.result==='Win'?'win':p.result==='Loss'?'loss':'be'}">${p.result}</span></td>
+    <td>${p.sma7||'—'} / ${p.sma7c||'—'}</td>
+    <td>${p.sma29||'—'} / ${p.sma29c||'—'}</td>
+    <td>${p.sma99||'—'} / ${p.sma99c||'—'}</td>
+    <td>${p.vwap||'—'} / ${p.vwapc||'—'}</td>
+    <td style="color:${p.cdCross==='Yellow'?'var(--yellow)':p.cdCross==='Blue'?'var(--blue)':'var(--text2)'}">${p.cdCross||'—'}</td>
+    <td>${p.cdType||'—'}</td>
+    <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis" title="${p.note||''}">${p.note||'—'}</td>
+    <td><button class="btn danger sm" onclick="deletePos(${p.id})"><i class="ti ti-trash"></i></button></td>
+  </tr>`).join('');
+}
+
+function deletePos(id) {
+  if (!confirm('Delete this position?')) return;
+  positions = positions.filter(p => p.id !== id);
+  // Re-number sequentially
+  positions.forEach((p, i) => p.row = i + 1);
+  localStorage.setItem('tj_positions', JSON.stringify(positions));
+  updateSidebarBalance();
+  renderLog();
+}
+
+function clearAll() {
+  if (!confirm('Delete ALL positions? This cannot be undone.')) return;
+  positions = [];
+  localStorage.setItem('tj_positions', '[]');
+  updateSidebarBalance();
+  renderLog();
+}
+
+function calcPos() {
+  const bal  = parseFloat(document.getElementById('c-bal').value)  || settings.initBal;
+  const risk = parseFloat(document.getElementById('c-risk').value) || settings.defRisk;
+  const sl   = parseFloat(document.getElementById('c-sl').value)   || 0;
+  if (sl <= 0) {
+    ['cr-risk','cr-size','cr-lev','cr-margin'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  const riskAmt = bal * risk / 100;
+  const posSize = riskAmt / (sl / 100);
+  const lev     = posSize / bal;
+  document.getElementById('cr-risk').textContent   = '$' + riskAmt.toFixed(2);
+  document.getElementById('cr-size').textContent   = '$' + posSize.toFixed(2);
+  document.getElementById('cr-lev').textContent    = lev.toFixed(2) + 'x';
+  document.getElementById('cr-margin').textContent = '$' + bal.toFixed(2);
+}
+
+function applyToForm() {
+  const sl      = parseFloat(document.getElementById('c-sl').value)   || 0;
+  const posSize = parseFloat(document.getElementById('cr-size').textContent.replace('$','')) || 0;
+  const lev     = parseFloat(document.getElementById('cr-lev').textContent.replace('x',''))  || 0;
+  const bal     = parseFloat(document.getElementById('c-bal').value)  || settings.initBal;
+  const risk    = parseFloat(document.getElementById('c-risk').value) || settings.defRisk;
+  document.getElementById('f-sl').value       = sl;
+  document.getElementById('f-possize').value  = posSize.toFixed(2);
+  document.getElementById('f-lev').value      = lev.toFixed(2);
+  document.getElementById('f-capital').value  = bal;
+  document.getElementById('f-risk-pct').value = risk;
+  autoCalcFromForm();
+  switchTab('new');
+}
+
+function renderCharts() {
+  const wins     = positions.filter(p => p.result === 'Win').length;
+  const losses   = positions.filter(p => p.result === 'Loss').length;
+  const bes      = positions.filter(p => p.result === 'BE').length;
+  const totalPNL = positions.reduce((a, p) => a + p.pnl, 0);
+  const avgRR    = positions.length ? positions.reduce((a, p) => a + p.rr, 0) / positions.length : 0;
+  const best     = positions.length ? Math.max(...positions.map(p => p.pnl)) : 0;
+  const worst    = positions.length ? Math.min(...positions.map(p => p.pnl)) : 0;
+
+  document.getElementById('s-total').textContent = positions.length;
+  document.getElementById('s-wr').textContent    = positions.length ? (wins / positions.length * 100).toFixed(1) + '%' : '—';
+  const pnlEl = document.getElementById('s-pnl');
+  pnlEl.textContent = '$' + totalPNL.toFixed(2);
+  pnlEl.className = 'metric-val ' + (totalPNL >= 0 ? 'pos' : 'neg');
+  document.getElementById('s-best').textContent  = '$' + best.toFixed(2);
+  document.getElementById('s-worst').textContent = '$' + worst.toFixed(2);
+  document.getElementById('s-rr').textContent    = avgRR.toFixed(2);
+
+  Chart.defaults.color = '#4a4f5e';
+  if (pieChart) pieChart.destroy();
+  pieChart = new Chart(document.getElementById('pie-chart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Win', 'Loss', 'BE'],
+      datasets: [{ data: [wins, losses, bes], backgroundColor: ['#00d68f', '#ff4d6d', '#f0a500'], borderWidth: 0 }]
+    },
+    options: { plugins: { legend: { position: 'bottom', labels: { color: '#8a8f9e', font: { family: 'DM Mono', size: 11 } } } }, cutout: '65%' }
+  });
+
+  if (balChart) balChart.destroy();
+  const balData = positions.map(p => p.balance).filter(b => b > 0);
+  balChart = new Chart(document.getElementById('bal-chart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: positions.map(p => '#' + p.row),
+      datasets: [{ data: balData, borderColor: '#00d68f', backgroundColor: 'rgba(0,214,143,0.07)', tension: .35, fill: true, pointRadius: 3, pointBackgroundColor: '#00d68f' }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: false, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#4a4f5e', font: { family: 'DM Mono', size: 10 } } },
+        x: { grid: { display: false }, ticks: { color: '#4a4f5e', font: { family: 'DM Mono', size: 10 } } }
+      }
+    }
+  });
+}
+
+function saveSettings() {
+  settings.initBal  = parseFloat(document.getElementById('s-initbal').value)  || 1000;
+  settings.defRisk  = parseFloat(document.getElementById('s-defrisk').value)  || 1;
+  localStorage.setItem('tj_settings', JSON.stringify(settings));
+  alert('Settings saved!');
+}
+
+function exportCSV() {
+  if (!positions.length) { alert('No positions to export.'); return; }
+  const headers = ['#','Date','Time Open','Time Close','TF','Symbol','Entry','Stoploss','TP','SL%','R/R','Size','Leverage','Direction','Result','PNL','Balance','Fee','Capital','Risk%','SMA7 Pos','SMA7 Color','SMA29 Pos','SMA29 Color','SMA99 Pos','SMA99 Color','VWAP Pos','VWAP Color','CD Cross','CD Type','Pic Before','Pic After','Notes'];
+  const rows = positions.map(p => [p.row,p.date,p.topen,p.tclose,p.tf,p.symbol,p.entry,p.exit,p.tp,p.sl,p.rr,p.possize,p.lev,p.direction,p.result,p.pnl,p.balance,p.fee,p.capital||'',p.riskPct||'',p.sma7,p.sma7c,p.sma29,p.sma29c,p.sma99,p.sma99c,p.vwap,p.vwapc,p.cdCross||'',p.cdType||'',p.picb,p.pica,'"'+(p.note||'').replace(/"/g,'""')+'"'].join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+  a.download = 'trading_journal.csv';
+  a.click();
+}
+
+function exportJSON() {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify({ positions, settings }, null, 2)], { type: 'application/json' }));
+  a.download = 'trading_journal_backup.json';
+  a.click();
+}
+
+function importJSON(input) {
+  const fr = new FileReader();
+  fr.onload = e => {
+    try {
+      const d = JSON.parse(e.target.result);
+      positions = d.positions || [];
+      settings  = d.settings  || settings;
+      localStorage.setItem('tj_positions', JSON.stringify(positions));
+      localStorage.setItem('tj_settings',  JSON.stringify(settings));
+      document.getElementById('s-initbal').value = settings.initBal;
+      document.getElementById('s-defrisk').value = settings.defRisk;
+      updateSidebarBalance();
+      alert('Backup loaded successfully!');
+      renderLog();
+    } catch { alert('Invalid backup file.'); }
+  };
+  fr.readAsText(input.files[0]);
+}
+
+// Init
+document.getElementById('s-initbal').value = settings.initBal;
+document.getElementById('s-defrisk').value = settings.defRisk;
+updateSidebarBalance();
+renderLog();
+</script>
+</body>
+</html>
