@@ -459,7 +459,7 @@ td b{color:var(--text);font-weight:600}
         <div class="g2">
           <div class="field"><label>Exit Price (Actual Close)</label><input type="number" id="f-exitprice" step="any" placeholder="0.00 — if different from SL/TP" oninput="autoCalcExit()"></div>
           <div class="field"><label>Exit Type</label>
-            <select id="f-exittype">
+            <select id="f-exittype" onchange="autoCalcPnlBalance()">
               <option value="">— Select —</option>
               <option value="Hit TP">Hit TP</option>
               <option value="Hit SL">Hit SL</option>
@@ -477,16 +477,16 @@ td b{color:var(--text);font-weight:600}
         <div class="g3">
           <div class="field auto-calc"><label>Leverage</label><input type="number" id="f-lev" step="any" placeholder="auto" readonly></div>
           <div class="field"><label>Direction</label>
-            <select id="f-dir"><option value="Long">Long</option><option value="Short">Short</option></select>
+            <select id="f-dir" onchange="autoCalcPnlBalance()"><option value="Long">Long</option><option value="Short">Short</option></select>
           </div>
           <div class="field"><label>Result</label>
             <select id="f-result"><option value="Win">Win</option><option value="Loss">Loss</option><option value="BE">Break Even</option></select>
           </div>
         </div>
         <div class="g3">
-          <div class="field"><label>PNL ($)</label><input type="number" id="f-pnl" step="any" placeholder="0.00"></div>
-          <div class="field"><label>Balance ($)</label><input type="number" id="f-bal" step="any" placeholder="0.00"></div>
-          <div class="field"><label>Fee / Commission ($)</label><input type="number" id="f-fee" step="any" placeholder="0.00" oninput="autoCalcBalance()"></div>
+          <div class="field"><label>Fee / Commission ($)</label><input type="number" id="f-fee" step="any" placeholder="0.00" oninput="autoCalcPnlBalance()"></div>
+          <div class="field auto-calc"><label>PNL ($)</label><input type="number" id="f-pnl" step="any" placeholder="auto" readonly></div>
+          <div class="field auto-calc"><label>Balance ($)</label><input type="number" id="f-bal" step="any" placeholder="auto" readonly></div>
         </div>
       </div>
 
@@ -668,66 +668,76 @@ function autoCalcPrices() {
     document.getElementById('f-rr').value = '';
   }
   autoCalcFromForm();
+  autoCalcPnlBalance();
 }
 
 // ── Exit price auto-calc (actual close vs TP/SL) ──
-function autoCalcExit() {
-  const entry    = parseFloat(document.getElementById('f-entry').value)     || 0;
+// Called whenever any price/exit/fee changes — recalculates PNL and Balance
+function autoCalcExit() { autoCalcPnlBalance(); }
+function autoCalcBalance() { autoCalcPnlBalance(); }
+
+function autoCalcPnlBalance() {
+  const entry    = parseFloat(document.getElementById('f-entry').value)      || 0;
+  const stopP    = parseFloat(document.getElementById('f-exit').value)       || 0;
+  const tp       = parseFloat(document.getElementById('f-tp').value)         || 0;
   const exitP    = parseFloat(document.getElementById('f-exitprice').value)  || 0;
   const posSize  = parseFloat(document.getElementById('f-possize').value)    || 0;
+  const capital  = parseFloat(document.getElementById('f-capital').value)    || 0;
+  const fee      = parseFloat(document.getElementById('f-fee').value)        || 0;
   const dir      = document.getElementById('f-dir').value;
-  const pnlEl    = document.getElementById('f-pnl');
-  const resultEl = document.getElementById('f-result');
   const exitType = document.getElementById('f-exittype').value;
+  const pnlEl    = document.getElementById('f-pnl');
+  const balEl    = document.getElementById('f-bal');
+  const resultEl = document.getElementById('f-result');
   const rbTpEl   = document.getElementById('rb-tp');
   const rbLblEl  = document.getElementById('rb-tp-lbl');
 
-  if (entry > 0 && exitP > 0 && posSize > 0) {
+  let grossPnl = null;
+
+  if (exitP > 0 && entry > 0 && posSize > 0) {
+    // Manual exit price provided
     const pct = (exitP - entry) / entry;
-    const pnl = dir === 'Long' ? posSize * pct : posSize * -pct;
-    pnlEl.value = pnl.toFixed(2);
-
-    // update 4th box to show actual PNL instead of TP profit
-    if (rbTpEl) { rbTpEl.textContent = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toFixed(2); rbTpEl.style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)'; }
-    if (rbLblEl) rbLblEl.textContent = 'Actual PNL ($)';
-
-    // auto-set result
-    if (!exitType || exitType === '') {
-      if (pnl > 0.01) resultEl.value = 'Win';
-      else if (pnl < -0.01) resultEl.value = 'Loss';
-      else resultEl.value = 'BE';
-    } else {
-      if (exitType.includes('Profit')) resultEl.value = 'Win';
-      else if (exitType.includes('Loss')) resultEl.value = 'Loss';
-      else if (exitType.includes('BE')) resultEl.value = 'BE';
-      else if (exitType === 'Hit TP') resultEl.value = 'Win';
-      else if (exitType === 'Hit SL') resultEl.value = 'Loss';
-    }
-    autoCalcBalance();
-  } else {
-    // revert 4th box back to TP profit
+    grossPnl = dir === 'Long' ? posSize * pct : posSize * -pct;
+    if (rbTpEl) { rbTpEl.textContent = (grossPnl >= 0 ? '+$' : '-$') + Math.abs(grossPnl).toFixed(2); rbTpEl.style.color = grossPnl >= 0 ? 'var(--green)' : 'var(--red)'; }
+    if (rbLblEl) rbLblEl.textContent = 'Actual PNL';
+  } else if (entry > 0 && tp > 0 && posSize > 0) {
+    // No exit price — show TP profit in 4th box (gross, before fee)
+    const tpDist = Math.abs(tp - entry) / entry;
+    const tpProfit = posSize * tpDist;
+    if (rbTpEl) { rbTpEl.textContent = '$' + tpProfit.toFixed(2); rbTpEl.style.color = 'var(--accent)'; }
     if (rbLblEl) rbLblEl.textContent = 'TP Profit ($)';
-    if (rbTpEl) { rbTpEl.style.color = 'var(--accent)'; }
-    // recalc TP profit
-    const tp = parseFloat(document.getElementById('f-tp').value) || 0;
-    if (entry > 0 && tp > 0 && posSize > 0) {
-      const tpDist = Math.abs(tp - entry) / entry;
-      const tpProfit = posSize * tpDist;
-      if (rbTpEl) rbTpEl.textContent = '$' + tpProfit.toFixed(2);
-    } else {
-      if (rbTpEl) rbTpEl.textContent = '—';
+    // If exit type is Hit TP, use TP profit as gross PNL
+    if (exitType === 'Hit TP') grossPnl = tpDist * posSize;
+    else if (exitType === 'Hit SL' && stopP > 0) {
+      const slDist = Math.abs(stopP - entry) / entry;
+      grossPnl = dir === 'Long' ? -(posSize * slDist) : (posSize * slDist);
     }
-    autoCalcBalance();
+  } else {
+    if (rbTpEl) { rbTpEl.textContent = '—'; rbTpEl.style.color = 'var(--accent)'; }
+    if (rbLblEl) rbLblEl.textContent = 'TP Profit ($)';
   }
-}
 
-function autoCalcBalance() {
-  const capital = parseFloat(document.getElementById('f-capital').value)  || 0;
-  const pnl     = parseFloat(document.getElementById('f-pnl').value)      || 0;
-  const fee     = parseFloat(document.getElementById('f-fee').value)      || 0;
-  const balEl   = document.getElementById('f-bal');
-  if (capital > 0) {
-    balEl.value = (capital + pnl - fee).toFixed(2);
+  // Write PNL (net = gross - fee)
+  if (grossPnl !== null) {
+    const netPnl = grossPnl - fee;
+    pnlEl.value = netPnl.toFixed(2);
+    // Auto result
+    if (!exitType || exitType === '') {
+      resultEl.value = netPnl > 0.01 ? 'Win' : netPnl < -0.01 ? 'Loss' : 'BE';
+    } else {
+      if (exitType === 'Hit TP') resultEl.value = 'Win';
+      else if (exitType === 'Hit SL') resultEl.value = 'Loss';
+      else if (exitType.includes('Profit')) resultEl.value = 'Win';
+      else if (exitType.includes('Loss')) resultEl.value = 'Loss';
+      else resultEl.value = 'BE';
+    }
+    // Balance = capital + net PNL
+    if (capital > 0) balEl.value = (capital + netPnl).toFixed(2);
+  } else {
+    pnlEl.value = '';
+    if (capital > 0 && fee > 0) balEl.value = (capital - fee).toFixed(2);
+    else if (capital > 0) balEl.value = capital.toFixed(2);
+    else balEl.value = '';
   }
 }
 
@@ -850,7 +860,7 @@ function savePosition() {
 function clearForm() {
   ['f-date','f-closedate','f-topen','f-tclose','f-symbol','f-entry','f-exit','f-tp',
    'f-sl','f-rr','f-possize','f-lev','f-pnl','f-bal','f-fee','f-picb','f-pica','f-note',
-   'f-capital','f-risk-pct','f-exitprice'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+   'f-capital','f-risk-pct','f-exitprice','f-pnl','f-bal'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
   document.getElementById('f-exittype').value = '';
   document.querySelectorAll('input[type=radio]').forEach(r => r.checked=false);
   document.getElementById('f-multiday').checked = false;
