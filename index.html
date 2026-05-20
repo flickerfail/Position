@@ -34,15 +34,15 @@ body.light {
   --yellow:#b08000;--yellow-dim:rgba(176,128,0,0.1);
   --accent:#00a86b;
 }
-
+ 
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;transition:background .2s,color .2s}
-
+ 
 /* Layout */
 .shell{display:flex;min-height:100vh}
 .sidebar{width:var(--sidebar-w);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:200;transition:transform .25s ease}
 .main{margin-left:var(--sidebar-w);flex:1;padding:2rem;max-width:1200px;transition:margin-left .25s ease}
-
+ 
 /* Sidebar */
 .logo{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .logo-left .logo-text{font-size:17px;font-weight:700;letter-spacing:-.3px;color:var(--text)}
@@ -57,27 +57,27 @@ body.light .nav-item.active{background:rgba(0,168,107,0.08)}
 .nav-item i{font-size:18px}
 .nav-section{padding:8px 1.25rem 4px;font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
 .sidebar-footer{padding:1rem 1.25rem;border-top:1px solid var(--border);font-size:12px;color:var(--text3);font-family:var(--mono)}
-
+ 
 /* Hamburger */
 .hamburger{display:none;position:fixed;top:14px;left:14px;z-index:300;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:6px 8px;cursor:pointer;font-size:20px;color:var(--text2)}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150}
-
+ 
 /* Pages */
 .page{display:none}.page.active{display:block}
 .page-header{margin-bottom:2rem}
 .page-title{font-size:24px;font-weight:700;letter-spacing:-.5px}
 .page-sub{font-size:13px;color:var(--text2);margin-top:4px;font-family:var(--mono)}
-
+ 
 /* Cards */
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.25rem}
 .card-title{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
 .card-title i{font-size:16px;color:var(--accent)}
-
+ 
 /* Unified grid — always equal-height fields */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;align-items:start}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;align-items:start}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem}
-
+ 
 /* Fields — uniform height via min-height on inputs */
 .field{display:flex;flex-direction:column;gap:6px}
 .field label{font-size:11px;font-weight:500;color:var(--text2);font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
@@ -93,18 +93,18 @@ body.light .nav-item.active{background:rgba(0,168,107,0.08)}
 .field input::placeholder{color:var(--text3)}
 .field input[readonly]{color:var(--accent);border-color:rgba(0,214,143,.25);background:rgba(0,214,143,.05);cursor:default}
 body.light .field input[readonly]{background:rgba(0,168,107,.07)}
-
+ 
 /* Auto tag */
 .auto-calc{position:relative}
 .auto-calc::after{content:'AUTO';position:absolute;right:10px;top:calc(6px + 21px);font-size:9px;font-family:var(--mono);color:var(--accent);opacity:.55;letter-spacing:.06em;pointer-events:none}
-
+ 
 /* Risk bar */
 .risk-bar-wrap{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:14px;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
 .risk-bar-label{font-size:11px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
 .risk-bar-val{font-size:22px;font-weight:700;font-family:var(--mono);color:var(--accent);letter-spacing:-1px}
 .risk-bar-sep{width:1px;height:28px;background:var(--border2)}
 .risk-bar-item{display:flex;flex-direction:column;gap:2px}
-
+ 
 /* Close-date toggle */
 .toggle-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .toggle-row label{font-size:12px;font-family:var(--mono);color:var(--text2);cursor:pointer}
@@ -114,7 +114,7 @@ body.light .field input[readonly]{background:rgba(0,168,107,.07)}
 .toggle-track::before{content:'';position:absolute;width:14px;height:14px;left:2px;top:2px;background:var(--text3);border-radius:50%;transition:.2s}
 .toggle-switch input:checked + .toggle-track{background:var(--accent);border-color:var(--accent)}
 .toggle-switch input:checked + .toggle-track::before{transform:translateX(16px);background:#fff}
-
+ 
 /* Radio groups */
 .radio-group{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
 .radio-group label{display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;padding:6px 11px;border-radius:20px;border:1px solid var(--border2);color:var(--text2);transition:all .15s;font-family:var(--mono)}
@@ -126,7 +126,7 @@ body.light .radio-group label:has(input:checked){background:rgba(0,168,107,0.1)}
 .radio-group label:has(input[data-color="blue"]:checked){background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
 .radio-group label.yellow-opt:hover{border-color:#ffe066;color:#ffe066}
 .radio-group label.blue-opt:hover{border-color:var(--blue);color:var(--blue)}
-
+ 
 /* Buttons */
 .btn{padding:9px 18px;font-size:13px;font-family:var(--mono);border:1px solid var(--border2);border-radius:var(--radius);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
 .btn:hover{color:var(--text);background:var(--bg3)}
@@ -138,19 +138,19 @@ body.light .radio-group label:has(input:checked){background:rgba(0,168,107,0.1)}
 .btn.edit-btn:hover{background:var(--blue-dim)}
 .btn.sm{padding:5px 10px;font-size:11px}
 .btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;flex-wrap:wrap}
-
+ 
 /* Metric cards */
 .metric{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem}
 .metric-label{font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .metric-val{font-size:26px;font-weight:700;font-family:var(--mono);letter-spacing:-1px}
 .metric-val.pos{color:var(--green)}.metric-val.neg{color:var(--red)}
-
+ 
 /* Badges */
 .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--mono)}
 .badge.win{background:var(--green-dim);color:var(--green)}
 .badge.loss{background:var(--red-dim);color:var(--red)}
 .badge.be{background:var(--amber-dim);color:var(--amber)}
-
+ 
 /* Table */
 .tbl-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:12px}
@@ -160,46 +160,46 @@ td{padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;co
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--bg3)}
 td b{color:var(--text);font-weight:600}
-
+ 
 /* Filter pills */
 .pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
 .pill{padding:5px 14px;border-radius:20px;font-size:12px;font-family:var(--mono);border:1px solid var(--border2);cursor:pointer;background:transparent;color:var(--text2);transition:all .15s}
 .pill.active{background:var(--accent);color:#0d0f12;border-color:var(--accent);font-weight:600}
 .pill:hover:not(.active){border-color:var(--accent);color:var(--accent)}
-
+ 
 /* Calc */
 .calc-box{background:var(--bg3);border-radius:var(--radius);padding:1.25rem;margin-top:1rem;border:1px solid var(--border)}
 .calc-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;font-family:var(--mono)}
 .calc-row:last-child{border-bottom:none;font-weight:600;font-size:14px}
 .calc-row .lbl{color:var(--text3)}.calc-row .val{color:var(--text)}
 .calc-row:last-child .val{color:var(--accent)}
-
+ 
 /* Info box */
 .info-box{background:var(--blue-dim);border:1px solid rgba(77,159,255,.2);border-radius:var(--radius);padding:.85rem 1rem;font-size:12px;color:var(--blue);margin-bottom:1rem;font-family:var(--mono);display:flex;align-items:flex-start;gap:8px}
-
+ 
 /* Separator */
 .sep{height:1px;background:var(--border);margin:1rem 0}
-
+ 
 /* Empty */
 .empty{text-align:center;padding:4rem 1rem;color:var(--text3)}
 .empty i{font-size:40px;display:block;margin-bottom:12px;opacity:.4}
 .empty p{font-size:13px;font-family:var(--mono)}
-
+ 
 /* Scrollbar */
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-
+ 
 /* Topbar */
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
 .topbar-right{display:flex;gap:8px}
-
+ 
 /* Chart */
 .chart-wrap{position:relative;height:220px}
-
+ 
 /* Checklist section labels */
 .cl-section{font-size:12px;font-family:var(--mono);color:var(--accent);margin-bottom:8px;margin-top:4px;font-weight:600;letter-spacing:.04em}
-
+ 
 /* Edit modal */
 .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;padding:1rem}
 .modal-backdrop.open{display:flex}
@@ -207,14 +207,14 @@ td b{color:var(--text);font-weight:600}
 .modal-title{font-size:16px;font-weight:700;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between}
 .modal-close{cursor:pointer;color:var(--text3);font-size:20px;line-height:1;background:none;border:none;padding:0}
 .modal-close:hover{color:var(--red)}
-
+ 
 /* Risk boxes */
 .rb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:4px}
 .rb-box{background:var(--bg);border:1px solid rgba(0,214,143,.2);border-radius:var(--radius);padding:10px 14px}
 .rb-lbl{font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
 .rb-val{font-size:20px;font-weight:700;font-family:var(--mono);color:var(--accent);letter-spacing:-.5px}
 @media(max-width:600px){.rb-grid{grid-template-columns:1fr 1fr}}
-
+ 
 /* ══ RESPONSIVE ══ */
 /* Hide sidebar on anything ≤ 1100px (covers all iPads & phones) */
 @media (max-width:1100px){
@@ -245,10 +245,10 @@ td b{color:var(--text);font-weight:600}
 </style>
 </head>
 <body>
-
+ 
 <button class="hamburger" onclick="toggleSidebar()"><i class="ti ti-menu-2"></i></button>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
-
+ 
 <!-- EDIT MODAL -->
 <div class="modal-backdrop" id="edit-modal">
   <div class="modal">
@@ -263,7 +263,7 @@ td b{color:var(--text);font-weight:600}
     </div>
   </div>
 </div>
-
+ 
 <div class="shell">
   <aside class="sidebar" id="sidebar">
     <div class="logo">
@@ -285,20 +285,20 @@ td b{color:var(--text);font-weight:600}
     </nav>
     <div class="sidebar-footer" id="sb-balance">Balance: —</div>
   </aside>
-
+ 
   <main class="main">
-
+ 
     <!-- NEW POSITION -->
     <div id="page-new" class="page active">
       <div class="page-header">
         <div class="page-title">New Position</div>
         <div class="page-sub">Log a new trade entry</div>
       </div>
-
+ 
       <!-- CHECKLIST -->
       <div class="card">
         <div class="card-title"><i class="ti ti-checklist"></i> Checklist</div>
-
+ 
         <div class="cl-section">SMA 7</div>
         <div class="g2">
           <div class="field"><label>Candle Position</label>
@@ -317,7 +317,7 @@ td b{color:var(--text);font-weight:600}
             </div>
           </div>
         </div>
-
+ 
         <div class="sep"></div>
         <div class="cl-section">SMA 29</div>
         <div class="g2">
@@ -337,7 +337,7 @@ td b{color:var(--text);font-weight:600}
             </div>
           </div>
         </div>
-
+ 
         <div class="sep"></div>
         <div class="cl-section">SMA 99</div>
         <div class="g2">
@@ -357,7 +357,7 @@ td b{color:var(--text);font-weight:600}
             </div>
           </div>
         </div>
-
+ 
         <div class="sep"></div>
         <div class="cl-section">VWAP</div>
         <div class="g2">
@@ -377,7 +377,7 @@ td b{color:var(--text);font-weight:600}
             </div>
           </div>
         </div>
-
+ 
         <div class="sep"></div>
         <div class="cl-section">Composite Divergence</div>
         <div class="g2">
@@ -397,7 +397,7 @@ td b{color:var(--text);font-weight:600}
           </div>
         </div>
       </div>
-
+ 
       <!-- RISK / CAPITAL -->
       <div class="card">
         <div class="card-title"><i class="ti ti-shield-dollar"></i> Position Risk & Capital</div>
@@ -418,7 +418,7 @@ td b{color:var(--text);font-weight:600}
           <div class="rb-box"><div class="rb-lbl" id="rb-tp-lbl">TP Profit ($)</div><div class="rb-val" id="rb-tp">—</div></div>
         </div>
       </div>
-
+ 
       <!-- BASIC INFO -->
       <div class="card">
         <div class="card-title"><i class="ti ti-info-circle"></i> Basic Info</div>
@@ -447,7 +447,7 @@ td b{color:var(--text);font-weight:600}
           </div>
         </div>
       </div>
-
+ 
       <!-- POSITION DETAILS -->
       <div class="card">
         <div class="card-title"><i class="ti ti-trending-up"></i> Position Details</div>
@@ -489,7 +489,7 @@ td b{color:var(--text);font-weight:600}
           <div class="field auto-calc"><label>Balance ($)</label><input type="number" id="f-bal" step="any" placeholder="auto" readonly></div>
         </div>
       </div>
-
+ 
       <!-- NOTES -->
       <div class="card">
         <div class="card-title"><i class="ti ti-camera"></i> Screenshots & Notes</div>
@@ -504,7 +504,7 @@ td b{color:var(--text);font-weight:600}
         </div>
       </div>
     </div>
-
+ 
     <!-- POSITION LOG -->
     <div id="page-log" class="page">
       <div class="topbar">
@@ -536,7 +536,7 @@ td b{color:var(--text);font-weight:600}
       </div>
       <div id="log-empty" class="empty"><i class="ti ti-database-off"></i><p>No positions logged yet</p></div>
     </div>
-
+ 
     <!-- RISK CALCULATOR -->
     <div id="page-calc" class="page">
       <div class="page-header">
@@ -562,7 +562,7 @@ td b{color:var(--text);font-weight:600}
         </div>
       </div>
     </div>
-
+ 
     <!-- STATS -->
     <div id="page-stats" class="page">
       <div class="page-header">
@@ -590,7 +590,7 @@ td b{color:var(--text);font-weight:600}
         </div>
       </div>
     </div>
-
+ 
     <!-- SETTINGS -->
     <div id="page-settings" class="page">
       <div class="page-header">
@@ -613,17 +613,17 @@ td b{color:var(--text);font-weight:600}
         </div>
       </div>
     </div>
-
+ 
   </main>
 </div>
-
+ 
 <script>
 let positions = JSON.parse(localStorage.getItem('tj_positions') || '[]');
 let settings  = JSON.parse(localStorage.getItem('tj_settings')  || '{"initBal":1000,"defRisk":1}');
 let filterMode = 'all';
 let pieChart, balChart;
 let editingId = null;
-
+ 
 // ── Theme ──
 function applyTheme(t) {
   document.body.classList.toggle('light', t === 'light');
@@ -634,7 +634,7 @@ function toggleTheme() {
   applyTheme(document.body.classList.contains('light') ? 'dark' : 'light');
 }
 applyTheme(localStorage.getItem('tj_theme') || 'dark');
-
+ 
 // ── Sidebar ──
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
@@ -644,13 +644,13 @@ function closeSidebar() {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebar-overlay').classList.remove('open');
 }
-
+ 
 // ── Close-date toggle ──
 function toggleCloseDate() {
   const on = document.getElementById('f-multiday').checked;
   document.getElementById('close-date-wrap').style.display = on ? 'block' : 'none';
 }
-
+ 
 // ── Price-based auto-calc ──
 function autoCalcPrices() {
   const entry = parseFloat(document.getElementById('f-entry').value) || 0;
@@ -670,12 +670,12 @@ function autoCalcPrices() {
   autoCalcFromForm();
   autoCalcPnlBalance();
 }
-
+ 
 // ── Exit price auto-calc (actual close vs TP/SL) ──
 // Called whenever any price/exit/fee changes — recalculates PNL and Balance
 function autoCalcExit() { autoCalcPnlBalance(); }
 function autoCalcBalance() { autoCalcPnlBalance(); }
-
+ 
 function autoCalcPnlBalance() {
   const entry    = parseFloat(document.getElementById('f-entry').value)      || 0;
   const stopP    = parseFloat(document.getElementById('f-exit').value)       || 0;
@@ -691,9 +691,9 @@ function autoCalcPnlBalance() {
   const resultEl = document.getElementById('f-result');
   const rbTpEl   = document.getElementById('rb-tp');
   const rbLblEl  = document.getElementById('rb-tp-lbl');
-
+ 
   let grossPnl = null;
-
+ 
   if (exitP > 0 && entry > 0 && posSize > 0) {
     // Manual exit price provided
     const pct = (exitP - entry) / entry;
@@ -716,7 +716,7 @@ function autoCalcPnlBalance() {
     if (rbTpEl) { rbTpEl.textContent = '—'; rbTpEl.style.color = 'var(--accent)'; }
     if (rbLblEl) rbLblEl.textContent = 'TP Profit ($)';
   }
-
+ 
   // Write PNL (net = gross - fee)
   if (grossPnl !== null) {
     const netPnl = grossPnl - fee;
@@ -740,7 +740,7 @@ function autoCalcPnlBalance() {
     else balEl.value = '';
   }
 }
-
+ 
 // ── Capital/risk auto-calc ──
 function autoCalcFromForm() {
   const capital = parseFloat(document.getElementById('f-capital').value)  || 0;
@@ -782,7 +782,7 @@ function autoCalcFromForm() {
     document.getElementById('f-lev').value     = '';
   }
 }
-
+ 
 function switchTab(t) {
   document.querySelectorAll('.nav-item').forEach((n,i) => {
     n.classList.toggle('active', ['new','log','calc','stats','settings'][i] === t);
@@ -793,7 +793,7 @@ function switchTab(t) {
   if (t==='calc') { document.getElementById('c-bal').value=getCurrentBalance(); document.getElementById('c-risk').value=settings.defRisk; calcPos(); }
   if (t==='log') renderLog();
 }
-
+ 
 function getRadio(name) {
   const el = document.querySelector(`input[name="${name}"]:checked`);
   return el ? el.value : '';
@@ -802,7 +802,7 @@ function setRadio(name, val) {
   const el = document.querySelector(`input[name="${name}"][value="${val}"]`);
   if (el) el.checked = true;
 }
-
+ 
 function getCurrentBalance() {
   if (!positions.length) return settings.initBal;
   return positions[positions.length-1].balance || settings.initBal;
@@ -811,7 +811,7 @@ function updateSidebarBalance() {
   const b = getCurrentBalance();
   document.getElementById('sb-balance').textContent = 'Balance: $' + parseFloat(b).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
-
+ 
 function savePosition() {
   const today = new Date().toISOString().split('T')[0];
   const multiday = document.getElementById('f-multiday').checked;
@@ -856,7 +856,7 @@ function savePosition() {
   alert('✅ Position #'+nextNum+' saved!');
   switchTab('log');
 }
-
+ 
 function clearForm() {
   ['f-date','f-closedate','f-topen','f-tclose','f-symbol','f-entry','f-exit','f-tp',
    'f-sl','f-rr','f-possize','f-lev','f-pnl','f-bal','f-fee','f-picb','f-pica','f-note',
@@ -867,7 +867,7 @@ function clearForm() {
   document.getElementById('close-date-wrap').style.display = 'none';
   document.getElementById('risk-bar').style.display = 'none';
 }
-
+ 
 // ── EDIT ──
 function openEditModal(id) {
   const p = positions.find(x => x.id === id);
@@ -944,14 +944,14 @@ function saveEdit() {
   closeEditModal();
   renderLog();
 }
-
+ 
 function filterLog(mode, btn) {
   filterMode = mode;
   document.querySelectorAll('#filter-pills .pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   renderLog();
 }
-
+ 
 function renderLog() {
   const filtered = filterMode==='all' ? positions : positions.filter(p => p.result===filterMode);
   const tbody = document.getElementById('log-body');
@@ -983,7 +983,7 @@ function renderLog() {
     <td><button class="btn danger sm" onclick="deletePos(${p.id})"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('');
 }
-
+ 
 function deletePos(id) {
   if (!confirm('Delete this position?')) return;
   positions = positions.filter(p => p.id!==id);
@@ -997,7 +997,7 @@ function clearAll() {
   localStorage.setItem('tj_positions','[]');
   updateSidebarBalance(); renderLog();
 }
-
+ 
 function calcPos() {
   const bal  = parseFloat(document.getElementById('c-bal').value)  || settings.initBal;
   const risk = parseFloat(document.getElementById('c-risk').value) || settings.defRisk;
@@ -1011,7 +1011,7 @@ function calcPos() {
   document.getElementById('cr-lev').textContent    = lev.toFixed(2)+'x';
   document.getElementById('cr-margin').textContent = '$'+bal.toFixed(2);
 }
-
+ 
 function applyToForm() {
   const sl=parseFloat(document.getElementById('c-sl').value)||0;
   const bal=parseFloat(document.getElementById('c-bal').value)||settings.initBal;
@@ -1021,7 +1021,7 @@ function applyToForm() {
   document.getElementById('f-risk-pct').value=risk;
   autoCalcFromForm(); switchTab('new');
 }
-
+ 
 function renderCharts() {
   const wins=positions.filter(p=>p.result==='Win').length;
   const losses=positions.filter(p=>p.result==='Loss').length;
@@ -1053,7 +1053,7 @@ function renderCharts() {
     options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#4a4f5e',font:{family:'DM Mono',size:10}}},x:{grid:{display:false},ticks:{color:'#4a4f5e',font:{family:'DM Mono',size:10}}}}}
   });
 }
-
+ 
 function saveSettings() {
   settings.initBal=parseFloat(document.getElementById('s-initbal').value)||1000;
   settings.defRisk=parseFloat(document.getElementById('s-defrisk').value)||1;
@@ -1089,7 +1089,7 @@ function importJSON(input) {
   };
   fr.readAsText(input.files[0]);
 }
-
+ 
 // Init
 document.getElementById('s-initbal').value=settings.initBal;
 document.getElementById('s-defrisk').value=settings.defRisk;
