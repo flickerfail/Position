@@ -9,34 +9,34 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
+/* ── DARK THEME (default) ── */
 :root {
-  --bg: #0d0f12;
-  --bg2: #13161b;
-  --bg3: #1a1e25;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.13);
-  --text: #e8eaf0;
-  --text2: #8a8f9e;
-  --text3: #4a4f5e;
-  --green: #00d68f;
-  --green-dim: rgba(0,214,143,0.12);
-  --red: #ff4d6d;
-  --red-dim: rgba(255,77,109,0.12);
-  --amber: #f0a500;
-  --amber-dim: rgba(240,165,0,0.12);
-  --blue: #4d9fff;
-  --blue-dim: rgba(77,159,255,0.10);
-  --yellow: #ffe066;
-  --yellow-dim: rgba(255,224,102,0.12);
-  --accent: #00d68f;
-  --radius: 10px;
-  --radius-lg: 16px;
-  --font: 'Syne', sans-serif;
-  --mono: 'DM Mono', monospace;
-  --sidebar-w: 220px;
+  --bg:#0d0f12;--bg2:#13161b;--bg3:#1a1e25;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e8eaf0;--text2:#8a8f9e;--text3:#4a4f5e;
+  --green:#00d68f;--green-dim:rgba(0,214,143,0.12);
+  --red:#ff4d6d;--red-dim:rgba(255,77,109,0.12);
+  --amber:#f0a500;--amber-dim:rgba(240,165,0,0.12);
+  --blue:#4d9fff;--blue-dim:rgba(77,159,255,0.10);
+  --yellow:#ffe066;--yellow-dim:rgba(255,224,102,0.12);
+  --accent:#00d68f;--radius:10px;--radius-lg:16px;
+  --font:'Syne',sans-serif;--mono:'DM Mono',monospace;--sidebar-w:220px;
 }
+/* ── LIGHT THEME ── */
+body.light {
+  --bg:#f0f2f5;--bg2:#ffffff;--bg3:#e8eaed;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#1a1e25;--text2:#555b6e;--text3:#9099ae;
+  --green:#00a86b;--green-dim:rgba(0,168,107,0.1);
+  --red:#e03050;--red-dim:rgba(224,48,80,0.1);
+  --amber:#c98000;--amber-dim:rgba(201,128,0,0.1);
+  --blue:#2277dd;--blue-dim:rgba(34,119,221,0.08);
+  --yellow:#b08000;--yellow-dim:rgba(176,128,0,0.1);
+  --accent:#00a86b;
+}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;transition:background .2s,color .2s}
 
 /* Layout */
 .shell{display:flex;min-height:100vh}
@@ -44,24 +44,26 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .main{margin-left:var(--sidebar-w);flex:1;padding:2rem;max-width:1200px;transition:margin-left .25s ease}
 
 /* Sidebar */
-.logo{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border)}
-.logo-text{font-size:17px;font-weight:700;letter-spacing:-.3px;color:var(--text)}
-.logo-sub{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:2px}
+.logo{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.logo-left .logo-text{font-size:17px;font-weight:700;letter-spacing:-.3px;color:var(--text)}
+.logo-left .logo-sub{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:2px}
+.theme-btn{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:5px 8px;cursor:pointer;font-size:16px;color:var(--text2);transition:all .15s;display:flex;align-items:center}
+.theme-btn:hover{color:var(--accent);border-color:var(--accent)}
 .nav{padding:1rem 0;flex:1;overflow-y:auto}
 .nav-item{display:flex;align-items:center;gap:10px;padding:10px 1.25rem;font-size:14px;color:var(--text2);cursor:pointer;border-left:2px solid transparent;transition:all .15s}
 .nav-item:hover{color:var(--text);background:var(--bg3)}
 .nav-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(0,214,143,0.06)}
+body.light .nav-item.active{background:rgba(0,168,107,0.08)}
 .nav-item i{font-size:18px}
 .nav-section{padding:8px 1.25rem 4px;font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
 .sidebar-footer{padding:1rem 1.25rem;border-top:1px solid var(--border);font-size:12px;color:var(--text3);font-family:var(--mono)}
 
-/* Mobile hamburger */
+/* Hamburger */
 .hamburger{display:none;position:fixed;top:14px;left:14px;z-index:300;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:6px 8px;cursor:pointer;font-size:20px;color:var(--text2)}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150}
 
 /* Pages */
-.page{display:none}
-.page.active{display:block}
+.page{display:none}.page.active{display:block}
 .page-header{margin-bottom:2rem}
 .page-title{font-size:24px;font-weight:700;letter-spacing:-.5px}
 .page-sub{font-size:13px;color:var(--text2);margin-top:4px;font-family:var(--mono)}
@@ -71,69 +73,77 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .card-title{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
 .card-title i{font-size:16px;color:var(--accent)}
 
-/* Grid */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+/* Unified grid — always equal-height fields */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;align-items:start}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;align-items:start}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem}
 
-/* Fields */
-.field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:11px;font-weight:500;color:var(--text2);font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase}
+/* Fields — uniform height via min-height on inputs */
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;font-weight:500;color:var(--text2);font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
 .field input,.field select,.field textarea{
   background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);
-  color:var(--text);font-size:13px;font-family:var(--mono);padding:9px 12px;
-  outline:none;transition:border .15s;width:100%
+  color:var(--text);font-size:13px;font-family:var(--mono);padding:10px 12px;
+  outline:none;transition:border .15s;width:100%;min-height:42px;
+  -webkit-appearance:none;appearance:none
 }
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a8f9e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
-.field select{cursor:pointer}
-.field textarea{resize:vertical;min-height:70px;font-family:var(--font);font-size:13px}
+.field textarea{resize:vertical;min-height:80px;font-family:var(--font);font-size:13px}
 .field input::placeholder{color:var(--text3)}
-.field input[readonly]{color:var(--accent);border-color:rgba(0,214,143,.25);background:rgba(0,214,143,.05)}
+.field input[readonly]{color:var(--accent);border-color:rgba(0,214,143,.25);background:rgba(0,214,143,.05);cursor:default}
+body.light .field input[readonly]{background:rgba(0,168,107,.07)}
 
-/* Auto-calc highlight */
+/* Auto tag */
 .auto-calc{position:relative}
-.auto-calc::after{content:'AUTO';position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:9px;font-family:var(--mono);color:var(--accent);opacity:.6;letter-spacing:.06em;pointer-events:none}
+.auto-calc::after{content:'AUTO';position:absolute;right:10px;top:calc(6px + 21px);font-size:9px;font-family:var(--mono);color:var(--accent);opacity:.55;letter-spacing:.06em;pointer-events:none}
 
 /* Risk bar */
-.risk-bar-wrap{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:12px;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
+.risk-bar-wrap{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:14px;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
 .risk-bar-label{font-size:11px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
 .risk-bar-val{font-size:22px;font-weight:700;font-family:var(--mono);color:var(--accent);letter-spacing:-1px}
 .risk-bar-sep{width:1px;height:28px;background:var(--border2)}
 .risk-bar-item{display:flex;flex-direction:column;gap:2px}
 
+/* Close-date toggle */
+.toggle-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.toggle-row label{font-size:12px;font-family:var(--mono);color:var(--text2);cursor:pointer}
+.toggle-switch{position:relative;width:36px;height:20px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-track{position:absolute;inset:0;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;transition:.2s;cursor:pointer}
+.toggle-track::before{content:'';position:absolute;width:14px;height:14px;left:2px;top:2px;background:var(--text3);border-radius:50%;transition:.2s}
+.toggle-switch input:checked + .toggle-track{background:var(--accent);border-color:var(--accent)}
+.toggle-switch input:checked + .toggle-track::before{transform:translateX(16px);background:#fff}
+
 /* Radio groups */
 .radio-group{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
-.radio-group label{
-  display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;
-  padding:5px 10px;border-radius:20px;border:1px solid var(--border2);
-  color:var(--text2);transition:all .15s;font-family:var(--mono)
-}
+.radio-group label{display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;padding:6px 11px;border-radius:20px;border:1px solid var(--border2);color:var(--text2);transition:all .15s;font-family:var(--mono)}
 .radio-group label:hover{border-color:var(--accent);color:var(--accent)}
 .radio-group input[type=radio]{display:none}
-.radio-group input[type=radio]:checked + span{color:var(--accent)}
 .radio-group label:has(input:checked){background:rgba(0,214,143,0.1);border-color:var(--accent);color:var(--accent)}
+body.light .radio-group label:has(input:checked){background:rgba(0,168,107,0.1)}
 .radio-group label:has(input[data-color="yellow"]:checked){background:var(--yellow-dim);border-color:var(--yellow);color:var(--yellow)}
 .radio-group label:has(input[data-color="blue"]:checked){background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
-.radio-group label.yellow-opt:hover{border-color:var(--yellow);color:var(--yellow)}
+.radio-group label.yellow-opt:hover{border-color:#ffe066;color:#ffe066}
 .radio-group label.blue-opt:hover{border-color:var(--blue);color:var(--blue)}
 
 /* Buttons */
 .btn{padding:9px 18px;font-size:13px;font-family:var(--mono);border:1px solid var(--border2);border-radius:var(--radius);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
-.btn:hover{border-color:var(--border2);color:var(--text);background:var(--bg3)}
+.btn:hover{color:var(--text);background:var(--bg3)}
 .btn.primary{background:var(--accent);color:#0d0f12;border-color:var(--accent);font-weight:600}
 .btn.primary:hover{opacity:.85}
 .btn.danger{color:var(--red);border-color:rgba(255,77,109,.3)}
 .btn.danger:hover{background:var(--red-dim)}
+.btn.edit-btn{color:var(--blue);border-color:rgba(77,159,255,.3)}
+.btn.edit-btn:hover{background:var(--blue-dim)}
 .btn.sm{padding:5px 10px;font-size:11px}
-.btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
+.btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;flex-wrap:wrap}
 
 /* Metric cards */
 .metric{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem}
 .metric-label{font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .metric-val{font-size:26px;font-weight:700;font-family:var(--mono);letter-spacing:-1px}
-.metric-val.pos{color:var(--green)}
-.metric-val.neg{color:var(--red)}
-.metric-sub{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:3px}
+.metric-val.pos{color:var(--green)}.metric-val.neg{color:var(--red)}
 
 /* Badges */
 .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--mono)}
@@ -157,12 +167,11 @@ td b{color:var(--text);font-weight:600}
 .pill.active{background:var(--accent);color:#0d0f12;border-color:var(--accent);font-weight:600}
 .pill:hover:not(.active){border-color:var(--accent);color:var(--accent)}
 
-/* Calc result box */
+/* Calc */
 .calc-box{background:var(--bg3);border-radius:var(--radius);padding:1.25rem;margin-top:1rem;border:1px solid var(--border)}
 .calc-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;font-family:var(--mono)}
-.calc-row:last-child{border-bottom:none;font-weight:600;color:var(--accent);font-size:14px}
-.calc-row .lbl{color:var(--text3)}
-.calc-row .val{color:var(--text)}
+.calc-row:last-child{border-bottom:none;font-weight:600;font-size:14px}
+.calc-row .lbl{color:var(--text3)}.calc-row .val{color:var(--text)}
 .calc-row:last-child .val{color:var(--accent)}
 
 /* Info box */
@@ -171,7 +180,7 @@ td b{color:var(--text);font-weight:600}
 /* Separator */
 .sep{height:1px;background:var(--border);margin:1rem 0}
 
-/* Empty state */
+/* Empty */
 .empty{text-align:center;padding:4rem 1rem;color:var(--text3)}
 .empty i{font-size:40px;display:block;margin-bottom:12px;opacity:.4}
 .empty p{font-size:13px;font-family:var(--mono)}
@@ -181,55 +190,88 @@ td b{color:var(--text);font-weight:600}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 
-/* Top bar on main */
+/* Topbar */
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
 .topbar-right{display:flex;gap:8px}
 
-/* Chart containers */
+/* Chart */
 .chart-wrap{position:relative;height:220px}
 
-/* Indicator section labels */
-.ind-section{font-size:12px;font-family:var(--mono);color:var(--accent);margin-bottom:8px;margin-top:4px;font-weight:600}
+/* Checklist section labels */
+.cl-section{font-size:12px;font-family:var(--mono);color:var(--accent);margin-bottom:8px;margin-top:4px;font-weight:600;letter-spacing:.04em}
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .g4{grid-template-columns:1fr 1fr}
-  .g3{grid-template-columns:1fr 1fr}
-}
-@media (max-width: 640px) {
+/* Edit modal */
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;padding:1rem}
+.modal-backdrop.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:700px;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between}
+.modal-close{cursor:pointer;color:var(--text3);font-size:20px;line-height:1;background:none;border:none;padding:0}
+.modal-close:hover{color:var(--red)}
+
+/* Risk boxes */
+.rb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:4px}
+.rb-box{background:var(--bg);border:1px solid rgba(0,214,143,.2);border-radius:var(--radius);padding:10px 14px}
+.rb-lbl{font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.rb-val{font-size:20px;font-weight:700;font-family:var(--mono);color:var(--accent);letter-spacing:-.5px}
+@media(max-width:600px){.rb-grid{grid-template-columns:1fr 1fr}}
+
+/* ══ RESPONSIVE ══ */
+/* Hide sidebar on anything ≤ 1100px (covers all iPads & phones) */
+@media (max-width:1100px){
   .hamburger{display:flex;align-items:center;justify-content:center}
   .sidebar{transform:translateX(-100%)}
   .sidebar.open{transform:translateX(0)}
   .sidebar-overlay.open{display:block}
-  .main{margin-left:0;padding:1rem;padding-top:3.5rem}
+  .main{margin-left:0;padding:1.25rem;padding-top:4rem;max-width:100%}
+  .g4{grid-template-columns:1fr 1fr}
+}
+@media (max-width:700px){
+  .main{padding:.85rem;padding-top:3.75rem}
   .g2,.g3,.g4{grid-template-columns:1fr}
   .risk-bar-wrap{flex-direction:column;align-items:flex-start;gap:.75rem}
   .risk-bar-sep{display:none}
   .page-title{font-size:20px}
   .topbar{flex-direction:column;align-items:flex-start;gap:.75rem}
   .topbar-right{flex-wrap:wrap}
-  .btn-row{flex-wrap:wrap}
-  .radio-group{flex-wrap:wrap}
   .metric-val{font-size:22px}
   table{font-size:11px}
   th,td{padding:8px 8px}
+  .modal{padding:1rem}
 }
-@media (max-width: 420px) {
-  .main{padding:.75rem;padding-top:3.5rem}
+@media (max-width:420px){
   .card{padding:1rem}
+  .g2,.g3,.g4{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<button class="hamburger" onclick="toggleSidebar()" id="hamburger-btn"><i class="ti ti-menu-2"></i></button>
+<button class="hamburger" onclick="toggleSidebar()"><i class="ti ti-menu-2"></i></button>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- EDIT MODAL -->
+<div class="modal-backdrop" id="edit-modal">
+  <div class="modal">
+    <div class="modal-title">
+      <span>Edit Position</span>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div id="edit-modal-body"></div>
+    <div class="btn-row">
+      <button class="btn" onclick="closeEditModal()">Cancel</button>
+      <button class="btn primary" onclick="saveEdit()"><i class="ti ti-check"></i> Save Changes</button>
+    </div>
+  </div>
+</div>
 
 <div class="shell">
   <aside class="sidebar" id="sidebar">
     <div class="logo">
-      <div class="logo-text">TJ — Trading Journal</div>
-      <div class="logo-sub">v1.1 · local storage</div>
+      <div class="logo-left">
+        <div class="logo-text">TJ — Trading Journal</div>
+        <div class="logo-sub">v1.2 · local storage</div>
+      </div>
+      <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme"><i class="ti ti-sun" id="theme-icon"></i></button>
     </div>
     <nav class="nav">
       <div class="nav-section">Trade</div>
@@ -253,86 +295,12 @@ td b{color:var(--text);font-weight:600}
         <div class="page-sub">Log a new trade entry</div>
       </div>
 
-      <!-- RISK / CAPITAL INPUTS (at top of form) -->
+      <!-- CHECKLIST -->
       <div class="card">
-        <div class="card-title"><i class="ti ti-shield-dollar"></i> Position Risk & Capital</div>
-        <div class="g2" style="margin-bottom:12px">
-          <div class="field">
-            <label>Capital for this Position ($)</label>
-            <input type="number" id="f-capital" step="any" placeholder="e.g. 1000" oninput="autoCalcFromForm()">
-          </div>
-          <div class="field">
-            <label>Risk on this Position (%)</label>
-            <input type="number" id="f-risk-pct" step="any" placeholder="e.g. 1" oninput="autoCalcFromForm()">
-          </div>
-        </div>
-        <!-- Live display bar -->
-        <div class="risk-bar-wrap" id="risk-bar" style="display:none">
-          <div class="risk-bar-item"><div class="risk-bar-label">Risk $</div><div class="risk-bar-val" id="rb-risk">—</div></div>
-          <div class="risk-bar-sep"></div>
-          <div class="risk-bar-item"><div class="risk-bar-label">Position Size</div><div class="risk-bar-val" id="rb-size">—</div></div>
-          <div class="risk-bar-sep"></div>
-          <div class="risk-bar-item"><div class="risk-bar-label">Leverage</div><div class="risk-bar-val" id="rb-lev">—</div></div>
-        </div>
-      </div>
+        <div class="card-title"><i class="ti ti-checklist"></i> Checklist</div>
 
-      <div class="card">
-        <div class="card-title"><i class="ti ti-info-circle"></i> Basic Info</div>
+        <div class="cl-section">SMA 7</div>
         <div class="g2">
-          <div class="field"><label>Date</label><input type="date" id="f-date"></div>
-          <div class="field"><label>Symbol</label><input type="text" id="f-symbol" placeholder="BTCUSDT"></div>
-        </div>
-        <div class="g3">
-          <div class="field"><label>Time Open</label><input type="time" id="f-topen"></div>
-          <div class="field"><label>Time Close</label><input type="time" id="f-tclose"></div>
-          <div class="field"><label>Time Frame</label>
-            <select id="f-tf"><option>1m</option><option>5m</option><option>15m</option><option>30m</option><option selected>1H</option><option>4H</option><option>1D</option><option>1W</option></select>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><i class="ti ti-trending-up"></i> Position Details</div>
-        <div class="g3">
-          <div class="field"><label>Entry Price</label><input type="number" id="f-entry" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
-          <div class="field"><label>Stop Price</label><input type="number" id="f-exit" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
-          <div class="field"><label>Take Profit (TP)</label><input type="number" id="f-tp" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
-        </div>
-        <div class="g3">
-          <div class="field auto-calc">
-            <label>Stop Loss (%)</label>
-            <input type="number" id="f-sl" step="any" placeholder="auto" readonly>
-          </div>
-          <div class="field auto-calc"><label>R/R</label><input type="number" id="f-rr" step="any" placeholder="auto" readonly></div>
-          <div class="field auto-calc">
-            <label>Position Size ($)</label>
-            <input type="number" id="f-possize" step="any" placeholder="auto" readonly>
-          </div>
-        </div>
-        <div class="g3">
-          <div class="field auto-calc">
-            <label>Leverage</label>
-            <input type="number" id="f-lev" step="any" placeholder="auto" readonly>
-          </div>
-          <div class="field"><label>Direction</label>
-            <select id="f-dir"><option value="Long">Long</option><option value="Short">Short</option></select>
-          </div>
-          <div class="field"><label>Result</label>
-            <select id="f-result"><option value="Win">Win</option><option value="Loss">Loss</option><option value="BE">Break Even</option></select>
-          </div>
-        </div>
-        <div class="g3">
-          <div class="field"><label>PNL ($)</label><input type="number" id="f-pnl" step="any" placeholder="0.00"></div>
-          <div class="field"><label>Balance ($)</label><input type="number" id="f-bal" step="any" placeholder="0.00"></div>
-          <div class="field"><label>Fee / Commission ($)</label><input type="number" id="f-fee" step="any" placeholder="0.00"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><i class="ti ti-activity"></i> Indicators</div>
-
-        <div class="ind-section">SMA 7</div>
-        <div class="g2" style="margin-bottom:12px">
           <div class="field"><label>Candle Position</label>
             <div class="radio-group">
               <label><input type="radio" name="sma7" value="Above"><span>Above</span></label>
@@ -351,8 +319,8 @@ td b{color:var(--text);font-weight:600}
         </div>
 
         <div class="sep"></div>
-        <div class="ind-section">SMA 29</div>
-        <div class="g2" style="margin-bottom:12px">
+        <div class="cl-section">SMA 29</div>
+        <div class="g2">
           <div class="field"><label>Candle Position</label>
             <div class="radio-group">
               <label><input type="radio" name="sma29" value="Above"><span>Above</span></label>
@@ -371,8 +339,8 @@ td b{color:var(--text);font-weight:600}
         </div>
 
         <div class="sep"></div>
-        <div class="ind-section">SMA 99</div>
-        <div class="g2" style="margin-bottom:12px">
+        <div class="cl-section">SMA 99</div>
+        <div class="g2">
           <div class="field"><label>Candle Position</label>
             <div class="radio-group">
               <label><input type="radio" name="sma99" value="Above"><span>Above</span></label>
@@ -391,8 +359,8 @@ td b{color:var(--text);font-weight:600}
         </div>
 
         <div class="sep"></div>
-        <div class="ind-section">VWAP</div>
-        <div class="g2" style="margin-bottom:12px">
+        <div class="cl-section">VWAP</div>
+        <div class="g2">
           <div class="field"><label>Candle Position</label>
             <div class="radio-group">
               <label><input type="radio" name="vwap" value="Above"><span>Above</span></label>
@@ -410,19 +378,16 @@ td b{color:var(--text);font-weight:600}
           </div>
         </div>
 
-        <!-- COMPOSITE DIVERGENCE -->
         <div class="sep"></div>
-        <div class="ind-section">Composite Divergence</div>
-        <div class="g2" style="margin-bottom:12px">
-          <div class="field">
-            <label>First Cross Color</label>
+        <div class="cl-section">Composite Divergence</div>
+        <div class="g2">
+          <div class="field"><label>First Cross Color</label>
             <div class="radio-group">
               <label class="yellow-opt"><input type="radio" name="cd-cross" value="Yellow" data-color="yellow"><span>Yellow</span></label>
               <label class="blue-opt"><input type="radio" name="cd-cross" value="Blue" data-color="blue"><span>Blue</span></label>
             </div>
           </div>
-          <div class="field">
-            <label>Divergence Type</label>
+          <div class="field"><label>Divergence Type</label>
             <div class="radio-group">
               <label><input type="radio" name="cd-type" value="Regular+"><span>Regular +</span></label>
               <label><input type="radio" name="cd-type" value="Regular-"><span>Regular −</span></label>
@@ -433,11 +398,104 @@ td b{color:var(--text);font-weight:600}
         </div>
       </div>
 
+      <!-- RISK / CAPITAL -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-shield-dollar"></i> Position Risk & Capital</div>
+        <div class="g2">
+          <div class="field">
+            <label>Capital for this Position ($)</label>
+            <input type="number" id="f-capital" step="any" placeholder="e.g. 1000" oninput="autoCalcFromForm()">
+          </div>
+          <div class="field">
+            <label>Risk on this Position (%)</label>
+            <input type="number" id="f-risk-pct" step="any" placeholder="e.g. 1" oninput="autoCalcFromForm()">
+          </div>
+        </div>
+        <div id="risk-bar" class="rb-grid" style="display:none">
+          <div class="rb-box"><div class="rb-lbl">Risk ($)</div><div class="rb-val" id="rb-risk">—</div></div>
+          <div class="rb-box"><div class="rb-lbl">Position Size</div><div class="rb-val" id="rb-size">—</div></div>
+          <div class="rb-box"><div class="rb-lbl">Leverage</div><div class="rb-val" id="rb-lev">—</div></div>
+          <div class="rb-box"><div class="rb-lbl" id="rb-tp-lbl">TP Profit ($)</div><div class="rb-val" id="rb-tp">—</div></div>
+        </div>
+      </div>
+
+      <!-- BASIC INFO -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-info-circle"></i> Basic Info</div>
+        <div class="g2">
+          <div class="field"><label>Open Date</label><input type="date" id="f-date"></div>
+          <div class="field"><label>Symbol</label><input type="text" id="f-symbol" placeholder="BTCUSDT"></div>
+        </div>
+        <div class="g3">
+          <div class="field"><label>Time Open</label><input type="time" id="f-topen"></div>
+          <div class="field"><label>Time Close</label><input type="time" id="f-tclose"></div>
+          <div class="field"><label>Time Frame</label>
+            <select id="f-tf"><option>1m</option><option>5m</option><option>15m</option><option>30m</option><option selected>1H</option><option>4H</option><option>1D</option><option>1W</option></select>
+          </div>
+        </div>
+        <!-- Close date toggle -->
+        <div class="toggle-row">
+          <label class="toggle-switch">
+            <input type="checkbox" id="f-multiday" onchange="toggleCloseDate()">
+            <span class="toggle-track"></span>
+          </label>
+          <label for="f-multiday" style="cursor:pointer">Position closed on a different day</label>
+        </div>
+        <div id="close-date-wrap" style="display:none">
+          <div class="g2">
+            <div class="field"><label>Close Date</label><input type="date" id="f-closedate"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POSITION DETAILS -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-trending-up"></i> Position Details</div>
+        <div class="g3">
+          <div class="field"><label>Entry Price</label><input type="number" id="f-entry" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
+          <div class="field"><label>Stop Price</label><input type="number" id="f-exit" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
+          <div class="field"><label>Take Profit (TP)</label><input type="number" id="f-tp" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
+        </div>
+        <div class="g2">
+          <div class="field"><label>Exit Price (Actual Close)</label><input type="number" id="f-exitprice" step="any" placeholder="0.00 — if different from SL/TP" oninput="autoCalcExit()"></div>
+          <div class="field"><label>Exit Type</label>
+            <select id="f-exittype">
+              <option value="">— Select —</option>
+              <option value="Hit TP">Hit TP</option>
+              <option value="Hit SL">Hit SL</option>
+              <option value="Manual — Profit">Manual Close (Profit)</option>
+              <option value="Manual — Loss">Manual Close (Loss)</option>
+              <option value="Manual — BE">Manual Close (Break Even)</option>
+            </select>
+          </div>
+        </div>
+        <div class="g3">
+          <div class="field auto-calc"><label>Stop Loss (%)</label><input type="number" id="f-sl" step="any" placeholder="auto" readonly></div>
+          <div class="field auto-calc"><label>R/R</label><input type="number" id="f-rr" step="any" placeholder="auto" readonly></div>
+          <div class="field auto-calc"><label>Position Size ($)</label><input type="number" id="f-possize" step="any" placeholder="auto" readonly></div>
+        </div>
+        <div class="g3">
+          <div class="field auto-calc"><label>Leverage</label><input type="number" id="f-lev" step="any" placeholder="auto" readonly></div>
+          <div class="field"><label>Direction</label>
+            <select id="f-dir"><option value="Long">Long</option><option value="Short">Short</option></select>
+          </div>
+          <div class="field"><label>Result</label>
+            <select id="f-result"><option value="Win">Win</option><option value="Loss">Loss</option><option value="BE">Break Even</option></select>
+          </div>
+        </div>
+        <div class="g3">
+          <div class="field"><label>PNL ($)</label><input type="number" id="f-pnl" step="any" placeholder="0.00"></div>
+          <div class="field"><label>Balance ($)</label><input type="number" id="f-bal" step="any" placeholder="0.00"></div>
+          <div class="field"><label>Fee / Commission ($)</label><input type="number" id="f-fee" step="any" placeholder="0.00" oninput="autoCalcBalance()"></div>
+        </div>
+      </div>
+
+      <!-- NOTES -->
       <div class="card">
         <div class="card-title"><i class="ti ti-camera"></i> Screenshots & Notes</div>
-        <div class="g2" style="margin-bottom:12px">
-          <div class="field"><label>Pic Before (URL or filename)</label><input type="text" id="f-picb" placeholder="chart_before.png"></div>
-          <div class="field"><label>Pic After (URL or filename)</label><input type="text" id="f-pica" placeholder="chart_after.png"></div>
+        <div class="g2">
+          <div class="field"><label>Pic Before</label><input type="text" id="f-picb" placeholder="chart_before.png"></div>
+          <div class="field"><label>Pic After</label><input type="text" id="f-pica" placeholder="chart_after.png"></div>
         </div>
         <div class="field"><label>Notes / Analysis</label><textarea id="f-note" placeholder="Entry reason, mistakes, lessons learned..."></textarea></div>
         <div class="btn-row">
@@ -468,10 +526,10 @@ td b{color:var(--text);font-weight:600}
       <div class="tbl-wrap">
         <table>
           <thead><tr>
-            <th>#</th><th>Date</th><th>Symbol</th><th>TF</th><th>Dir</th>
-            <th>Entry</th><th>Stoploss</th><th>TP</th><th>SL%</th><th>R/R</th>
+            <th>#</th><th>Open Date</th><th>Close Date</th><th>Symbol</th><th>TF</th><th>Dir</th>
+            <th>Entry</th><th>Stop</th><th>TP</th><th>SL%</th><th>R/R</th>
             <th>Size</th><th>Lev</th><th>PNL</th><th>Balance</th><th>Result</th>
-            <th>SMA7</th><th>SMA29</th><th>SMA99</th><th>VWAP</th><th>CD Cross</th><th>CD Type</th><th>Notes</th><th></th>
+            <th>Exit Price</th><th>Exit Type</th><th>Notes</th><th>Edit</th><th>Del</th>
           </tr></thead>
           <tbody id="log-body"></tbody>
         </table>
@@ -485,7 +543,7 @@ td b{color:var(--text);font-weight:600}
         <div class="page-title">Risk Calculator</div>
         <div class="page-sub">Calculate position size from SL%</div>
       </div>
-      <div class="info-box"><i class="ti ti-bulb" style="font-size:16px;flex-shrink:0"></i> Set default capital and risk % in Settings. Enter SL% to auto-calculate size and leverage.</div>
+      <div class="info-box"><i class="ti ti-bulb" style="font-size:16px;flex-shrink:0"></i> Enter SL% to auto-calculate size and leverage.</div>
       <div class="card">
         <div class="card-title"><i class="ti ti-calculator"></i> Position Size Calculator</div>
         <div class="g3">
@@ -541,7 +599,7 @@ td b{color:var(--text);font-weight:600}
       </div>
       <div class="card">
         <div class="card-title"><i class="ti ti-shield"></i> Risk Management Defaults</div>
-        <div class="g2" style="margin-bottom:12px">
+        <div class="g2">
           <div class="field"><label>Starting Capital ($)</label><input type="number" id="s-initbal" value="1000"></div>
           <div class="field"><label>Default Risk per Trade (%)</label><input type="number" id="s-defrisk" value="1" step="0.1"></div>
         </div>
@@ -561,11 +619,23 @@ td b{color:var(--text);font-weight:600}
 
 <script>
 let positions = JSON.parse(localStorage.getItem('tj_positions') || '[]');
-let settings = JSON.parse(localStorage.getItem('tj_settings') || '{"initBal":1000,"defRisk":1}');
+let settings  = JSON.parse(localStorage.getItem('tj_settings')  || '{"initBal":1000,"defRisk":1}');
 let filterMode = 'all';
 let pieChart, balChart;
+let editingId = null;
 
-// ── Mobile sidebar ──
+// ── Theme ──
+function applyTheme(t) {
+  document.body.classList.toggle('light', t === 'light');
+  document.getElementById('theme-icon').className = t === 'light' ? 'ti ti-moon' : 'ti ti-sun';
+  localStorage.setItem('tj_theme', t);
+}
+function toggleTheme() {
+  applyTheme(document.body.classList.contains('light') ? 'dark' : 'light');
+}
+applyTheme(localStorage.getItem('tj_theme') || 'dark');
+
+// ── Sidebar ──
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sidebar-overlay').classList.toggle('open');
@@ -575,52 +645,121 @@ function closeSidebar() {
   document.getElementById('sidebar-overlay').classList.remove('open');
 }
 
-// ── Auto-calc SL% and R/R from entry / stop / tp prices ──
+// ── Close-date toggle ──
+function toggleCloseDate() {
+  const on = document.getElementById('f-multiday').checked;
+  document.getElementById('close-date-wrap').style.display = on ? 'block' : 'none';
+}
+
+// ── Price-based auto-calc ──
 function autoCalcPrices() {
   const entry = parseFloat(document.getElementById('f-entry').value) || 0;
   const stop  = parseFloat(document.getElementById('f-exit').value)  || 0;
   const tp    = parseFloat(document.getElementById('f-tp').value)    || 0;
-
   if (entry > 0 && stop > 0) {
     const slPct = Math.abs((entry - stop) / entry) * 100;
     document.getElementById('f-sl').value = slPct.toFixed(4);
-
     if (tp > 0) {
-      const tpDist = Math.abs(tp - entry);
-      const slDist = Math.abs(entry - stop);
-      const rr = slDist > 0 ? (tpDist / slDist) : 0;
+      const rr = Math.abs(tp - entry) / Math.abs(entry - stop);
       document.getElementById('f-rr').value = rr.toFixed(2);
-    } else {
-      document.getElementById('f-rr').value = '';
-    }
+    } else { document.getElementById('f-rr').value = ''; }
   } else {
     document.getElementById('f-sl').value = '';
     document.getElementById('f-rr').value = '';
   }
-  // Re-run size/lev calc since SL% may have changed
   autoCalcFromForm();
 }
 
-// ── Auto-calc position size & leverage from form inputs ──
+// ── Exit price auto-calc (actual close vs TP/SL) ──
+function autoCalcExit() {
+  const entry    = parseFloat(document.getElementById('f-entry').value)     || 0;
+  const exitP    = parseFloat(document.getElementById('f-exitprice').value)  || 0;
+  const posSize  = parseFloat(document.getElementById('f-possize').value)    || 0;
+  const dir      = document.getElementById('f-dir').value;
+  const pnlEl    = document.getElementById('f-pnl');
+  const resultEl = document.getElementById('f-result');
+  const exitType = document.getElementById('f-exittype').value;
+  const rbTpEl   = document.getElementById('rb-tp');
+  const rbLblEl  = document.getElementById('rb-tp-lbl');
+
+  if (entry > 0 && exitP > 0 && posSize > 0) {
+    const pct = (exitP - entry) / entry;
+    const pnl = dir === 'Long' ? posSize * pct : posSize * -pct;
+    pnlEl.value = pnl.toFixed(2);
+
+    // update 4th box to show actual PNL instead of TP profit
+    if (rbTpEl) { rbTpEl.textContent = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toFixed(2); rbTpEl.style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)'; }
+    if (rbLblEl) rbLblEl.textContent = 'Actual PNL ($)';
+
+    // auto-set result
+    if (!exitType || exitType === '') {
+      if (pnl > 0.01) resultEl.value = 'Win';
+      else if (pnl < -0.01) resultEl.value = 'Loss';
+      else resultEl.value = 'BE';
+    } else {
+      if (exitType.includes('Profit')) resultEl.value = 'Win';
+      else if (exitType.includes('Loss')) resultEl.value = 'Loss';
+      else if (exitType.includes('BE')) resultEl.value = 'BE';
+      else if (exitType === 'Hit TP') resultEl.value = 'Win';
+      else if (exitType === 'Hit SL') resultEl.value = 'Loss';
+    }
+    autoCalcBalance();
+  } else {
+    // revert 4th box back to TP profit
+    if (rbLblEl) rbLblEl.textContent = 'TP Profit ($)';
+    if (rbTpEl) { rbTpEl.style.color = 'var(--accent)'; }
+    // recalc TP profit
+    const tp = parseFloat(document.getElementById('f-tp').value) || 0;
+    if (entry > 0 && tp > 0 && posSize > 0) {
+      const tpDist = Math.abs(tp - entry) / entry;
+      const tpProfit = posSize * tpDist;
+      if (rbTpEl) rbTpEl.textContent = '$' + tpProfit.toFixed(2);
+    } else {
+      if (rbTpEl) rbTpEl.textContent = '—';
+    }
+    autoCalcBalance();
+  }
+}
+
+function autoCalcBalance() {
+  const capital = parseFloat(document.getElementById('f-capital').value)  || 0;
+  const pnl     = parseFloat(document.getElementById('f-pnl').value)      || 0;
+  const fee     = parseFloat(document.getElementById('f-fee').value)      || 0;
+  const balEl   = document.getElementById('f-bal');
+  if (capital > 0) {
+    balEl.value = (capital + pnl - fee).toFixed(2);
+  }
+}
+
+// ── Capital/risk auto-calc ──
 function autoCalcFromForm() {
-  const capital = parseFloat(document.getElementById('f-capital').value) || 0;
+  const capital = parseFloat(document.getElementById('f-capital').value)  || 0;
   const riskPct = parseFloat(document.getElementById('f-risk-pct').value) || 0;
-  const sl      = parseFloat(document.getElementById('f-sl').value) || 0;
-
+  const sl      = parseFloat(document.getElementById('f-sl').value)       || 0;
   const bar = document.getElementById('risk-bar');
-
   if (capital > 0 && riskPct > 0) {
-    bar.style.display = 'flex';
+    bar.style.display = 'grid';
     const riskAmt = capital * riskPct / 100;
     document.getElementById('rb-risk').textContent = '$' + riskAmt.toFixed(2);
-
     if (sl > 0) {
       const posSize = riskAmt / (sl / 100);
-      const lev     = posSize / capital;
+      const levRaw  = posSize / capital;
+      const lev     = Math.max(1, levRaw);
       document.getElementById('rb-size').textContent = '$' + posSize.toFixed(2);
       document.getElementById('rb-lev').textContent  = lev.toFixed(2) + 'x';
       document.getElementById('f-possize').value = posSize.toFixed(2);
       document.getElementById('f-lev').value     = lev.toFixed(2);
+      // TP profit in $
+      const entry = parseFloat(document.getElementById('f-entry').value) || 0;
+      const stop  = parseFloat(document.getElementById('f-exit').value)  || 0;
+      const tp    = parseFloat(document.getElementById('f-tp').value)    || 0;
+      const rbTpEl = document.getElementById('rb-tp');
+      if (entry > 0 && stop > 0 && tp > 0 && posSize > 0) {
+        const slDist = Math.abs(entry - stop) / entry;
+        const tpDist = Math.abs(tp - entry) / entry;
+        const tpProfit = posSize * tpDist;
+        rbTpEl.textContent = '$' + tpProfit.toFixed(2);
+      } else { rbTpEl.textContent = '—'; }
     } else {
       document.getElementById('rb-size').textContent = '—';
       document.getElementById('rb-lev').textContent  = '—';
@@ -635,87 +774,165 @@ function autoCalcFromForm() {
 }
 
 function switchTab(t) {
-  document.querySelectorAll('.nav-item').forEach((n, i) => {
+  document.querySelectorAll('.nav-item').forEach((n,i) => {
     n.classList.toggle('active', ['new','log','calc','stats','settings'][i] === t);
   });
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + t).classList.add('active');
-  if (t === 'stats') renderCharts();
-  if (t === 'calc') {
-    document.getElementById('c-bal').value  = getCurrentBalance();
-    document.getElementById('c-risk').value = settings.defRisk;
-    calcPos();
-  }
-  if (t === 'log') renderLog();
+  document.getElementById('page-'+t).classList.add('active');
+  if (t==='stats') renderCharts();
+  if (t==='calc') { document.getElementById('c-bal').value=getCurrentBalance(); document.getElementById('c-risk').value=settings.defRisk; calcPos(); }
+  if (t==='log') renderLog();
 }
 
 function getRadio(name) {
   const el = document.querySelector(`input[name="${name}"]:checked`);
   return el ? el.value : '';
 }
+function setRadio(name, val) {
+  const el = document.querySelector(`input[name="${name}"][value="${val}"]`);
+  if (el) el.checked = true;
+}
 
 function getCurrentBalance() {
   if (!positions.length) return settings.initBal;
-  const last = positions[positions.length - 1];
-  return last.balance || settings.initBal;
+  return positions[positions.length-1].balance || settings.initBal;
 }
-
 function updateSidebarBalance() {
   const b = getCurrentBalance();
-  document.getElementById('sb-balance').textContent = 'Balance: $' + parseFloat(b).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  document.getElementById('sb-balance').textContent = 'Balance: $' + parseFloat(b).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
 function savePosition() {
   const today = new Date().toISOString().split('T')[0];
-  // Auto-assign sequential position number
+  const multiday = document.getElementById('f-multiday').checked;
   const nextNum = positions.length + 1;
   const row = {
-    id:        Date.now(),
-    row:       nextNum,
-    date:      document.getElementById('f-date').value || today,
-    topen:     document.getElementById('f-topen').value,
-    tclose:    document.getElementById('f-tclose').value,
-    tf:        document.getElementById('f-tf').value,
-    symbol:    document.getElementById('f-symbol').value.toUpperCase() || '—',
-    entry:     parseFloat(document.getElementById('f-entry').value)   || 0,
-    exit:      parseFloat(document.getElementById('f-exit').value)    || 0,
-    tp:        parseFloat(document.getElementById('f-tp').value)      || 0,
-    sl:        parseFloat(document.getElementById('f-sl').value)      || 0,
-    rr:        parseFloat(document.getElementById('f-rr').value)      || 0,
-    possize:   parseFloat(document.getElementById('f-possize').value) || 0,
-    lev:       parseFloat(document.getElementById('f-lev').value)     || 1,
-    direction: document.getElementById('f-dir').value,
-    result:    document.getElementById('f-result').value,
-    pnl:       parseFloat(document.getElementById('f-pnl').value)     || 0,
-    balance:   parseFloat(document.getElementById('f-bal').value)     || 0,
-    fee:       parseFloat(document.getElementById('f-fee').value)     || 0,
-    picb:      document.getElementById('f-picb').value,
-    pica:      document.getElementById('f-pica').value,
-    note:      document.getElementById('f-note').value,
-    capital:   parseFloat(document.getElementById('f-capital').value) || 0,
-    riskPct:   parseFloat(document.getElementById('f-risk-pct').value) || 0,
-    sma7:  getRadio('sma7'),  sma7c:  getRadio('sma7c'),
-    sma29: getRadio('sma29'), sma29c: getRadio('sma29c'),
-    sma99: getRadio('sma99'), sma99c: getRadio('sma99c'),
-    vwap:  getRadio('vwap'),  vwapc:  getRadio('vwapc'),
-    cdCross: getRadio('cd-cross'),
-    cdType:  getRadio('cd-type'),
+    id:Date.now(), row:nextNum,
+    date:     document.getElementById('f-date').value || today,
+    closedate: multiday ? (document.getElementById('f-closedate').value||'') : '',
+    topen:    document.getElementById('f-topen').value,
+    tclose:   document.getElementById('f-tclose').value,
+    tf:       document.getElementById('f-tf').value,
+    symbol:   document.getElementById('f-symbol').value.toUpperCase()||'—',
+    entry:    parseFloat(document.getElementById('f-entry').value)||0,
+    exit:     parseFloat(document.getElementById('f-exit').value)||0,
+    tp:       parseFloat(document.getElementById('f-tp').value)||0,
+    sl:       parseFloat(document.getElementById('f-sl').value)||0,
+    rr:       parseFloat(document.getElementById('f-rr').value)||0,
+    possize:  parseFloat(document.getElementById('f-possize').value)||0,
+    lev:      parseFloat(document.getElementById('f-lev').value)||1,
+    direction:document.getElementById('f-dir').value,
+    result:   document.getElementById('f-result').value,
+    pnl:      parseFloat(document.getElementById('f-pnl').value)||0,
+    balance:  parseFloat(document.getElementById('f-bal').value)||0,
+    fee:      parseFloat(document.getElementById('f-fee').value)||0,
+    exitprice: parseFloat(document.getElementById('f-exitprice').value)||0,
+    exittype:  document.getElementById('f-exittype').value,
+    picb:     document.getElementById('f-picb').value,
+    pica:     document.getElementById('f-pica').value,
+    note:     document.getElementById('f-note').value,
+    capital:  parseFloat(document.getElementById('f-capital').value)||0,
+    riskPct:  parseFloat(document.getElementById('f-risk-pct').value)||0,
+    sma7:getRadio('sma7'), sma7c:getRadio('sma7c'),
+    sma29:getRadio('sma29'), sma29c:getRadio('sma29c'),
+    sma99:getRadio('sma99'), sma99c:getRadio('sma99c'),
+    vwap:getRadio('vwap'), vwapc:getRadio('vwapc'),
+    cdCross:getRadio('cd-cross'), cdType:getRadio('cd-type'),
   };
   positions.push(row);
   localStorage.setItem('tj_positions', JSON.stringify(positions));
   updateSidebarBalance();
   clearForm();
-  alert('✅ Position #' + nextNum + ' saved!');
+  alert('✅ Position #'+nextNum+' saved!');
   switchTab('log');
 }
 
 function clearForm() {
-  ['f-date','f-topen','f-tclose','f-symbol','f-entry','f-exit','f-tp',
+  ['f-date','f-closedate','f-topen','f-tclose','f-symbol','f-entry','f-exit','f-tp',
    'f-sl','f-rr','f-possize','f-lev','f-pnl','f-bal','f-fee','f-picb','f-pica','f-note',
-   'f-capital','f-risk-pct'
-  ].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+   'f-capital','f-risk-pct','f-exitprice'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('f-exittype').value = '';
+  document.querySelectorAll('input[type=radio]').forEach(r => r.checked=false);
+  document.getElementById('f-multiday').checked = false;
+  document.getElementById('close-date-wrap').style.display = 'none';
   document.getElementById('risk-bar').style.display = 'none';
+}
+
+// ── EDIT ──
+function openEditModal(id) {
+  const p = positions.find(x => x.id === id);
+  if (!p) return;
+  editingId = id;
+  document.getElementById('edit-modal-body').innerHTML = `
+    <div class="g2" style="margin-bottom:14px">
+      <div class="field"><label>Open Date</label><input type="date" id="e-date" value="${p.date||''}"></div>
+      <div class="field"><label>Close Date</label><input type="date" id="e-closedate" value="${p.closedate||''}"></div>
+    </div>
+    <div class="g3" style="margin-bottom:14px">
+      <div class="field"><label>Symbol</label><input type="text" id="e-symbol" value="${p.symbol||''}"></div>
+      <div class="field"><label>Time Open</label><input type="time" id="e-topen" value="${p.topen||''}"></div>
+      <div class="field"><label>Time Close</label><input type="time" id="e-tclose" value="${p.tclose||''}"></div>
+    </div>
+    <div class="g3" style="margin-bottom:14px">
+      <div class="field"><label>Entry Price</label><input type="number" id="e-entry" step="any" value="${p.entry||''}"></div>
+      <div class="field"><label>Stop Price</label><input type="number" id="e-exit" step="any" value="${p.exit||''}"></div>
+      <div class="field"><label>Take Profit</label><input type="number" id="e-tp" step="any" value="${p.tp||''}"></div>
+    </div>
+    <div class="g3" style="margin-bottom:14px">
+      <div class="field"><label>PNL ($)</label><input type="number" id="e-pnl" step="any" value="${p.pnl||''}"></div>
+      <div class="field"><label>Balance ($)</label><input type="number" id="e-bal" step="any" value="${p.balance||''}"></div>
+      <div class="field"><label>Result</label>
+        <select id="e-result">
+          <option ${p.result==='Win'?'selected':''}>Win</option>
+          <option ${p.result==='Loss'?'selected':''}>Loss</option>
+          <option value="BE" ${p.result==='BE'?'selected':''}>Break Even</option>
+        </select>
+      </div>
+    </div>
+    <div class="g2" style="margin-bottom:14px">
+      <div class="field"><label>Exit Price (Actual Close)</label><input type="number" id="e-exitprice" step="any" value="${p.exitprice||''}"></div>
+      <div class="field"><label>Exit Type</label>
+        <select id="e-exittype">
+          <option value="" ${!p.exittype?'selected':''}>— Select —</option>
+          <option value="Hit TP" ${p.exittype==='Hit TP'?'selected':''}>Hit TP</option>
+          <option value="Hit SL" ${p.exittype==='Hit SL'?'selected':''}>Hit SL</option>
+          <option value="Manual — Profit" ${p.exittype==='Manual — Profit'?'selected':''}>Manual Close (Profit)</option>
+          <option value="Manual — Loss" ${p.exittype==='Manual — Loss'?'selected':''}>Manual Close (Loss)</option>
+          <option value="Manual — BE" ${p.exittype==='Manual — BE'?'selected':''}>Manual Close (Break Even)</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:14px"><label>Notes</label><textarea id="e-note">${p.note||''}</textarea></div>
+  `;
+  document.getElementById('edit-modal').classList.add('open');
+}
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+  editingId = null;
+}
+function saveEdit() {
+  if (!editingId) return;
+  const idx = positions.findIndex(x => x.id === editingId);
+  if (idx < 0) return;
+  const p = positions[idx];
+  p.date      = document.getElementById('e-date').value      || p.date;
+  p.closedate = document.getElementById('e-closedate').value || '';
+  p.symbol    = document.getElementById('e-symbol').value.toUpperCase() || p.symbol;
+  p.topen     = document.getElementById('e-topen').value;
+  p.tclose    = document.getElementById('e-tclose').value;
+  p.entry     = parseFloat(document.getElementById('e-entry').value) || p.entry;
+  p.exit      = parseFloat(document.getElementById('e-exit').value)  || p.exit;
+  p.tp        = parseFloat(document.getElementById('e-tp').value)    || p.tp;
+  p.pnl       = parseFloat(document.getElementById('e-pnl').value)   || p.pnl;
+  p.balance   = parseFloat(document.getElementById('e-bal').value)   || p.balance;
+  p.result    = document.getElementById('e-result').value;
+  p.exitprice = parseFloat(document.getElementById('e-exitprice').value) || p.exitprice || 0;
+  p.exittype  = document.getElementById('e-exittype').value;
+  p.note      = document.getElementById('e-note').value;
+  localStorage.setItem('tj_positions', JSON.stringify(positions));
+  updateSidebarBalance();
+  closeEditModal();
+  renderLog();
 }
 
 function filterLog(mode, btn) {
@@ -726,183 +943,146 @@ function filterLog(mode, btn) {
 }
 
 function renderLog() {
-  const filtered = filterMode === 'all' ? positions : positions.filter(p => p.result === filterMode);
-  const tbody  = document.getElementById('log-body');
-  const empty  = document.getElementById('log-empty');
-  document.getElementById('log-count').textContent = positions.length + ' position' + (positions.length !== 1 ? 's' : '');
-  if (!filtered.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  const filtered = filterMode==='all' ? positions : positions.filter(p => p.result===filterMode);
+  const tbody = document.getElementById('log-body');
+  const empty = document.getElementById('log-empty');
+  document.getElementById('log-count').textContent = positions.length+' position'+(positions.length!==1?'s':'');
+  if (!filtered.length) { tbody.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display = 'none';
   tbody.innerHTML = filtered.map(p => `<tr>
     <td><b>#${p.row}</b></td>
-    <td>${p.date}</td>
+    <td>${p.date||'—'}</td>
+    <td>${p.closedate||'—'}</td>
     <td><b>${p.symbol}</b></td>
     <td>${p.tf}</td>
     <td style="color:${p.direction==='Long'?'var(--green)':'var(--red)'}">${p.direction}</td>
-    <td>${p.entry || '—'}</td>
-    <td>${p.sl || '—'}%</td>
-    <td>${p.tp || '—'}</td>
-    <td>${p.sl || '—'}%</td>
-    <td>${p.rr || '—'}</td>
-    <td>$${p.possize || '—'}</td>
-    <td>${p.lev || '—'}x</td>
-    <td style="color:${p.pnl >= 0 ? 'var(--green)' : 'var(--red)'}">${p.pnl >= 0 ? '+' : ''}$${p.pnl}</td>
+    <td>${p.entry||'—'}</td>
+    <td>${p.exit||'—'}</td>
+    <td>${p.tp||'—'}</td>
+    <td>${p.sl||'—'}%</td>
+    <td>${p.rr||'—'}</td>
+    <td>$${p.possize||'—'}</td>
+    <td>${p.lev||'—'}x</td>
+    <td style="color:${p.pnl>=0?'var(--green)':'var(--red)'}">${p.pnl>=0?'+':''}$${p.pnl}</td>
     <td>$${p.balance}</td>
     <td><span class="badge ${p.result==='Win'?'win':p.result==='Loss'?'loss':'be'}">${p.result}</span></td>
-    <td>${p.sma7||'—'} / ${p.sma7c||'—'}</td>
-    <td>${p.sma29||'—'} / ${p.sma29c||'—'}</td>
-    <td>${p.sma99||'—'} / ${p.sma99c||'—'}</td>
-    <td>${p.vwap||'—'} / ${p.vwapc||'—'}</td>
-    <td style="color:${p.cdCross==='Yellow'?'var(--yellow)':p.cdCross==='Blue'?'var(--blue)':'var(--text2)'}">${p.cdCross||'—'}</td>
-    <td>${p.cdType||'—'}</td>
-    <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis" title="${p.note||''}">${p.note||'—'}</td>
+    <td>${p.exitprice||'—'}</td>
+    <td style="color:${p.exittype&&p.exittype.includes('Manual')?'var(--amber)':'var(--text2)'}">${p.exittype||'—'}</td>
+    <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis" title="${p.note||''}">${p.note||'—'}</td>
+    <td><button class="btn edit-btn sm" onclick="openEditModal(${p.id})"><i class="ti ti-pencil"></i></button></td>
     <td><button class="btn danger sm" onclick="deletePos(${p.id})"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('');
 }
 
 function deletePos(id) {
   if (!confirm('Delete this position?')) return;
-  positions = positions.filter(p => p.id !== id);
-  // Re-number sequentially
-  positions.forEach((p, i) => p.row = i + 1);
+  positions = positions.filter(p => p.id!==id);
+  positions.forEach((p,i) => p.row=i+1);
   localStorage.setItem('tj_positions', JSON.stringify(positions));
-  updateSidebarBalance();
-  renderLog();
+  updateSidebarBalance(); renderLog();
 }
-
 function clearAll() {
   if (!confirm('Delete ALL positions? This cannot be undone.')) return;
   positions = [];
-  localStorage.setItem('tj_positions', '[]');
-  updateSidebarBalance();
-  renderLog();
+  localStorage.setItem('tj_positions','[]');
+  updateSidebarBalance(); renderLog();
 }
 
 function calcPos() {
   const bal  = parseFloat(document.getElementById('c-bal').value)  || settings.initBal;
   const risk = parseFloat(document.getElementById('c-risk').value) || settings.defRisk;
   const sl   = parseFloat(document.getElementById('c-sl').value)   || 0;
-  if (sl <= 0) {
-    ['cr-risk','cr-size','cr-lev','cr-margin'].forEach(id => document.getElementById(id).textContent = '—');
-    return;
-  }
-  const riskAmt = bal * risk / 100;
-  const posSize = riskAmt / (sl / 100);
-  const lev     = posSize / bal;
-  document.getElementById('cr-risk').textContent   = '$' + riskAmt.toFixed(2);
-  document.getElementById('cr-size').textContent   = '$' + posSize.toFixed(2);
-  document.getElementById('cr-lev').textContent    = lev.toFixed(2) + 'x';
-  document.getElementById('cr-margin').textContent = '$' + bal.toFixed(2);
+  if (sl<=0) { ['cr-risk','cr-size','cr-lev','cr-margin'].forEach(id=>document.getElementById(id).textContent='—'); return; }
+  const riskAmt = bal*risk/100;
+  const posSize = riskAmt/(sl/100);
+  const lev     = Math.max(1, posSize/bal);
+  document.getElementById('cr-risk').textContent   = '$'+riskAmt.toFixed(2);
+  document.getElementById('cr-size').textContent   = '$'+posSize.toFixed(2);
+  document.getElementById('cr-lev').textContent    = lev.toFixed(2)+'x';
+  document.getElementById('cr-margin').textContent = '$'+bal.toFixed(2);
 }
 
 function applyToForm() {
-  const sl      = parseFloat(document.getElementById('c-sl').value)   || 0;
-  const posSize = parseFloat(document.getElementById('cr-size').textContent.replace('$','')) || 0;
-  const lev     = parseFloat(document.getElementById('cr-lev').textContent.replace('x',''))  || 0;
-  const bal     = parseFloat(document.getElementById('c-bal').value)  || settings.initBal;
-  const risk    = parseFloat(document.getElementById('c-risk').value) || settings.defRisk;
-  document.getElementById('f-sl').value       = sl;
-  document.getElementById('f-possize').value  = posSize.toFixed(2);
-  document.getElementById('f-lev').value      = lev.toFixed(2);
-  document.getElementById('f-capital').value  = bal;
-  document.getElementById('f-risk-pct').value = risk;
-  autoCalcFromForm();
-  switchTab('new');
+  const sl=parseFloat(document.getElementById('c-sl').value)||0;
+  const bal=parseFloat(document.getElementById('c-bal').value)||settings.initBal;
+  const risk=parseFloat(document.getElementById('c-risk').value)||settings.defRisk;
+  document.getElementById('f-sl').value=sl;
+  document.getElementById('f-capital').value=bal;
+  document.getElementById('f-risk-pct').value=risk;
+  autoCalcFromForm(); switchTab('new');
 }
 
 function renderCharts() {
-  const wins     = positions.filter(p => p.result === 'Win').length;
-  const losses   = positions.filter(p => p.result === 'Loss').length;
-  const bes      = positions.filter(p => p.result === 'BE').length;
-  const totalPNL = positions.reduce((a, p) => a + p.pnl, 0);
-  const avgRR    = positions.length ? positions.reduce((a, p) => a + p.rr, 0) / positions.length : 0;
-  const best     = positions.length ? Math.max(...positions.map(p => p.pnl)) : 0;
-  const worst    = positions.length ? Math.min(...positions.map(p => p.pnl)) : 0;
-
-  document.getElementById('s-total').textContent = positions.length;
-  document.getElementById('s-wr').textContent    = positions.length ? (wins / positions.length * 100).toFixed(1) + '%' : '—';
-  const pnlEl = document.getElementById('s-pnl');
-  pnlEl.textContent = '$' + totalPNL.toFixed(2);
-  pnlEl.className = 'metric-val ' + (totalPNL >= 0 ? 'pos' : 'neg');
-  document.getElementById('s-best').textContent  = '$' + best.toFixed(2);
-  document.getElementById('s-worst').textContent = '$' + worst.toFixed(2);
-  document.getElementById('s-rr').textContent    = avgRR.toFixed(2);
-
-  Chart.defaults.color = '#4a4f5e';
-  if (pieChart) pieChart.destroy();
-  pieChart = new Chart(document.getElementById('pie-chart').getContext('2d'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Win', 'Loss', 'BE'],
-      datasets: [{ data: [wins, losses, bes], backgroundColor: ['#00d68f', '#ff4d6d', '#f0a500'], borderWidth: 0 }]
-    },
-    options: { plugins: { legend: { position: 'bottom', labels: { color: '#8a8f9e', font: { family: 'DM Mono', size: 11 } } } }, cutout: '65%' }
+  const wins=positions.filter(p=>p.result==='Win').length;
+  const losses=positions.filter(p=>p.result==='Loss').length;
+  const bes=positions.filter(p=>p.result==='BE').length;
+  const totalPNL=positions.reduce((a,p)=>a+p.pnl,0);
+  const avgRR=positions.length?positions.reduce((a,p)=>a+p.rr,0)/positions.length:0;
+  const best=positions.length?Math.max(...positions.map(p=>p.pnl)):0;
+  const worst=positions.length?Math.min(...positions.map(p=>p.pnl)):0;
+  document.getElementById('s-total').textContent=positions.length;
+  document.getElementById('s-wr').textContent=positions.length?(wins/positions.length*100).toFixed(1)+'%':'—';
+  const pnlEl=document.getElementById('s-pnl');
+  pnlEl.textContent='$'+totalPNL.toFixed(2);
+  pnlEl.className='metric-val '+(totalPNL>=0?'pos':'neg');
+  document.getElementById('s-best').textContent='$'+best.toFixed(2);
+  document.getElementById('s-worst').textContent='$'+worst.toFixed(2);
+  document.getElementById('s-rr').textContent=avgRR.toFixed(2);
+  Chart.defaults.color='#4a4f5e';
+  if(pieChart) pieChart.destroy();
+  pieChart=new Chart(document.getElementById('pie-chart').getContext('2d'),{
+    type:'doughnut',
+    data:{labels:['Win','Loss','BE'],datasets:[{data:[wins,losses,bes],backgroundColor:['#00d68f','#ff4d6d','#f0a500'],borderWidth:0}]},
+    options:{plugins:{legend:{position:'bottom',labels:{color:'#8a8f9e',font:{family:'DM Mono',size:11}}}},cutout:'65%'}
   });
-
-  if (balChart) balChart.destroy();
-  const balData = positions.map(p => p.balance).filter(b => b > 0);
-  balChart = new Chart(document.getElementById('bal-chart').getContext('2d'), {
-    type: 'line',
-    data: {
-      labels: positions.map(p => '#' + p.row),
-      datasets: [{ data: balData, borderColor: '#00d68f', backgroundColor: 'rgba(0,214,143,0.07)', tension: .35, fill: true, pointRadius: 3, pointBackgroundColor: '#00d68f' }]
-    },
-    options: {
-      plugins: { legend: { display: false } },
-      scales: {
-        y: { beginAtZero: false, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#4a4f5e', font: { family: 'DM Mono', size: 10 } } },
-        x: { grid: { display: false }, ticks: { color: '#4a4f5e', font: { family: 'DM Mono', size: 10 } } }
-      }
-    }
+  if(balChart) balChart.destroy();
+  const balData=positions.map(p=>p.balance).filter(b=>b>0);
+  balChart=new Chart(document.getElementById('bal-chart').getContext('2d'),{
+    type:'line',
+    data:{labels:positions.map(p=>'#'+p.row),datasets:[{data:balData,borderColor:'#00d68f',backgroundColor:'rgba(0,214,143,0.07)',tension:.35,fill:true,pointRadius:3,pointBackgroundColor:'#00d68f'}]},
+    options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#4a4f5e',font:{family:'DM Mono',size:10}}},x:{grid:{display:false},ticks:{color:'#4a4f5e',font:{family:'DM Mono',size:10}}}}}
   });
 }
 
 function saveSettings() {
-  settings.initBal  = parseFloat(document.getElementById('s-initbal').value)  || 1000;
-  settings.defRisk  = parseFloat(document.getElementById('s-defrisk').value)  || 1;
-  localStorage.setItem('tj_settings', JSON.stringify(settings));
+  settings.initBal=parseFloat(document.getElementById('s-initbal').value)||1000;
+  settings.defRisk=parseFloat(document.getElementById('s-defrisk').value)||1;
+  localStorage.setItem('tj_settings',JSON.stringify(settings));
   alert('Settings saved!');
 }
-
 function exportCSV() {
-  if (!positions.length) { alert('No positions to export.'); return; }
-  const headers = ['#','Date','Time Open','Time Close','TF','Symbol','Entry','Stoploss','TP','SL%','R/R','Size','Leverage','Direction','Result','PNL','Balance','Fee','Capital','Risk%','SMA7 Pos','SMA7 Color','SMA29 Pos','SMA29 Color','SMA99 Pos','SMA99 Color','VWAP Pos','VWAP Color','CD Cross','CD Type','Pic Before','Pic After','Notes'];
-  const rows = positions.map(p => [p.row,p.date,p.topen,p.tclose,p.tf,p.symbol,p.entry,p.exit,p.tp,p.sl,p.rr,p.possize,p.lev,p.direction,p.result,p.pnl,p.balance,p.fee,p.capital||'',p.riskPct||'',p.sma7,p.sma7c,p.sma29,p.sma29c,p.sma99,p.sma99c,p.vwap,p.vwapc,p.cdCross||'',p.cdType||'',p.picb,p.pica,'"'+(p.note||'').replace(/"/g,'""')+'"'].join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
-  a.download = 'trading_journal.csv';
-  a.click();
+  if(!positions.length){alert('No positions to export.');return;}
+  const headers=['#','Open Date','Close Date','Time Open','Time Close','TF','Symbol','Entry','Stop','TP','SL%','R/R','Size','Leverage','Direction','Result','PNL','Balance','Fee','Capital','Risk%','Notes'];
+  const rows=positions.map(p=>[p.row,p.date,p.closedate||'',p.topen,p.tclose,p.tf,p.symbol,p.entry,p.exit,p.tp,p.sl,p.rr,p.possize,p.lev,p.direction,p.result,p.pnl,p.balance,p.fee,p.capital||'',p.riskPct||'','"'+(p.note||'').replace(/"/g,'""')+'"'].join(','));
+  const csv=[headers.join(','),...rows].join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download='trading_journal.csv'; a.click();
 }
-
 function exportJSON() {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([JSON.stringify({ positions, settings }, null, 2)], { type: 'application/json' }));
-  a.download = 'trading_journal_backup.json';
-  a.click();
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify({positions,settings},null,2)],{type:'application/json'}));
+  a.download='trading_journal_backup.json'; a.click();
 }
-
 function importJSON(input) {
-  const fr = new FileReader();
-  fr.onload = e => {
+  const fr=new FileReader();
+  fr.onload=e=>{
     try {
-      const d = JSON.parse(e.target.result);
-      positions = d.positions || [];
-      settings  = d.settings  || settings;
-      localStorage.setItem('tj_positions', JSON.stringify(positions));
-      localStorage.setItem('tj_settings',  JSON.stringify(settings));
-      document.getElementById('s-initbal').value = settings.initBal;
-      document.getElementById('s-defrisk').value = settings.defRisk;
-      updateSidebarBalance();
-      alert('Backup loaded successfully!');
-      renderLog();
-    } catch { alert('Invalid backup file.'); }
+      const d=JSON.parse(e.target.result);
+      positions=d.positions||[]; settings=d.settings||settings;
+      localStorage.setItem('tj_positions',JSON.stringify(positions));
+      localStorage.setItem('tj_settings',JSON.stringify(settings));
+      document.getElementById('s-initbal').value=settings.initBal;
+      document.getElementById('s-defrisk').value=settings.defRisk;
+      updateSidebarBalance(); alert('Backup loaded!'); renderLog();
+    } catch{alert('Invalid backup file.');}
   };
   fr.readAsText(input.files[0]);
 }
 
 // Init
-document.getElementById('s-initbal').value = settings.initBal;
-document.getElementById('s-defrisk').value = settings.defRisk;
+document.getElementById('s-initbal').value=settings.initBal;
+document.getElementById('s-defrisk').value=settings.defRisk;
 updateSidebarBalance();
 renderLog();
 </script>
