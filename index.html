@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-/* ── DARK THEME (default) ── */
 :root {
   --bg:#0d0f12;--bg2:#13161b;--bg3:#1a1e25;
   --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
@@ -20,9 +19,9 @@
   --blue:#4d9fff;--blue-dim:rgba(77,159,255,0.10);
   --yellow:#ffe066;--yellow-dim:rgba(255,224,102,0.12);
   --accent:#00d68f;--radius:10px;--radius-lg:16px;
-  --font:'Syne',sans-serif;--mono:'DM Mono',monospace;--sidebar-w:220px;
+  --font:'Syne',sans-serif;--mono:'DM Mono',monospace;
+  --topbar-h:56px;
 }
-/* ── LIGHT THEME ── */
 body.light {
   --bg:#f0f2f5;--bg2:#ffffff;--bg3:#e8eaed;
   --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
@@ -34,56 +33,52 @@ body.light {
   --yellow:#b08000;--yellow-dim:rgba(176,128,0,0.1);
   --accent:#00a86b;
 }
-
-
-/* ── PERSIAN / FA mode ── */
-body.fa{--font:'Estedad',sans-serif;direction:rtl}
-body.fa .sidebar{left:auto;right:0;border-right:none;border-left:1px solid var(--border)}
-body.fa .main{margin-left:0!important;margin-right:var(--sidebar-w)}
-body.fa .nav-item{border-left:none;border-right:2px solid transparent;flex-direction:row-reverse}
-body.fa .nav-item.active{border-right-color:var(--accent)}
-body.fa .hamburger{left:auto;right:14px}
-body.fa .auto-calc::after{right:auto;left:10px}
-body.fa .field select{background-position:left 10px center;padding-right:12px;padding-left:28px}
-body.fa .btn-row{justify-content:flex-start}
-body.fa .stats-insight{border-left:none;border-right:3px solid var(--accent);border-radius:var(--radius) 0 0 var(--radius)}
-body.fa .field label{font-family:'Estedad',sans-serif;letter-spacing:0;font-size:12px}
-body.fa .field input,body.fa .field select,body.fa .field textarea{font-family:'Estedad',sans-serif}
-body.fa .btn,body.fa .pill,body.fa .nav-item,body.fa .radio-group label,body.fa .toggle-row label,body.fa .ts-row,body.fa .info-box,body.fa .metric-label{font-family:'Estedad',sans-serif}
-
-/* ── Trade Management card ── */
-.ts-card{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.25rem}
-.ts-result{background:var(--bg3);border-radius:var(--radius);padding:1rem 1.25rem;margin-top:1rem;border:1px solid var(--border)}
-.ts-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;font-family:var(--mono)}
-.ts-row:last-child{border-bottom:none}
-.ts-row .lbl{color:var(--text3)}.ts-row .val{color:var(--accent);font-weight:600}.ts-row .val.warn{color:var(--amber)}
+body.fa { --font:'Estedad',sans-serif; }
 
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;transition:background .2s,color .2s}
 
-/* Layout */
-.shell{display:flex;min-height:100vh}
-.sidebar{width:var(--sidebar-w);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:200;transition:transform .25s ease}
-.main{margin-left:var(--sidebar-w);flex:1;padding:2rem;max-width:1200px;transition:margin-left .25s ease}
-
-/* Sidebar */
-.logo{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.logo-left .logo-text{font-size:17px;font-weight:700;letter-spacing:-.3px;color:var(--text)}
-.logo-left .logo-sub{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:2px}
+/* ── TOP NAV BAR ── */
+.topnav{
+  position:fixed;top:0;left:0;right:0;height:var(--topbar-h);
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;z-index:200;
+  padding:0 1rem;gap:4px;
+}
+.topnav-logo{
+  font-size:15px;font-weight:700;letter-spacing:-.3px;color:var(--text);
+  white-space:nowrap;padding-right:1rem;margin-right:4px;
+  border-right:1px solid var(--border2);
+}
+.topnav-logo span{font-size:10px;font-family:var(--mono);color:var(--text3);display:block;font-weight:400;letter-spacing:0}
+.topnav-items{display:flex;align-items:center;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+.topnav-items::-webkit-scrollbar{display:none}
+.topnav-section{font-size:9px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase;padding:0 6px;white-space:nowrap}
+.nav-item{
+  display:flex;align-items:center;gap:6px;padding:7px 12px;
+  font-size:13px;color:var(--text2);cursor:pointer;
+  border-radius:8px;border-bottom:2px solid transparent;
+  transition:all .15s;white-space:nowrap;
+}
+.nav-item:hover{color:var(--text);background:var(--bg3)}
+.nav-item.active{color:var(--accent);background:rgba(0,214,143,0.07);border-bottom-color:var(--accent)}
+body.light .nav-item.active{background:rgba(0,168,107,0.08)}
+.nav-item i{font-size:16px}
+.topnav-right{display:flex;align-items:center;gap:6px;margin-left:auto;padding-left:8px;flex-shrink:0}
+.topnav-balance{font-size:11px;font-family:var(--mono);color:var(--text2);padding:4px 10px;background:var(--bg3);border-radius:8px;border:1px solid var(--border2);white-space:nowrap}
 .theme-btn{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:5px 8px;cursor:pointer;font-size:16px;color:var(--text2);transition:all .15s;display:flex;align-items:center}
 .theme-btn:hover{color:var(--accent);border-color:var(--accent)}
-.nav{padding:1rem 0;flex:1;overflow-y:auto}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 1.25rem;font-size:14px;color:var(--text2);cursor:pointer;border-left:2px solid transparent;transition:all .15s}
-.nav-item:hover{color:var(--text);background:var(--bg3)}
-.nav-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(0,214,143,0.06)}
-body.light .nav-item.active{background:rgba(0,168,107,0.08)}
-.nav-item i{font-size:18px}
-.nav-section{padding:8px 1.25rem 4px;font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
-.sidebar-footer{padding:1rem 1.25rem;border-top:1px solid var(--border);font-size:12px;color:var(--text3);font-family:var(--mono)}
+.lang-btn{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:5px 9px;cursor:pointer;font-size:11px;font-family:var(--mono);color:var(--text2);transition:all .15s}
+.lang-btn:hover{color:var(--accent);border-color:var(--accent)}
 
-/* Hamburger */
-.hamburger{display:none;position:fixed;top:14px;left:14px;z-index:300;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:6px 8px;cursor:pointer;font-size:20px;color:var(--text2)}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150}
+/* ── MAIN ── */
+.main{
+  margin-top:var(--topbar-h);
+  padding:2rem;
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+}
 
 /* Pages */
 .page{display:none}.page.active{display:block}
@@ -96,12 +91,10 @@ body.light .nav-item.active{background:rgba(0,168,107,0.08)}
 .card-title{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
 .card-title i{font-size:16px;color:var(--accent)}
 
-/* Unified grid — always equal-height fields */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;align-items:start}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;align-items:start}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem}
 
-/* Fields — uniform height via min-height on inputs */
 .field{display:flex;flex-direction:column;gap:6px}
 .field label{font-size:11px;font-weight:500;color:var(--text2);font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
 .field input,.field select,.field textarea{
@@ -117,18 +110,15 @@ body.light .nav-item.active{background:rgba(0,168,107,0.08)}
 .field input[readonly]{color:var(--accent);border-color:rgba(0,214,143,.25);background:rgba(0,214,143,.05);cursor:default}
 body.light .field input[readonly]{background:rgba(0,168,107,.07)}
 
-/* Auto tag */
 .auto-calc{position:relative}
 .auto-calc::after{content:'AUTO';position:absolute;right:10px;top:calc(6px + 21px);font-size:9px;font-family:var(--mono);color:var(--accent);opacity:.55;letter-spacing:.06em;pointer-events:none}
 
-/* Risk bar */
 .risk-bar-wrap{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:14px;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
 .risk-bar-label{font-size:11px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
 .risk-bar-val{font-size:22px;font-weight:700;font-family:var(--mono);color:var(--accent);letter-spacing:-1px}
 .risk-bar-sep{width:1px;height:28px;background:var(--border2)}
 .risk-bar-item{display:flex;flex-direction:column;gap:2px}
 
-/* Close-date toggle */
 .toggle-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .toggle-row label{font-size:12px;font-family:var(--mono);color:var(--text2);cursor:pointer}
 .toggle-switch{position:relative;width:36px;height:20px;flex-shrink:0}
@@ -138,7 +128,6 @@ body.light .field input[readonly]{background:rgba(0,168,107,.07)}
 .toggle-switch input:checked + .toggle-track{background:var(--accent);border-color:var(--accent)}
 .toggle-switch input:checked + .toggle-track::before{transform:translateX(16px);background:#fff}
 
-/* Radio groups */
 .radio-group{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
 .radio-group label{display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;padding:6px 11px;border-radius:20px;border:1px solid var(--border2);color:var(--text2);transition:all .15s;font-family:var(--mono)}
 .radio-group label:hover{border-color:var(--accent);color:var(--accent)}
@@ -150,7 +139,6 @@ body.light .radio-group label:has(input:checked){background:rgba(0,168,107,0.1)}
 .radio-group label.yellow-opt:hover{border-color:#ffe066;color:#ffe066}
 .radio-group label.blue-opt:hover{border-color:var(--blue);color:var(--blue)}
 
-/* Buttons */
 .btn{padding:9px 18px;font-size:13px;font-family:var(--mono);border:1px solid var(--border2);border-radius:var(--radius);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
 .btn:hover{color:var(--text);background:var(--bg3)}
 .btn.primary{background:var(--accent);color:#0d0f12;border-color:var(--accent);font-weight:600}
@@ -162,19 +150,16 @@ body.light .radio-group label:has(input:checked){background:rgba(0,168,107,0.1)}
 .btn.sm{padding:5px 10px;font-size:11px}
 .btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;flex-wrap:wrap}
 
-/* Metric cards */
 .metric{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem}
 .metric-label{font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .metric-val{font-size:26px;font-weight:700;font-family:var(--mono);letter-spacing:-1px}
 .metric-val.pos{color:var(--green)}.metric-val.neg{color:var(--red)}
 
-/* Badges */
 .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--mono)}
 .badge.win{background:var(--green-dim);color:var(--green)}
 .badge.loss{background:var(--red-dim);color:var(--red)}
 .badge.be{background:var(--amber-dim);color:var(--amber)}
 
-/* Table */
 .tbl-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:12px}
 thead{background:var(--bg3)}
@@ -184,46 +169,33 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--bg3)}
 td b{color:var(--text);font-weight:600}
 
-/* Filter pills */
 .pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
 .pill{padding:5px 14px;border-radius:20px;font-size:12px;font-family:var(--mono);border:1px solid var(--border2);cursor:pointer;background:transparent;color:var(--text2);transition:all .15s}
 .pill.active{background:var(--accent);color:#0d0f12;border-color:var(--accent);font-weight:600}
 .pill:hover:not(.active){border-color:var(--accent);color:var(--accent)}
 
-/* Calc */
 .calc-box{background:var(--bg3);border-radius:var(--radius);padding:1.25rem;margin-top:1rem;border:1px solid var(--border)}
 .calc-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;font-family:var(--mono)}
 .calc-row:last-child{border-bottom:none;font-weight:600;font-size:14px}
 .calc-row .lbl{color:var(--text3)}.calc-row .val{color:var(--text)}
 .calc-row:last-child .val{color:var(--accent)}
 
-/* Info box */
 .info-box{background:var(--blue-dim);border:1px solid rgba(77,159,255,.2);border-radius:var(--radius);padding:.85rem 1rem;font-size:12px;color:var(--blue);margin-bottom:1rem;font-family:var(--mono);display:flex;align-items:flex-start;gap:8px}
 
-/* Separator */
 .sep{height:1px;background:var(--border);margin:1rem 0}
 
-/* Empty */
 .empty{text-align:center;padding:4rem 1rem;color:var(--text3)}
 .empty i{font-size:40px;display:block;margin-bottom:12px;opacity:.4}
 .empty p{font-size:13px;font-family:var(--mono)}
 
-/* Scrollbar */
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 
-/* Topbar */
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
-.topbar-right{display:flex;gap:8px}
-
-/* Chart */
 .chart-wrap{position:relative;height:220px}
 
-/* Checklist section labels */
 .cl-section{font-size:12px;font-family:var(--mono);color:var(--accent);margin-bottom:8px;margin-top:4px;font-weight:600;letter-spacing:.04em}
 
-/* Edit modal */
 .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;padding:1rem}
 .modal-backdrop.open{display:flex}
 .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:700px;max-height:90vh;overflow-y:auto}
@@ -231,14 +203,12 @@ td b{color:var(--text);font-weight:600}
 .modal-close{cursor:pointer;color:var(--text3);font-size:20px;line-height:1;background:none;border:none;padding:0}
 .modal-close:hover{color:var(--red)}
 
-/* Risk boxes */
 .rb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:4px}
 .rb-box{background:var(--bg);border:1px solid rgba(0,214,143,.2);border-radius:var(--radius);padding:10px 14px}
 .rb-lbl{font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
 .rb-val{font-size:20px;font-weight:700;font-family:var(--mono);color:var(--accent);letter-spacing:-.5px}
 @media(max-width:600px){.rb-grid{grid-template-columns:1fr 1fr}}
 
-/* Stats */
 .stats-insight{background:var(--bg3);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:.75rem 1rem;font-size:12px;font-family:var(--mono);color:var(--text2);line-height:1.7}
 .stats-insight.warn{border-left-color:var(--amber);background:var(--amber-dim)}
 .stats-insight.bad{border-left-color:var(--red);background:var(--red-dim)}
@@ -264,39 +234,62 @@ td b{color:var(--text);font-weight:600}
 .cl-bar{height:100%;border-radius:4px;background:var(--accent)}
 .cl-count{color:var(--text3);width:60px;text-align:right}
 
-/* ══ RESPONSIVE ══ */
-/* Hide sidebar on anything ≤ 1100px (covers all iPads & phones) */
-@media (max-width:1100px){
-  .hamburger{display:flex;align-items:center;justify-content:center}
-  .sidebar{transform:translateX(-100%)}
-  .sidebar.open{transform:translateX(0)}
-  .sidebar-overlay.open{display:block}
-  .main{margin-left:0;padding:1.25rem;padding-top:4rem;max-width:100%}
+.ts-card{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.25rem}
+.ts-result{background:var(--bg3);border-radius:var(--radius);padding:1rem 1.25rem;margin-top:1rem;border:1px solid var(--border)}
+.ts-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;font-family:var(--mono)}
+.ts-row:last-child{border-bottom:none}
+.ts-row .lbl{color:var(--text3)}.ts-row .val{color:var(--accent);font-weight:600}.ts-row .val.warn{color:var(--amber)}
+
+/* topbar for log page */
+.page-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.page-topbar-right{display:flex;gap:8px}
+
+/* ── RESPONSIVE ── */
+@media (max-width:900px){
+  .main{padding:1.25rem;padding-top:calc(var(--topbar-h) + 1.25rem)}
   .g4{grid-template-columns:1fr 1fr}
+  .topnav-section{display:none}
 }
 @media (max-width:700px){
-  .main{padding:.85rem;padding-top:3.75rem}
+  .main{padding:.85rem;padding-top:calc(var(--topbar-h) + .85rem)}
   .g2,.g3,.g4{grid-template-columns:1fr}
   .risk-bar-wrap{flex-direction:column;align-items:flex-start;gap:.75rem}
   .risk-bar-sep{display:none}
   .page-title{font-size:20px}
-  .topbar{flex-direction:column;align-items:flex-start;gap:.75rem}
-  .topbar-right{flex-wrap:wrap}
+  .page-topbar{flex-direction:column;align-items:flex-start;gap:.75rem}
+  .page-topbar-right{flex-wrap:wrap}
   .metric-val{font-size:22px}
   table{font-size:11px}
   th,td{padding:8px 8px}
   .modal{padding:1rem}
+  .topnav-logo span{display:none}
+  .nav-item{padding:5px 7px;gap:3px;font-size:10px}
+  .nav-item i{font-size:14px}
+  .nav-item span{font-size:9px;letter-spacing:0}
+  .topnav-balance{display:none}
+  .topnav-logo{font-size:12px;padding-right:6px;margin-right:2px}
 }
 @media (max-width:420px){
   .card{padding:1rem}
-  .g2,.g3,.g4{grid-template-columns:1fr}
+  .nav-item span{display:none}
+  .nav-item{padding:6px 8px}
+  .nav-item i{font-size:16px}
 }
+
+/* FA overrides for topnav */
+body.fa .topnav{direction:rtl}
+body.fa .topnav-logo{border-right:none;padding-right:0;margin-right:0;border-left:1px solid var(--border2);padding-left:1rem;margin-left:4px}
+body.fa .topnav-right{margin-left:0;margin-right:auto;padding-left:0;padding-right:8px}
+body.fa .stats-insight{border-left:none;border-right:3px solid var(--accent);border-radius:var(--radius) 0 0 var(--radius)}
+body.fa .field label{font-family:'Estedad',sans-serif;letter-spacing:0;font-size:12px}
+body.fa .field input,body.fa .field select,body.fa .field textarea{font-family:'Estedad',sans-serif}
+body.fa .btn,body.fa .pill,body.fa .nav-item,body.fa .radio-group label,body.fa .toggle-row label,body.fa .ts-row,body.fa .info-box,body.fa .metric-label{font-family:'Estedad',sans-serif}
+body.fa .auto-calc::after{right:auto;left:10px}
+body.fa .field select{background-position:left 10px center;padding-right:12px;padding-left:28px}
+body.fa .btn-row{justify-content:flex-start}
 </style>
 </head>
 <body>
-
-<button class="hamburger" onclick="toggleSidebar()"><i class="ti ti-menu-2"></i></button>
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
 <!-- EDIT MODAL -->
 <div class="modal-backdrop" id="edit-modal">
@@ -313,484 +306,455 @@ td b{color:var(--text);font-weight:600}
   </div>
 </div>
 
-<div class="shell">
-  <aside class="sidebar" id="sidebar">
-    <div class="logo">
-      <div class="logo-left">
-        <div class="logo-text">TJ — Trading Journal</div>
-        <div class="logo-sub">v1.2 · local storage</div>
-      </div>
-      <div style="display:flex;gap:6px"><button style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:5px 9px;cursor:pointer;font-size:11px;font-family:var(--mono);color:var(--text2);transition:all .15s" id="lang-btn" onclick="toggleLang()" title="Switch language / تغییر زبان">FA</button><button class="theme-btn" onclick="toggleTheme()" title="Toggle theme"><i class="ti ti-sun" id="theme-icon"></i></button></div>
-    </div>
-    <nav class="nav">
-      <div class="nav-section">Trade</div>
-      <div class="nav-item active" data-i18n="nav-new" onclick="switchTab('new');closeSidebar()"><i class="ti ti-plus"></i> New Position</div>
-      <div class="nav-item" data-i18n="nav-log" onclick="switchTab('log');closeSidebar()"><i class="ti ti-list-details"></i> Position Log</div>
-      <div class="nav-section">Tools</div>
-	      <div class="nav-item" data-i18n="nav-calc" onclick="switchTab('calc');closeSidebar()"><i class="ti ti-calculator"></i> Risk Calculator</div>
-      <div class="nav-item" data-i18n="nav-stats" onclick="switchTab('stats');closeSidebar()"><i class="ti ti-chart-bar"></i> Statistics</div>
-      <div class="nav-section">Config</div>
-      <div class="nav-item" data-i18n="nav-settings" onclick="switchTab('settings');closeSidebar()"><i class="ti ti-settings"></i> Settings</div>
-    </nav>
-    <div class="sidebar-footer" id="sb-balance">Balance: —</div>
-  </aside>
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="topnav-logo">TJ<span>v1.3 · local</span></div>
+  <div class="topnav-items">
+    <div class="topnav-section">Trade</div>
+    <div class="nav-item active" data-i18n="nav-new" onclick="switchTab('new')"><i class="ti ti-plus"></i><span>New Position</span></div>
+    <div class="nav-item" data-i18n="nav-log" onclick="switchTab('log')"><i class="ti ti-list-details"></i><span>Position Log</span></div>
+    <div class="topnav-section">Tools</div>
+    <div class="nav-item" data-i18n="nav-calc" onclick="switchTab('calc')"><i class="ti ti-calculator"></i><span>Risk Calculator</span></div>
+    <div class="nav-item" data-i18n="nav-stats" onclick="switchTab('stats')"><i class="ti ti-chart-bar"></i><span>Statistics</span></div>
+    <div class="topnav-section">Config</div>
+    <div class="nav-item" data-i18n="nav-settings" onclick="switchTab('settings')"><i class="ti ti-settings"></i><span>Settings</span></div>
+  </div>
+  <div class="topnav-right">
+    <div class="topnav-balance" id="sb-balance">Balance: —</div>
+    <button class="lang-btn" id="lang-btn" onclick="toggleLang()" title="Switch language / تغییر زبان">FA</button>
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme"><i class="ti ti-sun" id="theme-icon"></i></button>
+  </div>
+</nav>
 
-  <main class="main">
+<main class="main">
 
-    <!-- NEW POSITION -->
-    <div id="page-new" class="page active">
-      <div class="page-header">
-        <div class="page-title" id="page-new-title-el">New Position</div>
-        <div class="page-sub" id="page-new-sub-el">Log a new trade entry</div>
-      </div>
-
-      <!-- CHECKLIST -->
-      <div class="card">
-        <div class="card-title"><i class="ti ti-checklist"></i> <span id="lbl-card-checklist">Checklist</span></div>
-
-        <div class="cl-section" data-i18n-cl="cl-sma7">SMA 7</div>
-        <div class="g2">
-          <div class="field"><label data-i18n-lbl="lbl-candle-pos">Candle Position</label>
-            <div class="radio-group">
-              <label><input type="radio" name="sma7" value="Above"><span>Above</span></label>
-              <label><input type="radio" name="sma7" value="Below"><span>Below</span></label>
-              <label><input type="radio" name="sma7" value="Cross Up"><span>Cross Up</span></label>
-              <label><input type="radio" name="sma7" value="Cross Down"><span>Cross Down</span></label>
-            </div>
-          </div>
-          <div class="field"><label data-i18n-lbl="lbl-candle-col">Candle Color</label>
-            <div class="radio-group">
-              <label><input type="radio" name="sma7c" value="Green"><span>Green</span></label>
-              <label><input type="radio" name="sma7c" value="Red"><span>Red</span></label>
-              <label><input type="radio" name="sma7c" value="Doji"><span>Doji</span></label>
-            </div>
-          </div>
-        </div>
-
-        <div class="sep"></div>
-        <div class="cl-section" data-i18n-cl="cl-sma29">SMA 29</div>
-        <div class="g2">
-          <div class="field"><label data-i18n-lbl="lbl-candle-pos">Candle Position</label>
-            <div class="radio-group">
-              <label><input type="radio" name="sma29" value="Above"><span>Above</span></label>
-              <label><input type="radio" name="sma29" value="Below"><span>Below</span></label>
-              <label><input type="radio" name="sma29" value="Cross Up"><span>Cross Up</span></label>
-              <label><input type="radio" name="sma29" value="Cross Down"><span>Cross Down</span></label>
-            </div>
-          </div>
-          <div class="field"><label data-i18n-lbl="lbl-candle-col">Candle Color</label>
-            <div class="radio-group">
-              <label><input type="radio" name="sma29c" value="Green"><span>Green</span></label>
-              <label><input type="radio" name="sma29c" value="Red"><span>Red</span></label>
-              <label><input type="radio" name="sma29c" value="Doji"><span>Doji</span></label>
-            </div>
-          </div>
-        </div>
-
-        <div class="sep"></div>
-        <div class="cl-section" data-i18n-cl="cl-sma99">SMA 99</div>
-        <div class="g2">
-          <div class="field"><label data-i18n-lbl="lbl-candle-pos">Candle Position</label>
-            <div class="radio-group">
-              <label><input type="radio" name="sma99" value="Above"><span>Above</span></label>
-              <label><input type="radio" name="sma99" value="Below"><span>Below</span></label>
-              <label><input type="radio" name="sma99" value="Cross Up"><span>Cross Up</span></label>
-              <label><input type="radio" name="sma99" value="Cross Down"><span>Cross Down</span></label>
-            </div>
-          </div>
-          <div class="field"><label data-i18n-lbl="lbl-candle-col">Candle Color</label>
-            <div class="radio-group">
-              <label><input type="radio" name="sma99c" value="Green"><span>Green</span></label>
-              <label><input type="radio" name="sma99c" value="Red"><span>Red</span></label>
-              <label><input type="radio" name="sma99c" value="Doji"><span>Doji</span></label>
-            </div>
-          </div>
-        </div>
-
-        <div class="sep"></div>
-        <div class="cl-section" data-i18n-cl="cl-vwap">VWAP</div>
-        <div class="g2">
-          <div class="field"><label data-i18n-lbl="lbl-candle-pos">Candle Position</label>
-            <div class="radio-group">
-              <label><input type="radio" name="vwap" value="Above"><span>Above</span></label>
-              <label><input type="radio" name="vwap" value="Below"><span>Below</span></label>
-              <label><input type="radio" name="vwap" value="Cross Up"><span>Cross Up</span></label>
-              <label><input type="radio" name="vwap" value="Cross Down"><span>Cross Down</span></label>
-            </div>
-          </div>
-          <div class="field"><label data-i18n-lbl="lbl-candle-col">Candle Color</label>
-            <div class="radio-group">
-              <label><input type="radio" name="vwapc" value="Green"><span>Green</span></label>
-              <label><input type="radio" name="vwapc" value="Red"><span>Red</span></label>
-              <label><input type="radio" name="vwapc" value="Doji"><span>Doji</span></label>
-            </div>
-          </div>
-        </div>
-
-        <div class="sep"></div>
-        <div class="cl-section" data-i18n-cl="cl-cdiv">Composite Divergence</div>
-        <div class="g2">
-          <div class="field"><label data-i18n-lbl="lbl-first-cross">First Cross Color</label>
-            <div class="radio-group">
-              <label class="yellow-opt"><input type="radio" name="cd-cross" value="Yellow" data-color="yellow"><span>Yellow</span></label>
-              <label class="blue-opt"><input type="radio" name="cd-cross" value="Blue" data-color="blue"><span>Blue</span></label>
-            </div>
-          </div>
-          <div class="field"><label data-i18n-lbl="lbl-div-type">Divergence Type</label>
-            <div class="radio-group">
-              <label><input type="radio" name="cd-type" value="Regular+"><span>Regular +</span></label>
-              <label><input type="radio" name="cd-type" value="Regular-"><span>Regular −</span></label>
-              <label><input type="radio" name="cd-type" value="Hidden+"><span>Hidden +</span></label>
-              <label><input type="radio" name="cd-type" value="Hidden-"><span>Hidden −</span></label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RISK / CAPITAL -->
-      <div class="card">
-        <div class="card-title"><i class="ti ti-shield-dollar"></i> <span id="lbl-card-risk">Position Risk & Capital</span></div>
-        <div class="g2">
-          <div class="field">
-            <label>Capital for this Position ($)</label>
-            <input type="number" id="f-capital" step="any" placeholder="e.g. 1000" oninput="autoCalcFromForm()">
-          </div>
-          <div class="field">
-            <label>Risk on this Position (%)</label>
-            <input type="number" id="f-risk-pct" step="any" placeholder="e.g. 1" oninput="autoCalcFromForm()">
-          </div>
-        </div>
-        <div id="risk-bar" class="rb-grid" style="display:none">
-          <div class="rb-box"><div class="rb-lbl" id="rb-risk-lbl">Risk ($)</div><div class="rb-val" id="rb-risk">—</div></div>
-          <div class="rb-box"><div class="rb-lbl" id="rb-size-lbl">Position Size</div><div class="rb-val" id="rb-size">—</div></div>
-          <div class="rb-box"><div class="rb-lbl" id="rb-lev-lbl">Leverage</div><div class="rb-val" id="rb-lev">—</div></div>
-          <div class="rb-box"><div class="rb-lbl" id="rb-tp-lbl">TP Profit ($)</div><div class="rb-val" id="rb-tp">—</div></div>
-        </div>
-      </div>
-
-      <!-- BASIC INFO -->
-      <div class="card">
-        <div class="card-title"><i class="ti ti-info-circle"></i> Basic Info</div>
-        <div class="g2">
-          <div class="field"><label>Open Date</label><input type="date" id="f-date"></div>
-          <div class="field"><label>Symbol</label><input type="text" id="f-symbol" placeholder="BTCUSDT"></div>
-        </div>
-        <div class="g3">
-          <div class="field"><label>Time Open</label><input type="time" id="f-topen"></div>
-          <div class="field"><label>Time Close</label><input type="time" id="f-tclose"></div>
-          <div class="field"><label>Time Frame</label>
-            <select id="f-tf"><option>1m</option><option>5m</option><option>15m</option><option>30m</option><option selected>1H</option><option>4H</option><option>1D</option><option>1W</option></select>
-          </div>
-        </div>
-        <!-- Close date toggle -->
-        <div class="toggle-row">
-          <label class="toggle-switch">
-            <input type="checkbox" id="f-multiday" onchange="toggleCloseDate()">
-            <span class="toggle-track"></span>
-          </label>
-          <label for="f-multiday" style="cursor:pointer">Position closed on a different day</label>
-        </div>
-        <div id="close-date-wrap" style="display:none">
-          <div class="g2">
-            <div class="field"><label>Close Date</label><input type="date" id="f-closedate"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- POSITION DETAILS -->
-      <div class="card">
-        <div class="card-title"><i class="ti ti-trending-up"></i> <span id="lbl-card-pos">Position Details</span></div>
-        <div class="g3">
-          <div class="field"><label>Entry Price</label><input type="number" id="f-entry" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
-          <div class="field"><label>Stop Price</label><input type="number" id="f-exit" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
-          <div class="field"><label>Take Profit (TP)</label><input type="number" id="f-tp" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
-        </div>
-        <div class="g2">
-          <div class="field"><label>Exit Price (Actual Close)</label><input type="number" id="f-exitprice" step="any" placeholder="0.00 — if different from SL/TP" oninput="autoCalcExit()"></div>
-          <div class="field"><label>Exit Type</label>
-            <select id="f-exittype" onchange="autoCalcPnlBalance()">
-              <option value="">— Select —</option>
-              <option value="Hit TP">Hit TP</option>
-              <option value="Hit SL">Hit SL</option>
-              <option value="Manual — Profit">Manual Close (Profit)</option>
-              <option value="Manual — Loss">Manual Close (Loss)</option>
-              <option value="Manual — BE">Manual Close (Break Even)</option>
-            </select>
-          </div>
-        </div>
-        <div class="g3">
-          <div class="field auto-calc"><label>Stop Loss (%)</label><input type="number" id="f-sl" step="any" placeholder="auto" readonly></div>
-          <div class="field auto-calc"><label>R/R</label><input type="number" id="f-rr" step="any" placeholder="auto" readonly></div>
-          <div class="field auto-calc"><label>Position Size ($)</label><input type="number" id="f-possize" step="any" placeholder="auto" readonly></div>
-        </div>
-        <div class="g3">
-          <div class="field auto-calc"><label>Leverage</label><input type="number" id="f-lev" step="any" placeholder="auto" readonly></div>
-          <div class="field"><label>Direction</label>
-            <select id="f-dir" onchange="autoCalcPnlBalance();updateTsCard()"><option value="Long">Long</option><option value="Short">Short</option></select>
-          </div>
-          <div class="field"><label>Result</label>
-            <select id="f-result"><option value="Win">Win</option><option value="Loss">Loss</option><option value="BE">Break Even</option></select>
-          </div>
-        </div>
-        <div class="g3">
-          <div class="field"><label>Fee / Commission ($)</label><input type="number" id="f-fee" step="any" placeholder="0.00" oninput="autoCalcPnlBalance()"></div>
-          <div class="field auto-calc"><label>PNL ($)</label><input type="number" id="f-pnl" step="any" placeholder="auto" readonly></div>
-          <div class="field auto-calc"><label>Balance ($)</label><input type="number" id="f-bal" step="any" placeholder="auto" readonly></div>
-        </div>
-      </div>
-
-
-      <!-- TRADE MANAGEMENT TOGGLE -->
-      <div class="card" style="margin-bottom:.5rem">
-        <div class="card-title" style="margin-bottom:.75rem"><i class="ti ti-adjustments-horizontal"></i> <span id="lbl-trade-mgmt">Trade Management Tools</span></div>
-        <div class="toggle-row" style="margin-bottom:0">
-          <label class="toggle-switch"><input type="checkbox" id="ts-toggle" onchange="toggleTsCard()"><span class="toggle-track"></span></label>
-          <label for="ts-toggle" id="lbl-ts-toggle">Show R:R 1 level & Trailing Stop Calculator</label>
-        </div>
-      </div>
-      <div class="ts-card" id="ts-card">
-        <div class="card-title"><i class="ti ti-target"></i> <span id="lbl-ts-title">Trade Management</span></div>
-        <div class="cl-section" id="lbl-rr1-section">R:R 1 Price Level</div>
-        <div class="g3" style="margin-bottom:1rem">
-          <div class="field auto-calc"><label id="lbl-rr1-price">R:R 1 Price</label><input type="text" id="ts-rr1" readonly placeholder="auto"></div>
-          <div class="field auto-calc"><label id="lbl-rr1-dist">Distance to R:R 1</label><input type="text" id="ts-rr1-dist" readonly placeholder="auto"></div>
-          <div class="field auto-calc"><label id="lbl-rr1-pnl">Profit at R:R 1 ($)</label><input type="text" id="ts-rr1-pnl" readonly placeholder="auto"></div>
-        </div>
-        <div class="sep"></div>
-        <div class="cl-section" id="lbl-trailing-section">Trailing Stop / Partial Close</div>
-        <div class="info-box" style="margin-bottom:1rem"><i class="ti ti-bulb" style="font-size:15px;flex-shrink:0"></i> <span id="lbl-ts-info">Enter your new stop price after moving into profit. The calculator shows how much you can close to protect gains.</span></div>
-        <div class="g3">
-          <div class="field"><label id="lbl-new-stop">New Stop Price</label><input type="number" id="ts-newstop" step="any" placeholder="0.00" oninput="calcTrailingStop()"></div>
-          <div class="field auto-calc"><label id="lbl-new-sl-pct">New SL (%)</label><input type="text" id="ts-newsl-pct" readonly placeholder="auto"></div>
-          <div class="field auto-calc"><label id="lbl-new-rr">New R/R</label><input type="text" id="ts-new-rr" readonly placeholder="auto"></div>
-        </div>
-        <div class="ts-result" id="ts-result" style="display:none">
-          <div class="ts-row"><span class="lbl" id="lbl-ts-cur-profit">Current Profit (at new stop)</span><span class="val" id="ts-cur-profit">—</span></div>
-          <div class="ts-row"><span class="lbl" id="lbl-ts-close-amt">Amount you can close ($)</span><span class="val" id="ts-close-amt">—</span></div>
-          <div class="ts-row"><span class="lbl" id="lbl-ts-close-pct">% of position to close</span><span class="val warn" id="ts-close-pct">—</span></div>
-          <div class="ts-row"><span class="lbl" id="lbl-ts-remain">Remaining position ($)</span><span class="val" id="ts-remain">—</span></div>
-          <div class="ts-row"><span class="lbl" id="lbl-ts-worst">Worst case after partial close</span><span class="val" id="ts-worst">—</span></div>
-        </div>
-      </div>
-
-      <!-- NOTES -->
-      <div class="card">
-        <div class="card-title"><i class="ti ti-camera"></i> <span id="lbl-card-notes">Screenshots & Notes</span></div>
-        <div class="g2">
-          <div class="field"><label>Pic Before</label><input type="text" id="f-picb" placeholder="chart_before.png"></div>
-          <div class="field"><label>Pic After</label><input type="text" id="f-pica" placeholder="chart_after.png"></div>
-        </div>
-        <div class="field"><label>Notes / Analysis</label><textarea id="f-note" placeholder="Entry reason, mistakes, lessons learned..."></textarea></div>
-        <div class="btn-row">
-          <button class="btn" onclick="clearForm()"><i class="ti ti-eraser"></i> <span id="btn-clear-el">Clear</span></button>
-          <button class="btn primary" onclick="savePosition()"><i class="ti ti-device-floppy"></i> <span id="btn-save-el">Save Position</span></button>
-        </div>
-      </div>
+  <!-- NEW POSITION -->
+  <div id="page-new" class="page active">
+    <div class="page-header">
+      <div class="page-title" id="page-new-title-el">New Position</div>
+      <div class="page-sub" id="page-new-sub-el">Log a new trade entry</div>
     </div>
 
-    <!-- POSITION LOG -->
-    <div id="page-log" class="page">
-      <div class="topbar">
-        <div>
-          <div class="page-title" id="page-log-title-el">Position Log</div>
-          <div class="page-sub" id="log-count">0 positions</div>
-        </div>
-        <div class="topbar-right">
-          <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> <span id="btn-export-csv-el">Export CSV</span></button>
-          <button class="btn danger" onclick="clearAll()"><i class="ti ti-trash"></i> <span id="btn-clear-all-el">Clear All</span></button>
-        </div>
-      </div>
-      <div class="pill-row" id="filter-pills">
-        <button class="pill active" onclick="filterLog('all',this)">All</button>
-        <button class="pill" onclick="filterLog('Win',this)">Win</button>
-        <button class="pill" onclick="filterLog('Loss',this)">Loss</button>
-        <button class="pill" onclick="filterLog('BE',this)">BE</button>
-      </div>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr>
-            <th>#</th><th>Open Date</th><th>Close Date</th><th>Symbol</th><th>TF</th><th>Dir</th>
-            <th>Entry</th><th>Stop</th><th>TP</th><th>SL%</th><th>R/R</th>
-            <th>Size</th><th>Lev</th><th>PNL</th><th>Balance</th><th>Result</th>
-            <th>Exit Price</th><th>Exit Type</th><th>Notes</th><th>Edit</th><th>Del</th>
-          </tr></thead>
-          <tbody id="log-body"></tbody>
-        </table>
-      </div>
-      <div id="log-empty" class="empty"><i class="ti ti-database-off"></i><p>No positions logged yet</p></div>
-    </div>
-
-    <!-- RISK CALCULATOR -->
-    <div id="page-calc" class="page">
-      <div class="page-header">
-        <div class="page-title" id="page-calc-title-el">Risk Calculator</div>
-        <div class="page-sub" id="page-calc-sub-el">Calculate position size from SL%</div>
-      </div>
-      <div class="info-box"><i class="ti ti-bulb" style="font-size:16px;flex-shrink:0"></i> <span>Enter SL% to auto-calculate size and leverage.</span></div>
-      <div class="card">
-        <div class="card-title"><i class="ti ti-calculator"></i> <span id="lbl-card-calc">Position Size Calculator</span></div>
-        <div class="g3">
-          <div class="field"><label>Account Balance ($)</label><input type="number" id="c-bal" step="any" placeholder="1000" oninput="calcPos()"></div>
-          <div class="field"><label>Risk per Trade (%)</label><input type="number" id="c-risk" step="any" placeholder="1" oninput="calcPos()"></div>
-          <div class="field"><label>Stop Loss (%)</label><input type="number" id="c-sl" step="any" placeholder="0.5" oninput="calcPos()"></div>
-        </div>
-        <div class="calc-box">
-          <div class="calc-row"><span class="lbl">Risk Amount ($)</span><span class="val" id="cr-risk">—</span></div>
-          <div class="calc-row"><span class="lbl">Position Size ($)</span><span class="val" id="cr-size">—</span></div>
-          <div class="calc-row"><span class="lbl">Required Leverage</span><span class="val" id="cr-lev">—</span></div>
-          <div class="calc-row"><span class="lbl">Margin Used ($)</span><span class="val" id="cr-margin">—</span></div>
-        </div>
-        <div class="btn-row">
-          <button class="btn primary" onclick="applyToForm()"><i class="ti ti-arrow-right"></i> <span id="btn-apply-el">Apply to New Position</span></button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STATS -->
-    <div id="page-stats" class="page">
-      <div class="page-header">
-        <div class="page-title" id="page-stats-title-el">Statistics</div>
-        <div class="page-sub" id="page-stats-sub-el">Performance dashboard · scalping analysis</div>
-      </div>
-
-      <!-- ROW 1: Core metrics -->
-      <div class="g4" id="s-row1">
-        <div class="metric"><div class="metric-label">Total Trades</div><div class="metric-val" id="s-total">0</div></div>
-        <div class="metric"><div class="metric-label">Win Rate</div><div class="metric-val" id="s-wr">—</div></div>
-        <div class="metric"><div class="metric-label">Profit Factor</div><div class="metric-val" id="s-pf">—</div><div class="metric-sub">gross wins / gross losses</div></div>
-        <div class="metric"><div class="metric-label">Expectancy ($)</div><div class="metric-val" id="s-exp">—</div><div class="metric-sub">avg $ per trade</div></div>
-      </div>
-
-      <!-- ROW 2 -->
-      <div class="g4">
-        <div class="metric"><div class="metric-label">Total PNL</div><div class="metric-val" id="s-pnl">—</div></div>
-        <div class="metric"><div class="metric-label">Avg R/R (actual)</div><div class="metric-val" id="s-rr">—</div></div>
-        <div class="metric"><div class="metric-label">Best Trade</div><div class="metric-val pos" id="s-best">—</div></div>
-        <div class="metric"><div class="metric-label">Worst Trade</div><div class="metric-val neg" id="s-worst">—</div></div>
-      </div>
-
-      <!-- ROW 3: Drawdown + Streak -->
-      <div class="g4">
-        <div class="metric"><div class="metric-label">Max Drawdown</div><div class="metric-val neg" id="s-dd">—</div><div class="metric-sub">consecutive losses</div></div>
-        <div class="metric"><div class="metric-label">Best Streak</div><div class="metric-val pos" id="s-wstreak">—</div><div class="metric-sub">consecutive wins</div></div>
-        <div class="metric"><div class="metric-label">Avg Risk / Trade</div><div class="metric-val" id="s-avgrisk">—</div></div>
-        <div class="metric"><div class="metric-label">Total Fees Paid</div><div class="metric-val neg" id="s-fees">—</div></div>
-      </div>
-
-      <!-- Balance chart -->
-      <div class="card">
-        <div class="card-title"><i class="ti ti-trending-up"></i> <span id="lbl-card-bal-chart">Balance Growth</span></div>
-        <div class="chart-wrap" style="height:200px"><canvas id="bal-chart"></canvas></div>
-      </div>
-
-      <!-- Exit Behavior -->
-      <div class="card" id="s-exit-card">
-        <div class="card-title"><i class="ti ti-door-exit"></i> <span id="lbl-card-exit">Exit Behavior Analysis</span></div>
-        <div class="g4" style="margin-bottom:1rem">
-          <div class="metric"><div class="metric-label">Hit TP</div><div class="metric-val pos" id="s-hittp">—</div></div>
-          <div class="metric"><div class="metric-label">Hit SL</div><div class="metric-val neg" id="s-hitsl">—</div></div>
-          <div class="metric"><div class="metric-label">Manual (Profit)</div><div class="metric-val pos" id="s-manwin">—</div></div>
-          <div class="metric"><div class="metric-label">Manual (Loss)</div><div class="metric-val neg" id="s-manlose">—</div></div>
-        </div>
-        <div class="stats-insight" id="s-exit-insight"></div>
-      </div>
-
-      <!-- Best conditions -->
+    <!-- CHECKLIST -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-checklist"></i> <span id="lbl-card-checklist">Checklist</span></div>
+      <div class="cl-section" data-i18n-cl="cl-sma7">SMA 7</div>
       <div class="g2">
-        <div class="card">
-          <div class="card-title"><i class="ti ti-clock"></i> <span id="lbl-card-hours">Best Trading Hours</span></div>
-          <div id="s-hours-body" style="font-family:var(--mono);font-size:12px;color:var(--text2)"></div>
+        <div class="field"><label data-i18n-lbl="lbl-candle-pos">Candle Position</label>
+          <div class="radio-group">
+            <label><input type="radio" name="sma7" value="Above"><span>Above</span></label>
+            <label><input type="radio" name="sma7" value="Below"><span>Below</span></label>
+            <label><input type="radio" name="sma7" value="Cross Up"><span>Cross Up</span></label>
+            <label><input type="radio" name="sma7" value="Cross Down"><span>Cross Down</span></label>
+          </div>
         </div>
-        <div class="card">
-          <div class="card-title"><i class="ti ti-coin"></i> <span id="lbl-card-symbols">Best Symbols</span></div>
-          <div id="s-symbols-body" style="font-family:var(--mono);font-size:12px;color:var(--text2)"></div>
+        <div class="field"><label data-i18n-lbl="lbl-candle-col">Candle Color</label>
+          <div class="radio-group">
+            <label><input type="radio" name="sma7c" value="Green"><span>Green</span></label>
+            <label><input type="radio" name="sma7c" value="Red"><span>Red</span></label>
+            <label><input type="radio" name="sma7c" value="Doji"><span>Doji</span></label>
+          </div>
         </div>
       </div>
-
-      <!-- TF performance -->
-      <div class="card">
-        <div class="card-title"><i class="ti ti-chart-bar"></i> <span id="lbl-card-tf">Performance by Timeframe</span></div>
-        <div id="s-tf-body"></div>
-      </div>
-
-      <!-- Checklist correlation -->
-      <div class="card" id="s-cl-card">
-        <div class="card-title"><i class="ti ti-checklist"></i> <span id="lbl-card-cl">Checklist Correlation</span></div>
-        <div class="stats-insight" id="s-cl-insight" style="margin-bottom:1rem"></div>
-        <div id="s-cl-body"></div>
-      </div>
-
-      <!-- Distribution chart -->
+      <div class="sep"></div>
+      <div class="cl-section" data-i18n-cl="cl-sma29">SMA 29</div>
       <div class="g2">
-        <div class="card">
-          <div class="card-title"><i class="ti ti-chart-donut"></i> <span id="lbl-card-pie">Result Distribution</span></div>
-          <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
+        <div class="field"><label data-i18n-lbl="lbl-candle-pos">Candle Position</label>
+          <div class="radio-group">
+            <label><input type="radio" name="sma29" value="Above"><span>Above</span></label>
+            <label><input type="radio" name="sma29" value="Below"><span>Below</span></label>
+            <label><input type="radio" name="sma29" value="Cross Up"><span>Cross Up</span></label>
+            <label><input type="radio" name="sma29" value="Cross Down"><span>Cross Down</span></label>
+          </div>
         </div>
-        <div class="card">
-          <div class="card-title"><i class="ti ti-chart-histogram"></i> <span id="lbl-card-pnl-dist">PNL Distribution</span></div>
-          <div class="chart-wrap"><canvas id="pnl-dist-chart"></canvas></div>
+        <div class="field"><label data-i18n-lbl="lbl-candle-col">Candle Color</label>
+          <div class="radio-group">
+            <label><input type="radio" name="sma29c" value="Green"><span>Green</span></label>
+            <label><input type="radio" name="sma29c" value="Red"><span>Red</span></label>
+            <label><input type="radio" name="sma29c" value="Doji"><span>Doji</span></label>
+          </div>
         </div>
       </div>
-
+      <div class="sep"></div>
+      <div class="cl-section" data-i18n-cl="cl-sma99">SMA 99</div>
+      <div class="g2">
+        <div class="field"><label data-i18n-lbl="lbl-candle-pos">Candle Position</label>
+          <div class="radio-group">
+            <label><input type="radio" name="sma99" value="Above"><span>Above</span></label>
+            <label><input type="radio" name="sma99" value="Below"><span>Below</span></label>
+            <label><input type="radio" name="sma99" value="Cross Up"><span>Cross Up</span></label>
+            <label><input type="radio" name="sma99" value="Cross Down"><span>Cross Down</span></label>
+          </div>
+        </div>
+        <div class="field"><label data-i18n-lbl="lbl-candle-col">Candle Color</label>
+          <div class="radio-group">
+            <label><input type="radio" name="sma99c" value="Green"><span>Green</span></label>
+            <label><input type="radio" name="sma99c" value="Red"><span>Red</span></label>
+            <label><input type="radio" name="sma99c" value="Doji"><span>Doji</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="sep"></div>
+      <div class="cl-section" data-i18n-cl="cl-vwap">VWAP</div>
+      <div class="g2">
+        <div class="field"><label data-i18n-lbl="lbl-candle-pos">Candle Position</label>
+          <div class="radio-group">
+            <label><input type="radio" name="vwap" value="Above"><span>Above</span></label>
+            <label><input type="radio" name="vwap" value="Below"><span>Below</span></label>
+            <label><input type="radio" name="vwap" value="Cross Up"><span>Cross Up</span></label>
+            <label><input type="radio" name="vwap" value="Cross Down"><span>Cross Down</span></label>
+          </div>
+        </div>
+        <div class="field"><label data-i18n-lbl="lbl-candle-col">Candle Color</label>
+          <div class="radio-group">
+            <label><input type="radio" name="vwapc" value="Green"><span>Green</span></label>
+            <label><input type="radio" name="vwapc" value="Red"><span>Red</span></label>
+            <label><input type="radio" name="vwapc" value="Doji"><span>Doji</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="sep"></div>
+      <div class="cl-section" data-i18n-cl="cl-cdiv">Composite Divergence</div>
+      <div class="g2">
+        <div class="field"><label data-i18n-lbl="lbl-first-cross">First Cross Color</label>
+          <div class="radio-group">
+            <label class="yellow-opt"><input type="radio" name="cd-cross" value="Yellow" data-color="yellow"><span>Yellow</span></label>
+            <label class="blue-opt"><input type="radio" name="cd-cross" value="Blue" data-color="blue"><span>Blue</span></label>
+          </div>
+        </div>
+        <div class="field"><label data-i18n-lbl="lbl-div-type">Divergence Type</label>
+          <div class="radio-group">
+            <label><input type="radio" name="cd-type" value="Regular+"><span>Regular +</span></label>
+            <label><input type="radio" name="cd-type" value="Regular-"><span>Regular −</span></label>
+            <label><input type="radio" name="cd-type" value="Hidden+"><span>Hidden +</span></label>
+            <label><input type="radio" name="cd-type" value="Hidden-"><span>Hidden −</span></label>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- SETTINGS -->
-    <div id="page-settings" class="page">
-      <div class="page-header">
-        <div class="page-title" id="page-settings-title-el">Settings</div>
-        <div class="page-sub" id="page-settings-sub-el">Default risk management configuration</div>
+    <!-- RISK / CAPITAL -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-shield-dollar"></i> <span id="lbl-card-risk">Position Risk & Capital</span></div>
+      <div class="g2">
+        <div class="field">
+          <label>Capital for this Position ($)</label>
+          <input type="number" id="f-capital" step="any" placeholder="e.g. 1000" oninput="autoCalcFromForm()">
+        </div>
+        <div class="field">
+          <label>Risk on this Position (%)</label>
+          <input type="number" id="f-risk-pct" step="any" placeholder="e.g. 1" oninput="autoCalcFromForm()">
+        </div>
       </div>
-      <div class="card">
-        <div class="card-title"><i class="ti ti-shield"></i> <span id="lbl-card-risk-defaults">Risk Management Defaults</span></div>
+      <div id="risk-bar" class="rb-grid" style="display:none">
+        <div class="rb-box"><div class="rb-lbl" id="rb-risk-lbl">Risk ($)</div><div class="rb-val" id="rb-risk">—</div></div>
+        <div class="rb-box"><div class="rb-lbl" id="rb-size-lbl">Position Size</div><div class="rb-val" id="rb-size">—</div></div>
+        <div class="rb-box"><div class="rb-lbl" id="rb-lev-lbl">Leverage</div><div class="rb-val" id="rb-lev">—</div></div>
+        <div class="rb-box"><div class="rb-lbl" id="rb-tp-lbl">TP Profit ($)</div><div class="rb-val" id="rb-tp">—</div></div>
+      </div>
+    </div>
+
+    <!-- BASIC INFO -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-info-circle"></i> Basic Info</div>
+      <div class="g2">
+        <div class="field"><label>Open Date</label><input type="date" id="f-date"></div>
+        <div class="field"><label>Symbol</label><input type="text" id="f-symbol" placeholder="BTCUSDT"></div>
+      </div>
+      <div class="g3">
+        <div class="field"><label>Time Open</label><input type="time" id="f-topen"></div>
+        <div class="field"><label>Time Close</label><input type="time" id="f-tclose"></div>
+        <div class="field"><label>Time Frame</label>
+          <select id="f-tf"><option>1m</option><option>5m</option><option>15m</option><option>30m</option><option selected>1H</option><option>4H</option><option>1D</option><option>1W</option></select>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle-switch">
+          <input type="checkbox" id="f-multiday" onchange="toggleCloseDate()">
+          <span class="toggle-track"></span>
+        </label>
+        <label for="f-multiday" style="cursor:pointer">Position closed on a different day</label>
+      </div>
+      <div id="close-date-wrap" style="display:none">
         <div class="g2">
-          <div class="field"><label>Starting Capital ($)</label><input type="number" id="s-initbal" value="1000"></div>
-          <div class="field"><label>Default Risk per Trade (%)</label><input type="number" id="s-defrisk" value="1" step="0.1"></div>
-        </div>
-        <div class="btn-row"><button class="btn primary" onclick="saveSettings()"><i class="ti ti-check"></i> <span id="btn-save-settings-el">Save Settings</span></button></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><i class="ti ti-database"></i> <span id="lbl-card-backup">Backup & Restore</span></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn" onclick="exportJSON()"><i class="ti ti-download"></i> <span id="btn-export-json-el">Download JSON Backup</span></button>
-          <label class="btn" style="cursor:pointer"><i class="ti ti-upload"></i> <span id="btn-load-backup-el">Load Backup</span> <input type="file" accept=".json" style="display:none" onchange="importJSON(this)"></label>
+          <div class="field"><label>Close Date</label><input type="date" id="f-closedate"></div>
         </div>
       </div>
     </div>
 
-  </main>
-</div>
+    <!-- POSITION DETAILS -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-trending-up"></i> <span id="lbl-card-pos">Position Details</span></div>
+      <div class="g3">
+        <div class="field"><label>Entry Price</label><input type="number" id="f-entry" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
+        <div class="field"><label>Stop Price</label><input type="number" id="f-exit" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
+        <div class="field"><label>Take Profit (TP)</label><input type="number" id="f-tp" step="any" placeholder="0.00" oninput="autoCalcPrices()"></div>
+      </div>
+      <div class="g2">
+        <div class="field"><label>Exit Price (Actual Close)</label><input type="number" id="f-exitprice" step="any" placeholder="0.00 — if different from SL/TP" oninput="autoCalcPnlBalance()"></div>
+        <div class="field"><label>Exit Type</label>
+          <select id="f-exittype" onchange="autoCalcPnlBalance()">
+            <option value="">— Select —</option>
+            <option value="Hit TP">Hit TP</option>
+            <option value="Hit SL">Hit SL</option>
+            <option value="Manual — Profit">Manual Close (Profit)</option>
+            <option value="Manual — Loss">Manual Close (Loss)</option>
+            <option value="Manual — BE">Manual Close (Break Even)</option>
+          </select>
+        </div>
+      </div>
+      <div class="g3">
+        <div class="field auto-calc"><label>Stop Loss (%)</label><input type="number" id="f-sl" step="any" placeholder="auto" readonly></div>
+        <div class="field auto-calc"><label>R/R</label><input type="number" id="f-rr" step="any" placeholder="auto" readonly></div>
+        <div class="field auto-calc"><label>Position Size ($)</label><input type="number" id="f-possize" step="any" placeholder="auto" readonly></div>
+      </div>
+      <div class="g3">
+        <div class="field auto-calc"><label>Leverage</label><input type="number" id="f-lev" step="any" placeholder="auto" readonly></div>
+        <div class="field"><label>Direction</label>
+          <select id="f-dir" onchange="autoCalcPnlBalance();updateTsCard()">
+            <option value="Long">Long</option>
+            <option value="Short">Short</option>
+          </select>
+        </div>
+        <div class="field"><label>Result</label>
+          <select id="f-result"><option value="Win">Win</option><option value="Loss">Loss</option><option value="BE">Break Even</option></select>
+        </div>
+      </div>
+      <div class="g3">
+        <div class="field"><label>Fee / Commission ($)</label><input type="number" id="f-fee" step="any" placeholder="0.00" oninput="autoCalcPnlBalance()"></div>
+        <div class="field auto-calc"><label>PNL ($)</label><input type="number" id="f-pnl" step="any" placeholder="auto" readonly></div>
+        <div class="field auto-calc"><label>Balance ($)</label><input type="number" id="f-bal" step="any" placeholder="auto" readonly></div>
+      </div>
+    </div>
+
+    <!-- TRADE MANAGEMENT TOGGLE -->
+    <div class="card" style="margin-bottom:.5rem">
+      <div class="card-title" style="margin-bottom:.75rem"><i class="ti ti-adjustments-horizontal"></i> <span id="lbl-trade-mgmt">Trade Management Tools</span></div>
+      <div class="toggle-row" style="margin-bottom:0">
+        <label class="toggle-switch"><input type="checkbox" id="ts-toggle" onchange="toggleTsCard()"><span class="toggle-track"></span></label>
+        <label for="ts-toggle" id="lbl-ts-toggle">Show R:R 1 level & Trailing Stop Calculator</label>
+      </div>
+    </div>
+    <div class="ts-card" id="ts-card">
+      <div class="card-title"><i class="ti ti-target"></i> <span id="lbl-ts-title">Trade Management</span></div>
+      <div class="cl-section" id="lbl-rr1-section">R:R 1 Price Level</div>
+      <div class="g3" style="margin-bottom:1rem">
+        <div class="field auto-calc"><label id="lbl-rr1-price">R:R 1 Price</label><input type="text" id="ts-rr1" readonly placeholder="auto"></div>
+        <div class="field auto-calc"><label id="lbl-rr1-dist">Distance to R:R 1</label><input type="text" id="ts-rr1-dist" readonly placeholder="auto"></div>
+        <div class="field auto-calc"><label id="lbl-rr1-pnl">Profit at R:R 1 ($)</label><input type="text" id="ts-rr1-pnl" readonly placeholder="auto"></div>
+      </div>
+      <div class="sep"></div>
+      <div class="cl-section" id="lbl-trailing-section">Trailing Stop / Partial Close</div>
+      <div class="info-box" style="margin-bottom:1rem"><i class="ti ti-bulb" style="font-size:15px;flex-shrink:0"></i> <span id="lbl-ts-info">Enter your new stop price after moving into profit. The calculator shows how much you can close to protect gains.</span></div>
+      <div class="g3">
+        <div class="field"><label id="lbl-new-stop">New Stop Price</label><input type="number" id="ts-newstop" step="any" placeholder="0.00" oninput="calcTrailingStop()"></div>
+        <div class="field auto-calc"><label id="lbl-new-sl-pct">New SL (%)</label><input type="text" id="ts-newsl-pct" readonly placeholder="auto"></div>
+        <div class="field auto-calc"><label id="lbl-new-rr">New R/R</label><input type="text" id="ts-new-rr" readonly placeholder="auto"></div>
+      </div>
+      <div class="ts-result" id="ts-result" style="display:none">
+        <div class="ts-row"><span class="lbl" id="lbl-ts-cur-profit">Current Profit (at new stop)</span><span class="val" id="ts-cur-profit">—</span></div>
+        <div class="ts-row"><span class="lbl" id="lbl-ts-close-amt">Amount you can close ($)</span><span class="val" id="ts-close-amt">—</span></div>
+        <div class="ts-row"><span class="lbl" id="lbl-ts-close-pct">% of position to close</span><span class="val warn" id="ts-close-pct">—</span></div>
+        <div class="ts-row"><span class="lbl" id="lbl-ts-remain">Remaining position ($)</span><span class="val" id="ts-remain">—</span></div>
+        <div class="ts-row"><span class="lbl" id="lbl-ts-worst">Worst case after partial close</span><span class="val" id="ts-worst">—</span></div>
+      </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-camera"></i> <span id="lbl-card-notes">Screenshots & Notes</span></div>
+      <div class="g2">
+        <div class="field">
+          <label>Pic Before <span style="color:var(--text3);font-size:9px;text-transform:none;letter-spacing:0;font-weight:400">(filename or URL)</span></label>
+          <input type="text" id="f-picb" placeholder="chart_before.png or https://..." oninput="updatePicPreview('picb')">
+          <div id="picb-preview" style="display:none;margin-top:6px"></div>
+        </div>
+        <div class="field">
+          <label>Pic After <span style="color:var(--text3);font-size:9px;text-transform:none;letter-spacing:0;font-weight:400">(filename or URL)</span></label>
+          <input type="text" id="f-pica" placeholder="chart_after.png or https://..." oninput="updatePicPreview('pica')">
+          <div id="pica-preview" style="display:none;margin-top:6px"></div>
+        </div>
+      </div>
+      <div class="field"><label>Notes / Analysis</label><textarea id="f-note" placeholder="Entry reason, mistakes, lessons learned..."></textarea></div>
+      <div class="btn-row">
+        <button class="btn" onclick="clearForm()"><i class="ti ti-eraser"></i> <span id="btn-clear-el">Clear</span></button>
+        <button class="btn primary" onclick="savePosition()"><i class="ti ti-device-floppy"></i> <span id="btn-save-el">Save Position</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSITION LOG -->
+  <div id="page-log" class="page">
+    <div class="page-topbar">
+      <div>
+        <div class="page-title" id="page-log-title-el">Position Log</div>
+        <div class="page-sub" id="log-count">0 positions</div>
+      </div>
+      <div class="page-topbar-right">
+        <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> <span id="btn-export-csv-el">Export CSV</span></button>
+        <button class="btn danger" onclick="clearAll()"><i class="ti ti-trash"></i> <span id="btn-clear-all-el">Clear All</span></button>
+      </div>
+    </div>
+    <div class="pill-row" id="filter-pills">
+      <button class="pill active" onclick="filterLog('all',this)">All</button>
+      <button class="pill" onclick="filterLog('Win',this)">Win</button>
+      <button class="pill" onclick="filterLog('Loss',this)">Loss</button>
+      <button class="pill" onclick="filterLog('BE',this)">BE</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>#</th><th>Open Date</th><th>Close Date</th><th>Symbol</th><th>TF</th><th>Dir</th>
+          <th>Entry</th><th>Stop</th><th>TP</th><th>SL%</th><th>R/R</th>
+          <th>Size</th><th>Lev</th><th>PNL</th><th>Balance</th><th>Result</th>
+          <th>Exit Price</th><th>Exit Type</th><th>Pic B</th><th>Pic A</th><th>Notes</th><th>Edit</th><th>Del</th>
+        </tr></thead>
+        <tbody id="log-body"></tbody>
+      </table>
+    </div>
+    <div id="log-empty" class="empty"><i class="ti ti-database-off"></i><p>No positions logged yet</p></div>
+  </div>
+
+  <!-- RISK CALCULATOR -->
+  <div id="page-calc" class="page">
+    <div class="page-header">
+      <div class="page-title" id="page-calc-title-el">Risk Calculator</div>
+      <div class="page-sub" id="page-calc-sub-el">Calculate position size from SL%</div>
+    </div>
+    <div class="info-box"><i class="ti ti-bulb" style="font-size:16px;flex-shrink:0"></i> <span>Enter SL% to auto-calculate size and leverage.</span></div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-calculator"></i> <span id="lbl-card-calc">Position Size Calculator</span></div>
+      <div class="g3">
+        <div class="field"><label>Account Balance ($)</label><input type="number" id="c-bal" step="any" placeholder="1000" oninput="calcPos()"></div>
+        <div class="field"><label>Risk per Trade (%)</label><input type="number" id="c-risk" step="any" placeholder="1" oninput="calcPos()"></div>
+        <div class="field"><label>Stop Loss (%)</label><input type="number" id="c-sl" step="any" placeholder="0.5" oninput="calcPos()"></div>
+      </div>
+      <div class="calc-box">
+        <div class="calc-row"><span class="lbl">Risk Amount ($)</span><span class="val" id="cr-risk">—</span></div>
+        <div class="calc-row"><span class="lbl">Position Size ($)</span><span class="val" id="cr-size">—</span></div>
+        <div class="calc-row"><span class="lbl">Required Leverage</span><span class="val" id="cr-lev">—</span></div>
+        <div class="calc-row"><span class="lbl">Margin Used ($)</span><span class="val" id="cr-margin">—</span></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn primary" onclick="applyToForm()"><i class="ti ti-arrow-right"></i> <span id="btn-apply-el">Apply to New Position</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div id="page-stats" class="page">
+    <div class="page-header">
+      <div class="page-title" id="page-stats-title-el">Statistics</div>
+      <div class="page-sub" id="page-stats-sub-el">Performance dashboard · scalping analysis</div>
+    </div>
+    <div class="g4" id="s-row1">
+      <div class="metric"><div class="metric-label">Total Trades</div><div class="metric-val" id="s-total">0</div></div>
+      <div class="metric"><div class="metric-label">Win Rate</div><div class="metric-val" id="s-wr">—</div></div>
+      <div class="metric"><div class="metric-label">Profit Factor</div><div class="metric-val" id="s-pf">—</div><div class="metric-sub">gross wins / gross losses</div></div>
+      <div class="metric"><div class="metric-label">Expectancy ($)</div><div class="metric-val" id="s-exp">—</div><div class="metric-sub">avg $ per trade</div></div>
+    </div>
+    <div class="g4">
+      <div class="metric"><div class="metric-label">Total PNL</div><div class="metric-val" id="s-pnl">—</div></div>
+      <div class="metric"><div class="metric-label">Avg R/R (actual)</div><div class="metric-val" id="s-rr">—</div></div>
+      <div class="metric"><div class="metric-label">Best Trade</div><div class="metric-val pos" id="s-best">—</div></div>
+      <div class="metric"><div class="metric-label">Worst Trade</div><div class="metric-val neg" id="s-worst">—</div></div>
+    </div>
+    <div class="g4">
+      <div class="metric"><div class="metric-label">Max Drawdown</div><div class="metric-val neg" id="s-dd">—</div><div class="metric-sub">consecutive losses</div></div>
+      <div class="metric"><div class="metric-label">Best Streak</div><div class="metric-val pos" id="s-wstreak">—</div><div class="metric-sub">consecutive wins</div></div>
+      <div class="metric"><div class="metric-label">Avg Risk / Trade</div><div class="metric-val" id="s-avgrisk">—</div></div>
+      <div class="metric"><div class="metric-label">Total Fees Paid</div><div class="metric-val neg" id="s-fees">—</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-trending-up"></i> <span id="lbl-card-bal-chart">Balance Growth</span></div>
+      <div class="chart-wrap" style="height:200px"><canvas id="bal-chart"></canvas></div>
+    </div>
+    <div class="card" id="s-exit-card">
+      <div class="card-title"><i class="ti ti-door-exit"></i> <span id="lbl-card-exit">Exit Behavior Analysis</span></div>
+      <div class="g4" style="margin-bottom:1rem">
+        <div class="metric"><div class="metric-label">Hit TP</div><div class="metric-val pos" id="s-hittp">—</div></div>
+        <div class="metric"><div class="metric-label">Hit SL</div><div class="metric-val neg" id="s-hitsl">—</div></div>
+        <div class="metric"><div class="metric-label">Manual (Profit)</div><div class="metric-val pos" id="s-manwin">—</div></div>
+        <div class="metric"><div class="metric-label">Manual (Loss)</div><div class="metric-val neg" id="s-manlose">—</div></div>
+      </div>
+      <div class="stats-insight" id="s-exit-insight"></div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title"><i class="ti ti-clock"></i> <span id="lbl-card-hours">Best Trading Hours</span></div>
+        <div id="s-hours-body" style="font-family:var(--mono);font-size:12px;color:var(--text2)"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-coin"></i> <span id="lbl-card-symbols">Best Symbols</span></div>
+        <div id="s-symbols-body" style="font-family:var(--mono);font-size:12px;color:var(--text2)"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-chart-bar"></i> <span id="lbl-card-tf">Performance by Timeframe</span></div>
+      <div id="s-tf-body"></div>
+    </div>
+    <div class="card" id="s-cl-card">
+      <div class="card-title"><i class="ti ti-checklist"></i> <span id="lbl-card-cl">Checklist Correlation</span></div>
+      <div class="stats-insight" id="s-cl-insight" style="margin-bottom:1rem"></div>
+      <div id="s-cl-body"></div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title"><i class="ti ti-chart-donut"></i> <span id="lbl-card-pie">Result Distribution</span></div>
+        <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-chart-histogram"></i> <span id="lbl-card-pnl-dist">PNL Distribution</span></div>
+        <div class="chart-wrap"><canvas id="pnl-dist-chart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="page-settings" class="page">
+    <div class="page-header">
+      <div class="page-title" id="page-settings-title-el">Settings</div>
+      <div class="page-sub" id="page-settings-sub-el">Default risk management configuration</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-shield"></i> <span id="lbl-card-risk-defaults">Risk Management Defaults</span></div>
+      <div class="g2">
+        <div class="field"><label>Starting Capital ($)</label><input type="number" id="s-initbal" value="1000"></div>
+        <div class="field"><label>Default Risk per Trade (%)</label><input type="number" id="s-defrisk" value="1" step="0.1"></div>
+      </div>
+      <div class="btn-row"><button class="btn primary" onclick="saveSettings()"><i class="ti ti-check"></i> <span id="btn-save-settings-el">Save Settings</span></button></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-database"></i> <span id="lbl-card-backup">Backup & Restore</span></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" onclick="exportJSON()"><i class="ti ti-download"></i> <span id="btn-export-json-el">Download JSON Backup</span></button>
+        <label class="btn" style="cursor:pointer"><i class="ti ti-upload"></i> <span id="btn-load-backup-el">Load Backup</span> <input type="file" accept=".json" style="display:none" onchange="importJSON(this)"></label>
+      </div>
+    </div>
+  </div>
+
+</main>
 
 <script>
 let positions = JSON.parse(localStorage.getItem('tj_positions') || '[]');
 let settings  = JSON.parse(localStorage.getItem('tj_settings')  || '{"initBal":1000,"defRisk":1}');
 let filterMode = 'all';
-let pieChart, balChart;
+let pieChart, balChart, pnlDistChart;
 let editingId = null;
 
 // ── i18n ──
 const LANG = {
   en: {
-    'nav-section-trade':'Trade','nav-new':'New Position','nav-log':'Position Log',
-    'nav-section-tools':'Tools','nav-calc':'Risk Calculator','nav-stats':'Statistics',
-    'nav-section-config':'Config','nav-settings':'Settings',
+    'nav-new':'New Position','nav-log':'Position Log',
+    'nav-calc':'Risk Calculator','nav-stats':'Statistics','nav-settings':'Settings',
     'page-new-title':'New Position','page-new-sub':'Log a new trade entry',
     'card-checklist':'Checklist','cl-sma7':'SMA 7','cl-sma29':'SMA 29','cl-sma99':'SMA 99',
     'cl-vwap':'VWAP','cl-cdiv':'Composite Divergence',
     'lbl-candle-pos':'Candle Position','lbl-candle-col':'Candle Color',
     'lbl-first-cross':'First Cross Color','lbl-div-type':'Divergence Type',
     'card-risk':'Position Risk & Capital',
-    'lbl-capital':'Capital for this Position ($)','lbl-risk-pct':'Risk on this Position (%)',
     'rb-risk':'Risk ($)','rb-size':'Position Size','rb-lev':'Leverage',
     'card-pos':'Position Details',
-    'lbl-entry':'Entry Price','lbl-stop':'Stop Price','lbl-tp':'Take Profit (TP)',
-    'lbl-exit-price':'Exit Price (Actual Close)','lbl-exit-type':'Exit Type',
-    'lbl-sl':'Stop Loss (%)','lbl-rr':'R/R','lbl-possize':'Position Size ($)',
-    'lbl-lev':'Leverage','lbl-dir':'Direction','lbl-result':'Result',
-    'lbl-fee':'Fee / Commission ($)','lbl-pnl':'PNL ($)','lbl-bal':'Balance ($)',
-    'opt-select':'— Select —','opt-hittp':'Hit TP','opt-hitsl':'Hit SL',
-    'opt-man-profit':'Manual Close (Profit)','opt-man-loss':'Manual Close (Loss)',
-    'opt-man-be':'Manual Close (Break Even)',
-    'lbl-closeday':'Position closed on a different day','lbl-closedate':'Close Date',
     'card-trade-mgmt':'Trade Management Tools',
     'lbl-ts-toggle':'Show R:R 1 level & Trailing Stop Calculator',
     'lbl-ts-title':'Trade Management','lbl-rr1-section':'R:R 1 Price Level',
@@ -801,95 +765,57 @@ const LANG = {
     'lbl-ts-cur-profit':'Current Profit (at new stop)','lbl-ts-close-amt':'Amount you can close ($)',
     'lbl-ts-close-pct':'% of position to close','lbl-ts-remain':'Remaining position ($)',
     'lbl-ts-worst':'Worst case after partial close',
-    'card-notes':'Screenshots & Notes','lbl-picb':'Pic Before','lbl-pica':'Pic After',
-    'lbl-notes':'Notes / Analysis','ph-note':'Entry reason, mistakes, lessons learned...',
+    'card-notes':'Screenshots & Notes',
     'btn-clear':'Clear','btn-save':'Save Position',
     'page-log-title':'Position Log','btn-export-csv':'Export CSV','btn-clear-all':'Clear All',
-    'pill-all':'All','log-empty':'No positions logged yet',
     'page-calc-title':'Risk Calculator','page-calc-sub':'Calculate position size from SL%',
-    'calc-info':'Enter SL% to auto-calculate size and leverage.',
-    'card-calc':'Position Size Calculator',
-    'lbl-c-bal':'Account Balance ($)','lbl-c-risk':'Risk per Trade (%)','lbl-c-sl':'Stop Loss (%)',
-    'cr-risk':'Risk Amount ($)','cr-size':'Position Size ($)',
-    'cr-lev':'Required Leverage','cr-margin':'Margin Used ($)',
-    'btn-apply':'Apply to New Position',
+    'card-calc':'Position Size Calculator','btn-apply':'Apply to New Position',
     'page-stats-title':'Statistics','page-stats-sub':'Performance dashboard · scalping analysis',
-    's-total':'Total Trades','s-wr':'Win Rate','s-pf':'Profit Factor',
-    's-pf-sub':'gross wins / gross losses','s-exp':'Expectancy ($)','s-exp-sub':'avg $ per trade',
-    's-pnl':'Total PNL','s-rr':'Avg R/R (actual)','s-best':'Best Trade','s-worst':'Worst Trade',
-    's-dd':'Max Drawdown','s-dd-sub':'consecutive losses','s-wstreak':'Best Streak',
-    's-wstreak-sub':'consecutive wins','s-avgrisk':'Avg Risk / Trade','s-fees':'Total Fees Paid',
     'card-bal-chart':'Balance Growth','card-exit':'Exit Behavior Analysis',
-    's-hittp':'Hit TP','s-hitsl':'Hit SL','s-manwin':'Manual (Profit)','s-manlose':'Manual (Loss)',
     'card-hours':'Best Trading Hours','card-symbols':'Best Symbols',
     'card-tf':'Performance by Timeframe','card-cl':'Checklist Correlation',
     'card-pie':'Result Distribution','card-pnl-dist':'PNL Distribution',
     'page-settings-title':'Settings','page-settings-sub':'Default risk management configuration',
     'card-risk-defaults':'Risk Management Defaults',
-    'lbl-initbal':'Starting Capital ($)','lbl-defrisk':'Default Risk per Trade (%)',
     'btn-save-settings':'Save Settings','card-backup':'Backup & Restore',
     'btn-export-json':'Download JSON Backup','btn-load-backup':'Load Backup',
     'modal-edit-title':'Edit Position','btn-cancel':'Cancel','btn-save-changes':'Save Changes',
     'sb-balance-prefix':'Balance:',
   },
   fa: {
-    'nav-section-trade':'معامله','nav-new':'پوزیشن جدید','nav-log':'تاریخچه پوزیشن‌ها',
-    'nav-section-tools':'ابزار','nav-calc':'ماشین حساب ریسک','nav-stats':'آمار',
-    'nav-section-config':'تنظیمات','nav-settings':'تنظیمات',
+    'nav-new':'پوزیشن جدید','nav-log':'تاریخچه',
+    'nav-calc':'ماشین حساب','nav-stats':'آمار','nav-settings':'تنظیمات',
     'page-new-title':'پوزیشن جدید','page-new-sub':'ثبت معامله جدید',
     'card-checklist':'چک‌لیست','cl-sma7':'SMA 7','cl-sma29':'SMA 29','cl-sma99':'SMA 99',
     'cl-vwap':'VWAP','cl-cdiv':'واگرایی ترکیبی',
     'lbl-candle-pos':'موقعیت کندل','lbl-candle-col':'رنگ کندل',
     'lbl-first-cross':'رنگ اولین کراس','lbl-div-type':'نوع واگرایی',
     'card-risk':'ریسک و سرمایه',
-    'lbl-capital':'سرمایه این پوزیشن ($)','lbl-risk-pct':'ریسک این پوزیشن (%)',
     'rb-risk':'ریسک ($)','rb-size':'حجم پوزیشن','rb-lev':'لوریج',
     'card-pos':'جزئیات پوزیشن',
-    'lbl-entry':'قیمت ورود','lbl-stop':'قیمت استاپ','lbl-tp':'تیک پرافیت (TP)',
-    'lbl-exit-price':'قیمت خروج (واقعی)','lbl-exit-type':'نوع خروج',
-    'lbl-sl':'استاپ لاس (%)','lbl-rr':'R/R','lbl-possize':'حجم پوزیشن ($)',
-    'lbl-lev':'لوریج','lbl-dir':'جهت','lbl-result':'نتیجه',
-    'lbl-fee':'کارمزد ($)','lbl-pnl':'سود/زیان ($)','lbl-bal':'موجودی ($)',
-    'opt-select':'— انتخاب —','opt-hittp':'رسیدن به TP','opt-hitsl':'رسیدن به SL',
-    'opt-man-profit':'بستن دستی (سود)','opt-man-loss':'بستن دستی (زیان)',
-    'opt-man-be':'بستن دستی (سربه‌سر)',
-    'lbl-closeday':'پوزیشن در روز دیگری بسته شد','lbl-closedate':'تاریخ بسته شدن',
     'card-trade-mgmt':'ابزار مدیریت معامله',
     'lbl-ts-toggle':'نمایش سطح R:R 1 و ماشین حساب ترایلینگ استاپ',
     'lbl-ts-title':'مدیریت معامله','lbl-rr1-section':'سطح قیمتی R:R 1',
     'lbl-rr1-price':'قیمت R:R 1','lbl-rr1-dist':'فاصله تا R:R 1',
     'lbl-rr1-pnl':'سود در R:R 1 ($)','lbl-trailing-section':'ترایلینگ استاپ / بستن بخشی',
-    'lbl-ts-info':'قیمت استاپ جدید را بعد از ورود به سود وارد کنید. ماشین حساب نشان می‌دهد چقدر می‌توانید ببندید.',
+    'lbl-ts-info':'قیمت استاپ جدید را بعد از ورود به سود وارد کنید.',
     'lbl-new-stop':'استاپ جدید','lbl-new-sl-pct':'SL جدید (%)','lbl-new-rr':'R/R جدید',
     'lbl-ts-cur-profit':'سود فعلی (در استاپ جدید)','lbl-ts-close-amt':'مقدار قابل بستن ($)',
     'lbl-ts-close-pct':'درصد پوزیشن برای بستن','lbl-ts-remain':'پوزیشن باقیمانده ($)',
     'lbl-ts-worst':'بدترین حالت بعد از بستن بخشی',
-    'card-notes':'اسکرین‌شات و یادداشت','lbl-picb':'عکس قبل','lbl-pica':'عکس بعد',
-    'lbl-notes':'یادداشت / تحلیل','ph-note':'دلیل ورود، اشتباهات، درس‌ها...',
+    'card-notes':'اسکرین‌شات و یادداشت',
     'btn-clear':'پاک کردن','btn-save':'ذخیره پوزیشن',
     'page-log-title':'تاریخچه پوزیشن‌ها','btn-export-csv':'خروجی CSV',
-    'btn-clear-all':'پاک کردن همه','pill-all':'همه','log-empty':'هنوز پوزیشنی ثبت نشده',
+    'btn-clear-all':'پاک کردن همه',
     'page-calc-title':'ماشین حساب ریسک','page-calc-sub':'محاسبه حجم پوزیشن از روی SL%',
-    'calc-info':'SL% را وارد کنید تا حجم و لوریج محاسبه شود.',
-    'card-calc':'ماشین حساب حجم پوزیشن',
-    'lbl-c-bal':'موجودی حساب ($)','lbl-c-risk':'ریسک هر معامله (%)','lbl-c-sl':'استاپ لاس (%)',
-    'cr-risk':'مقدار ریسک ($)','cr-size':'حجم پوزیشن ($)',
-    'cr-lev':'لوریج مورد نیاز','cr-margin':'مارجین مورد نیاز ($)',
-    'btn-apply':'اعمال به پوزیشن جدید',
-    'page-stats-title':'آمار','page-stats-sub':'داشبورد عملکرد · تحلیل اسکالپ',
-    's-total':'تعداد کل معاملات','s-wr':'نرخ برد','s-pf':'ضریب سود',
-    's-pf-sub':'برد کل / زیان کل','s-exp':'انتظار ($)','s-exp-sub':'میانگین $ هر معامله',
-    's-pnl':'سود/زیان کل','s-rr':'میانگین R/R (واقعی)','s-best':'بهترین معامله','s-worst':'بدترین معامله',
-    's-dd':'بیشترین افت','s-dd-sub':'ضررهای متوالی','s-wstreak':'بهترین رکورد',
-    's-wstreak-sub':'بردهای متوالی','s-avgrisk':'میانگین ریسک / معامله','s-fees':'کارمزد پرداخت‌شده',
+    'card-calc':'ماشین حساب حجم پوزیشن','btn-apply':'اعمال به پوزیشن جدید',
+    'page-stats-title':'آمار','page-stats-sub':'داشبورد عملکرد',
     'card-bal-chart':'رشد موجودی','card-exit':'تحلیل نحوه خروج',
-    's-hittp':'رسیدن به TP','s-hitsl':'رسیدن به SL','s-manwin':'دستی (سود)','s-manlose':'دستی (زیان)',
     'card-hours':'بهترین ساعت‌های معامله','card-symbols':'بهترین نمادها',
     'card-tf':'عملکرد بر اساس تایم‌فریم','card-cl':'همبستگی چک‌لیست',
     'card-pie':'توزیع نتایج','card-pnl-dist':'توزیع سود/زیان',
     'page-settings-title':'تنظیمات','page-settings-sub':'پیکربندی پیش‌فرض مدیریت ریسک',
     'card-risk-defaults':'پیش‌فرض‌های مدیریت ریسک',
-    'lbl-initbal':'سرمایه اولیه ($)','lbl-defrisk':'ریسک پیش‌فرض هر معامله (%)',
     'btn-save-settings':'ذخیره تنظیمات','card-backup':'پشتیبان‌گیری و بازیابی',
     'btn-export-json':'دانلود فایل JSON','btn-load-backup':'بارگذاری فایل',
     'modal-edit-title':'ویرایش پوزیشن','btn-cancel':'انصراف','btn-save-changes':'ذخیره تغییرات',
@@ -907,40 +833,23 @@ function applyLang(lang) {
   document.body.classList.toggle('fa', isFa);
   document.getElementById('lang-btn').textContent = isFa ? 'EN' : 'FA';
   localStorage.setItem('tj_lang', lang);
-  const D = LANG[lang];
-  const E = LANG.en;
+  const D = LANG[lang]; const E = LANG.en;
   const T = k => D[k] || E[k] || '';
-
   const setT = (id, key) => { const el=document.getElementById(id); if(el) el.textContent=T(key); };
-  const setPH = (id, key) => { const el=document.getElementById(id); if(el) el.placeholder=T(key); };
-  const setFL = (inputId, key) => {
-    const inp=document.getElementById(inputId); if(!inp) return;
-    const lbl=inp.closest('.field')?.querySelector('label'); if(lbl) lbl.textContent=T(key);
-  };
-  // For card-title that has an icon + text node
-  const setCardTxt = (titleId, key) => { setT(titleId, key); };
 
-  // Sidebar nav sections
-  document.querySelectorAll('.nav-section').forEach((el,i) => {
-    const keys=['nav-section-trade','nav-section-tools','nav-section-config'];
-    if(keys[i]) el.textContent=T(keys[i]);
-  });
-  // Nav items — by data-i18n attribute
+  // Nav items
   document.querySelectorAll('.nav-item[data-i18n]').forEach(el => {
     const key=el.dataset.i18n;
-    const icon=el.querySelector('i');
-    // Replace text node(s) only
-    el.childNodes.forEach(n => { if(n.nodeType===3 && n.textContent.trim()) n.textContent=' '+T(key); });
+    const span=el.querySelector('span');
+    if(span) span.textContent=T(key);
   });
 
-  // Page titles
   setT('page-new-title-el','page-new-title'); setT('page-new-sub-el','page-new-sub');
   setT('page-log-title-el','page-log-title');
   setT('page-calc-title-el','page-calc-title'); setT('page-calc-sub-el','page-calc-sub');
   setT('page-stats-title-el','page-stats-title'); setT('page-stats-sub-el','page-stats-sub');
   setT('page-settings-title-el','page-settings-title'); setT('page-settings-sub-el','page-settings-sub');
 
-  // Card titles (span inside)
   setT('lbl-card-checklist','card-checklist'); setT('lbl-card-risk','card-risk');
   setT('lbl-card-pos','card-pos'); setT('lbl-card-notes','card-notes');
   setT('lbl-card-calc','card-calc'); setT('lbl-card-backup','card-backup');
@@ -950,33 +859,10 @@ function applyLang(lang) {
   setT('lbl-card-tf','card-tf'); setT('lbl-card-cl','card-cl');
   setT('lbl-card-pie','card-pie'); setT('lbl-card-pnl-dist','card-pnl-dist');
 
-  // Checklist section labels (data-i18n-cl)
   document.querySelectorAll('[data-i18n-cl]').forEach(el => el.textContent=T(el.dataset.i18nCl));
-  // Field labels with data-i18n-lbl
   document.querySelectorAll('[data-i18n-lbl]').forEach(el => el.textContent=T(el.dataset.i18nLbl));
 
-  // Risk card
-  setFL('f-capital','lbl-capital'); setFL('f-risk-pct','lbl-risk-pct');
   setT('rb-risk-lbl','rb-risk'); setT('rb-size-lbl','rb-size'); setT('rb-lev-lbl','rb-lev');
-
-  // Position Details
-  setFL('f-entry','lbl-entry'); setFL('f-exit','lbl-stop'); setFL('f-tp','lbl-tp');
-  setFL('f-exitprice','lbl-exit-price'); setFL('f-exittype','lbl-exit-type');
-  setFL('f-sl','lbl-sl'); setFL('f-rr','lbl-rr'); setFL('f-possize','lbl-possize');
-  setFL('f-lev','lbl-lev'); setFL('f-dir','lbl-dir'); setFL('f-result','lbl-result');
-  setFL('f-fee','lbl-fee'); setFL('f-pnl','lbl-pnl'); setFL('f-bal','lbl-bal');
-  // Exit type options
-  const et=document.getElementById('f-exittype');
-  if(et && et.options.length>=6){
-    et.options[0].text=T('opt-select'); et.options[1].text=T('opt-hittp');
-    et.options[2].text=T('opt-hitsl'); et.options[3].text=T('opt-man-profit');
-    et.options[4].text=T('opt-man-loss'); et.options[5].text=T('opt-man-be');
-  }
-  const cdLbl=document.querySelector('label[for="f-multiday"]');
-  if(cdLbl) cdLbl.textContent=T('lbl-closeday');
-  setFL('f-closedate','lbl-closedate');
-
-  // Trade Management
   setT('lbl-trade-mgmt','card-trade-mgmt'); setT('lbl-ts-toggle','lbl-ts-toggle');
   setT('lbl-ts-title','lbl-ts-title'); setT('lbl-rr1-section','lbl-rr1-section');
   setT('lbl-rr1-price','lbl-rr1-price'); setT('lbl-rr1-dist','lbl-rr1-dist');
@@ -987,55 +873,16 @@ function applyLang(lang) {
   setT('lbl-ts-close-pct','lbl-ts-close-pct'); setT('lbl-ts-remain','lbl-ts-remain');
   setT('lbl-ts-worst','lbl-ts-worst');
 
-  // Notes
-  setFL('f-picb','lbl-picb'); setFL('f-pica','lbl-pica');
-  setFL('f-note','lbl-notes'); setPH('f-note','ph-note');
   setT('btn-clear-el','btn-clear'); setT('btn-save-el','btn-save');
-
-  // Log
-  const pillAll=document.querySelector('#filter-pills .pill');
-  if(pillAll) pillAll.textContent=T('pill-all');
-  const logEmpty=document.querySelector('#log-empty p');
-  if(logEmpty) logEmpty.textContent=T('log-empty');
   setT('btn-export-csv-el','btn-export-csv'); setT('btn-clear-all-el','btn-clear-all');
-
-  // Calc page
-  const calcInfo=document.querySelector('#page-calc .info-box span');
-  if(calcInfo) calcInfo.textContent=T('calc-info');
-  setFL('c-bal','lbl-c-bal'); setFL('c-risk','lbl-c-risk'); setFL('c-sl','lbl-c-sl');
-  ['cr-risk','cr-size','cr-lev','cr-margin'].forEach(id => {
-    const row=document.getElementById(id)?.closest('.calc-row');
-    const lbl=row?.querySelector('.lbl');
-    if(lbl) lbl.textContent=T(id);
-  });
   setT('btn-apply-el','btn-apply');
-
-  // Stats metrics
-  ['s-total','s-wr','s-pf','s-exp','s-pnl','s-rr','s-best','s-worst',
-   's-dd','s-wstreak','s-avgrisk','s-fees'].forEach(id => {
-    const el=document.getElementById(id); if(!el) return;
-    const lbl=el.closest('.metric')?.querySelector('.metric-label');
-    if(lbl) lbl.textContent=T(id);
-    const sub=el.closest('.metric')?.querySelector('.metric-sub');
-    if(sub && T(id+'-sub') !== id+'-sub') sub.textContent=T(id+'-sub');
-  });
-  ['s-hittp','s-hitsl','s-manwin','s-manlose'].forEach(id => {
-    const el=document.getElementById(id); if(!el) return;
-    const lbl=el.closest('.metric')?.querySelector('.metric-label');
-    if(lbl) lbl.textContent=T(id);
-  });
-
-  // Settings
-  setFL('s-initbal','lbl-initbal'); setFL('s-defrisk','lbl-defrisk');
   setT('btn-save-settings-el','btn-save-settings');
   setT('btn-export-json-el','btn-export-json'); setT('btn-load-backup-el','btn-load-backup');
 
-  // Modal
   const mTitle=document.querySelector('#edit-modal .modal-title span');
   if(mTitle) mTitle.textContent=T('modal-edit-title');
   setT('btn-modal-cancel-el','btn-cancel'); setT('btn-modal-save-el','btn-save-changes');
 
-  // Sidebar balance (re-render with correct prefix)
   updateSidebarBalance();
 }
 
@@ -1049,25 +896,25 @@ function applyTheme(t) {
   document.getElementById('theme-icon').className = t === 'light' ? 'ti ti-moon' : 'ti ti-sun';
   localStorage.setItem('tj_theme', t);
 }
-function toggleTheme() {
-  applyTheme(document.body.classList.contains('light') ? 'dark' : 'light');
-}
+function toggleTheme() { applyTheme(document.body.classList.contains('light') ? 'dark' : 'light'); }
 applyTheme(localStorage.getItem('tj_theme') || 'dark');
 
-// ── Sidebar ──
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebar-overlay').classList.toggle('open');
-}
-function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebar-overlay').classList.remove('open');
-}
-
-// ── Close-date toggle ──
 function toggleCloseDate() {
   const on = document.getElementById('f-multiday').checked;
   document.getElementById('close-date-wrap').style.display = on ? 'block' : 'none';
+}
+
+// ── AUTO DIRECTION from prices ──
+function autoDirection() {
+  const entry = parseFloat(document.getElementById('f-entry').value) || 0;
+  const tp    = parseFloat(document.getElementById('f-tp').value)    || 0;
+  const stop  = parseFloat(document.getElementById('f-exit').value)  || 0;
+  if (entry > 0 && tp > 0) {
+    document.getElementById('f-dir').value = tp > entry ? 'Long' : 'Short';
+  } else if (entry > 0 && stop > 0) {
+    // stop below entry = Long, stop above entry = Short
+    document.getElementById('f-dir').value = stop < entry ? 'Long' : 'Short';
+  }
 }
 
 // ── Price-based auto-calc ──
@@ -1075,6 +922,10 @@ function autoCalcPrices() {
   const entry = parseFloat(document.getElementById('f-entry').value) || 0;
   const stop  = parseFloat(document.getElementById('f-exit').value)  || 0;
   const tp    = parseFloat(document.getElementById('f-tp').value)    || 0;
+
+  // Auto direction
+  autoDirection();
+
   if (entry > 0 && stop > 0) {
     const slPct = Math.abs((entry - stop) / entry) * 100;
     document.getElementById('f-sl').value = slPct.toFixed(4);
@@ -1091,11 +942,7 @@ function autoCalcPrices() {
   updateTsCard();
 }
 
-// ── Exit price auto-calc (actual close vs TP/SL) ──
-// Called whenever any price/exit/fee changes — recalculates PNL and Balance
-function autoCalcExit() { autoCalcPnlBalance(); }
-function autoCalcBalance() { autoCalcPnlBalance(); }
-
+// ── PNL & Balance calculation (FIXED) ──
 function autoCalcPnlBalance() {
   const entry    = parseFloat(document.getElementById('f-entry').value)      || 0;
   const stopP    = parseFloat(document.getElementById('f-exit').value)       || 0;
@@ -1115,25 +962,43 @@ function autoCalcPnlBalance() {
   let grossPnl = null;
 
   if (exitP > 0 && entry > 0 && posSize > 0) {
-    // Manual exit price provided
-    const pct = (exitP - entry) / entry;
-    grossPnl = dir === 'Long' ? posSize * pct : posSize * -pct;
-    if (rbTpEl) { rbTpEl.textContent = (grossPnl >= 0 ? '+$' : '-$') + Math.abs(grossPnl).toFixed(2); rbTpEl.style.color = grossPnl >= 0 ? 'var(--green)' : 'var(--red)'; }
-    if (rbLblEl) rbLblEl.textContent = 'Actual PNL';
-  } else if (entry > 0 && tp > 0 && posSize > 0) {
-    // No exit price — show TP profit in 4th box (gross, before fee)
-    const tpDist = Math.abs(tp - entry) / entry;
-    const tpProfit = posSize * tpDist;
-    if (rbTpEl) { rbTpEl.textContent = '$' + tpProfit.toFixed(2); rbTpEl.style.color = 'var(--accent)'; }
-    if (rbLblEl) rbLblEl.textContent = 'TP Profit ($)';
-    // If exit type is Hit TP, use TP profit as gross PNL
-    if (exitType === 'Hit TP') grossPnl = tpDist * posSize;
-    else if (exitType === 'Hit SL' && stopP > 0) {
-      const slDist = Math.abs(stopP - entry) / entry;
-      grossPnl = dir === 'Long' ? -(posSize * slDist) : (posSize * slDist);
+    // Manual exit price: PNL depends on direction
+    // Long: profit if exitP > entry; Short: profit if exitP < entry
+    const priceDiff = exitP - entry;
+    grossPnl = dir === 'Long' ? posSize * (priceDiff / entry) : posSize * (-priceDiff / entry);
+    if (rbTpEl) {
+      rbTpEl.textContent = (grossPnl >= 0 ? '+$' : '-$') + Math.abs(grossPnl).toFixed(2);
+      rbTpEl.style.color = grossPnl >= 0 ? 'var(--green)' : 'var(--red)';
     }
+    if (rbLblEl) rbLblEl.textContent = 'Actual PNL';
+
+  } else if (exitType === 'Hit TP' && entry > 0 && tp > 0 && posSize > 0) {
+    // Long: profit if TP > entry; Short: profit if TP < entry
+    const tpDiff = tp - entry;
+    grossPnl = dir === 'Long' ? posSize * (tpDiff / entry) : posSize * (-tpDiff / entry);
+    if (rbTpEl) { rbTpEl.textContent = '$' + Math.abs(grossPnl).toFixed(2); rbTpEl.style.color = 'var(--accent)'; }
+    if (rbLblEl) rbLblEl.textContent = 'TP Profit ($)';
+
+  } else if (exitType === 'Hit SL' && entry > 0 && stopP > 0 && posSize > 0) {
+    // Long: loss if SL < entry; Short: loss if SL > entry
+    const slDiff = stopP - entry;
+    grossPnl = dir === 'Long' ? posSize * (slDiff / entry) : posSize * (-slDiff / entry);
+    // grossPnl should be negative for a proper stop
+    if (rbTpEl) {
+      rbTpEl.textContent = (grossPnl >= 0 ? '+$' : '-$') + Math.abs(grossPnl).toFixed(2);
+      rbTpEl.style.color = grossPnl >= 0 ? 'var(--green)' : 'var(--red)';
+    }
+    if (rbLblEl) rbLblEl.textContent = 'SL Loss ($)';
+
   } else {
-    if (rbTpEl) { rbTpEl.textContent = '—'; rbTpEl.style.color = 'var(--accent)'; }
+    // Just show TP profit estimate in the box (no exit yet)
+    if (entry > 0 && tp > 0 && posSize > 0) {
+      const tpDist = Math.abs(tp - entry) / entry;
+      const tpProfit = posSize * tpDist;
+      if (rbTpEl) { rbTpEl.textContent = '$' + tpProfit.toFixed(2); rbTpEl.style.color = 'var(--accent)'; }
+    } else {
+      if (rbTpEl) { rbTpEl.textContent = '—'; rbTpEl.style.color = 'var(--accent)'; }
+    }
     if (rbLblEl) rbLblEl.textContent = 'TP Profit ($)';
   }
 
@@ -1142,16 +1007,12 @@ function autoCalcPnlBalance() {
     const netPnl = grossPnl - fee;
     pnlEl.value = netPnl.toFixed(2);
     // Auto result
-    if (!exitType || exitType === '') {
-      resultEl.value = netPnl > 0.01 ? 'Win' : netPnl < -0.01 ? 'Loss' : 'BE';
-    } else {
-      if (exitType === 'Hit TP') resultEl.value = 'Win';
-      else if (exitType === 'Hit SL') resultEl.value = 'Loss';
-      else if (exitType.includes('Profit')) resultEl.value = 'Win';
-      else if (exitType.includes('Loss')) resultEl.value = 'Loss';
-      else resultEl.value = 'BE';
-    }
-    // Balance = capital + net PNL
+    if (exitType === 'Hit TP') resultEl.value = 'Win';
+    else if (exitType === 'Hit SL') resultEl.value = 'Loss';
+    else if (exitType.includes('Profit')) resultEl.value = 'Win';
+    else if (exitType.includes('Loss')) resultEl.value = 'Loss';
+    else if (exitType.includes('BE')) resultEl.value = 'BE';
+    else resultEl.value = netPnl > 0.01 ? 'Win' : netPnl < -0.01 ? 'Loss' : 'BE';
     if (capital > 0) balEl.value = (capital + netPnl).toFixed(2);
   } else {
     pnlEl.value = '';
@@ -1173,22 +1034,18 @@ function autoCalcFromForm() {
     document.getElementById('rb-risk').textContent = '$' + riskAmt.toFixed(2);
     if (sl > 0) {
       const posSize = riskAmt / (sl / 100);
-      const levRaw  = posSize / capital;
-      const lev     = Math.max(1, levRaw);
+      const lev     = Math.max(1, posSize / capital);
       document.getElementById('rb-size').textContent = '$' + posSize.toFixed(2);
       document.getElementById('rb-lev').textContent  = lev.toFixed(2) + 'x';
       document.getElementById('f-possize').value = posSize.toFixed(2);
       document.getElementById('f-lev').value     = lev.toFixed(2);
-      // TP profit in $
+      // TP profit estimate
       const entry = parseFloat(document.getElementById('f-entry').value) || 0;
-      const stop  = parseFloat(document.getElementById('f-exit').value)  || 0;
       const tp    = parseFloat(document.getElementById('f-tp').value)    || 0;
       const rbTpEl = document.getElementById('rb-tp');
-      if (entry > 0 && stop > 0 && tp > 0 && posSize > 0) {
-        const slDist = Math.abs(entry - stop) / entry;
+      if (entry > 0 && tp > 0 && posSize > 0) {
         const tpDist = Math.abs(tp - entry) / entry;
-        const tpProfit = posSize * tpDist;
-        rbTpEl.textContent = '$' + tpProfit.toFixed(2);
+        rbTpEl.textContent = '$' + (posSize * tpDist).toFixed(2);
       } else { rbTpEl.textContent = '—'; }
     } else {
       document.getElementById('rb-size').textContent = '—';
@@ -1205,8 +1062,10 @@ function autoCalcFromForm() {
 }
 
 function switchTab(t) {
-  document.querySelectorAll('.nav-item').forEach((n,i) => {
-    n.classList.toggle('active', ['new','log','calc','stats','settings'][i] === t);
+  document.querySelectorAll('.nav-item').forEach(n => {
+    const key = n.dataset.i18n;
+    const map = {'nav-new':'new','nav-log':'log','nav-calc':'calc','nav-stats':'stats','nav-settings':'settings'};
+    n.classList.toggle('active', map[key] === t);
   });
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-'+t).classList.add('active');
@@ -1219,15 +1078,12 @@ function getRadio(name) {
   const el = document.querySelector(`input[name="${name}"]:checked`);
   return el ? el.value : '';
 }
-function setRadio(name, val) {
-  const el = document.querySelector(`input[name="${name}"][value="${val}"]`);
-  if (el) el.checked = true;
-}
 
 function getCurrentBalance() {
   if (!positions.length) return settings.initBal;
   return positions[positions.length-1].balance || settings.initBal;
 }
+
 function updateSidebarBalance() {
   const b = getCurrentBalance();
   document.getElementById('sb-balance').textContent = L('sb-balance-prefix') + ' $' + parseFloat(b).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -1239,31 +1095,31 @@ function savePosition() {
   const nextNum = positions.length + 1;
   const row = {
     id:Date.now(), row:nextNum,
-    date:     document.getElementById('f-date').value || today,
+    date:document.getElementById('f-date').value || today,
     closedate: multiday ? (document.getElementById('f-closedate').value||'') : '',
-    topen:    document.getElementById('f-topen').value,
-    tclose:   document.getElementById('f-tclose').value,
-    tf:       document.getElementById('f-tf').value,
-    symbol:   document.getElementById('f-symbol').value.toUpperCase()||'—',
-    entry:    parseFloat(document.getElementById('f-entry').value)||0,
-    exit:     parseFloat(document.getElementById('f-exit').value)||0,
-    tp:       parseFloat(document.getElementById('f-tp').value)||0,
-    sl:       parseFloat(document.getElementById('f-sl').value)||0,
-    rr:       parseFloat(document.getElementById('f-rr').value)||0,
-    possize:  parseFloat(document.getElementById('f-possize').value)||0,
-    lev:      parseFloat(document.getElementById('f-lev').value)||1,
+    topen:document.getElementById('f-topen').value,
+    tclose:document.getElementById('f-tclose').value,
+    tf:document.getElementById('f-tf').value,
+    symbol:document.getElementById('f-symbol').value.toUpperCase()||'—',
+    entry:parseFloat(document.getElementById('f-entry').value)||0,
+    exit:parseFloat(document.getElementById('f-exit').value)||0,
+    tp:parseFloat(document.getElementById('f-tp').value)||0,
+    sl:parseFloat(document.getElementById('f-sl').value)||0,
+    rr:parseFloat(document.getElementById('f-rr').value)||0,
+    possize:parseFloat(document.getElementById('f-possize').value)||0,
+    lev:parseFloat(document.getElementById('f-lev').value)||1,
     direction:document.getElementById('f-dir').value,
-    result:   document.getElementById('f-result').value,
-    pnl:      parseFloat(document.getElementById('f-pnl').value)||0,
-    balance:  parseFloat(document.getElementById('f-bal').value)||0,
-    fee:      parseFloat(document.getElementById('f-fee').value)||0,
-    exitprice: parseFloat(document.getElementById('f-exitprice').value)||0,
-    exittype:  document.getElementById('f-exittype').value,
-    picb:     document.getElementById('f-picb').value,
-    pica:     document.getElementById('f-pica').value,
-    note:     document.getElementById('f-note').value,
-    capital:  parseFloat(document.getElementById('f-capital').value)||0,
-    riskPct:  parseFloat(document.getElementById('f-risk-pct').value)||0,
+    result:document.getElementById('f-result').value,
+    pnl:parseFloat(document.getElementById('f-pnl').value)||0,
+    balance:parseFloat(document.getElementById('f-bal').value)||0,
+    fee:parseFloat(document.getElementById('f-fee').value)||0,
+    exitprice:parseFloat(document.getElementById('f-exitprice').value)||0,
+    exittype:document.getElementById('f-exittype').value,
+    picb:document.getElementById('f-picb').value,
+    pica:document.getElementById('f-pica').value,
+    note:document.getElementById('f-note').value,
+    capital:parseFloat(document.getElementById('f-capital').value)||0,
+    riskPct:parseFloat(document.getElementById('f-risk-pct').value)||0,
     sma7:getRadio('sma7'), sma7c:getRadio('sma7c'),
     sma29:getRadio('sma29'), sma29c:getRadio('sma29c'),
     sma99:getRadio('sma99'), sma99c:getRadio('sma99c'),
@@ -1281,12 +1137,43 @@ function savePosition() {
 function clearForm() {
   ['f-date','f-closedate','f-topen','f-tclose','f-symbol','f-entry','f-exit','f-tp',
    'f-sl','f-rr','f-possize','f-lev','f-pnl','f-bal','f-fee','f-picb','f-pica','f-note',
-   'f-capital','f-risk-pct','f-exitprice','f-pnl','f-bal'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+   'f-capital','f-risk-pct','f-exitprice'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
   document.getElementById('f-exittype').value = '';
   document.querySelectorAll('input[type=radio]').forEach(r => r.checked=false);
   document.getElementById('f-multiday').checked = false;
   document.getElementById('close-date-wrap').style.display = 'none';
   document.getElementById('risk-bar').style.display = 'none';
+  ['picb','pica'].forEach(id => {
+    const el = document.getElementById(id+'-preview');
+    if(el){ el.style.display='none'; el.innerHTML=''; }
+  });
+}
+
+// ── Pic preview (URL or filename) ──
+function isUrl(str) {
+  return /^https?:\/\//i.test(str.trim());
+}
+function updatePicPreview(fieldId) {
+  const val = document.getElementById('f-'+fieldId).value.trim();
+  const preview = document.getElementById(fieldId+'-preview');
+  if (!val) { preview.style.display='none'; preview.innerHTML=''; return; }
+  if (isUrl(val)) {
+    // Check if it looks like an image URL
+    const isImg = /\.(png|jpg|jpeg|gif|webp|svg|bmp)(\?.*)?$/i.test(val);
+    if (isImg) {
+      preview.style.display='block';
+      preview.innerHTML = `<a href="${val}" target="_blank" rel="noopener" style="display:block">
+        <img src="${val}" alt="preview" style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid var(--border2);object-fit:cover;cursor:pointer" onerror="this.parentElement.parentElement.innerHTML='<a href=\\'${val}\\' target=\\'_blank\\' style=\\'color:var(--blue);font-size:12px;font-family:var(--mono);display:flex;align-items:center;gap:5px\\'><i class=\\'ti ti-external-link\\'></i>${val}</a>'; this.parentElement.parentElement.style.display='block'">
+      </a>`;
+    } else {
+      preview.style.display='block';
+      preview.innerHTML = `<a href="${val}" target="_blank" rel="noopener" style="color:var(--blue);font-size:12px;font-family:var(--mono);display:inline-flex;align-items:center;gap:5px;text-decoration:none;background:var(--blue-dim);border:1px solid rgba(77,159,255,.2);padding:5px 10px;border-radius:8px"><i class="ti ti-external-link"></i>${val.length>50?val.slice(0,47)+'…':val}</a>`;
+    }
+  } else {
+    // Just a filename — show as plain tag
+    preview.style.display='block';
+    preview.innerHTML = `<span style="color:var(--text3);font-size:11px;font-family:var(--mono);display:inline-flex;align-items:center;gap:4px"><i class="ti ti-file"></i>${val}</span>`;
+  }
 }
 
 // ── EDIT ──
@@ -1321,7 +1208,7 @@ function openEditModal(id) {
       </div>
     </div>
     <div class="g2" style="margin-bottom:14px">
-      <div class="field"><label>Exit Price (Actual Close)</label><input type="number" id="e-exitprice" step="any" value="${p.exitprice||''}"></div>
+      <div class="field"><label>Exit Price</label><input type="number" id="e-exitprice" step="any" value="${p.exitprice||''}"></div>
       <div class="field"><label>Exit Type</label>
         <select id="e-exittype">
           <option value="" ${!p.exittype?'selected':''}>— Select —</option>
@@ -1380,7 +1267,17 @@ function renderLog() {
   document.getElementById('log-count').textContent = positions.length+' position'+(positions.length!==1?'s':'');
   if (!filtered.length) { tbody.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display = 'none';
-  tbody.innerHTML = filtered.map(p => `<tr>
+  tbody.innerHTML = filtered.map(p => {
+    const renderPic = (val) => {
+      if (!val) return '—';
+      if (/^https?:\/\//i.test(val)) {
+        const isImg = /\.(png|jpg|jpeg|gif|webp|svg|bmp)(\?.*)?$/i.test(val);
+        if (isImg) return `<a href="${val}" target="_blank" rel="noopener" title="${val}" style="color:var(--blue);display:inline-flex;align-items:center;gap:3px;text-decoration:none"><i class="ti ti-photo" style="font-size:14px"></i>View</a>`;
+        return `<a href="${val}" target="_blank" rel="noopener" title="${val}" style="color:var(--blue);display:inline-flex;align-items:center;gap:3px;text-decoration:none"><i class="ti ti-external-link" style="font-size:13px"></i>Link</a>`;
+      }
+      return `<span title="${val}" style="color:var(--text3)"><i class="ti ti-file" style="font-size:12px"></i> ${val.length>12?val.slice(0,10)+'…':val}</span>`;
+    };
+    return `<tr>
     <td><b>#${p.row}</b></td>
     <td>${p.date||'—'}</td>
     <td>${p.closedate||'—'}</td>
@@ -1399,10 +1296,13 @@ function renderLog() {
     <td><span class="badge ${p.result==='Win'?'win':p.result==='Loss'?'loss':'be'}">${p.result}</span></td>
     <td>${p.exitprice||'—'}</td>
     <td style="color:${p.exittype&&p.exittype.includes('Manual')?'var(--amber)':'var(--text2)'}">${p.exittype||'—'}</td>
+    <td>${renderPic(p.picb)}</td>
+    <td>${renderPic(p.pica)}</td>
     <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis" title="${p.note||''}">${p.note||'—'}</td>
     <td><button class="btn edit-btn sm" onclick="openEditModal(${p.id})"><i class="ti ti-pencil"></i></button></td>
     <td><button class="btn danger sm" onclick="deletePos(${p.id})"><i class="ti ti-trash"></i></button></td>
-  </tr>`).join('');
+  </tr>`;
+  }).join('');
 }
 
 function deletePos(id) {
@@ -1443,8 +1343,6 @@ function applyToForm() {
   autoCalcFromForm(); switchTab('new');
 }
 
-let pnlDistChart = null;
-
 function renderCharts() {
   if (!positions.length) return;
   const isDark = !document.body.classList.contains('light');
@@ -1466,23 +1364,20 @@ function renderCharts() {
   const avgRisk   = positions.filter(p=>p.riskPct>0).length ?
     (positions.filter(p=>p.riskPct>0).reduce((a,p)=>a+p.riskPct,0)/positions.filter(p=>p.riskPct>0).length).toFixed(2)+'%' : '—';
 
-  // Streak & drawdown
   let maxWin=0,maxLoss=0,curW=0,curL=0;
   positions.forEach(p=>{ if(p.result==='Win'){curW++;curL=0;maxWin=Math.max(maxWin,curW);}else if(p.result==='Loss'){curL++;curW=0;maxLoss=Math.max(maxLoss,curL);}else{curW=0;curL=0;}});
 
-  // Fill metrics
   document.getElementById('s-total').textContent  = positions.length;
   const wrEl = document.getElementById('s-wr');
-  const wrVal = positions.length?(wins.length/positions.length*100).toFixed(1)+'%':'—';
-  wrEl.textContent = wrVal;
+  wrEl.textContent = positions.length?(wins.length/positions.length*100).toFixed(1)+'%':'—';
   wrEl.className = 'metric-val '+(wins.length/positions.length>=0.5?'pos':'neg');
   document.getElementById('s-pf').textContent   = pf===Infinity?'∞':pf.toFixed(2);
   document.getElementById('s-pf').className     = 'metric-val '+(pf>=1?'pos':'neg');
   document.getElementById('s-exp').textContent  = (exp>=0?'+$':'-$')+Math.abs(exp).toFixed(2);
   document.getElementById('s-exp').className    = 'metric-val '+(exp>=0?'pos':'neg');
-  const pnlEl = document.getElementById('s-pnl');
-  pnlEl.textContent = (totalPNL>=0?'+$':'-$')+Math.abs(totalPNL).toFixed(2);
-  pnlEl.className = 'metric-val '+(totalPNL>=0?'pos':'neg');
+  const pnlEl2 = document.getElementById('s-pnl');
+  pnlEl2.textContent = (totalPNL>=0?'+$':'-$')+Math.abs(totalPNL).toFixed(2);
+  pnlEl2.className = 'metric-val '+(totalPNL>=0?'pos':'neg');
   document.getElementById('s-rr').textContent   = avgRR.toFixed(2);
   document.getElementById('s-best').textContent = '+$'+best.toFixed(2);
   document.getElementById('s-worst').textContent= '-$'+Math.abs(worst).toFixed(2);
@@ -1491,7 +1386,6 @@ function renderCharts() {
   document.getElementById('s-avgrisk').textContent = avgRisk;
   document.getElementById('s-fees').textContent = '-$'+totalFees.toFixed(2);
 
-  // ── Exit Behavior ──
   const hitTP   = positions.filter(p=>p.exittype==='Hit TP').length;
   const hitSL   = positions.filter(p=>p.exittype==='Hit SL').length;
   const manWin  = positions.filter(p=>p.exittype==='Manual — Profit').length;
@@ -1504,145 +1398,74 @@ function renderCharts() {
   let exitInsight = '';
   if (manuals.length>0) {
     const manPnl = manuals.reduce((a,p)=>a+(p.pnl||0),0)/manuals.length;
-    const hitTpPnl = positions.filter(p=>p.exittype==='Hit TP').reduce((a,p)=>a+(p.pnl||0),0)||0;
-    const hitTpAvg = hitTP>0?hitTpPnl/hitTP:0;
-    exitInsight += manWin>0&&manLose>0?`Manual closes: ${manWin} profit, ${manLose} loss. `:'';
-    exitInsight += `Avg PNL manual close: ${manPnl>=0?'+$':'-$'}${Math.abs(manPnl).toFixed(2)}`;
+    const hitTpArr = positions.filter(p=>p.exittype==='Hit TP');
+    const hitTpAvg = hitTpArr.length>0?hitTpArr.reduce((a,p)=>a+(p.pnl||0),0)/hitTpArr.length:0;
+    exitInsight = `Manual closes: ${manWin} profit, ${manLose} loss. Avg PNL: ${manPnl>=0?'+$':'-$'}${Math.abs(manPnl).toFixed(2)}`;
     if(hitTP>0) exitInsight += ` vs Hit TP avg: +$${hitTpAvg.toFixed(2)}`;
-    if(manPnl<hitTpAvg&&hitTP>0) exitInsight += ' → You leave money on the table by closing early.';
   } else { exitInsight = 'No manual closes recorded yet.'; }
   const insEl = document.getElementById('s-exit-insight');
   insEl.textContent = exitInsight;
   insEl.className = 'stats-insight'+(manuals.length&&manWin<manLose?' warn':'');
 
-  // ── Best Hours ──
+  // Hours
   const hourMap = {};
-  positions.forEach(p=>{
-    if(!p.topen) return;
-    const h = parseInt(p.topen.split(':')[0]);
-    if(!hourMap[h]) hourMap[h]={w:0,t:0};
-    hourMap[h].t++;
-    if(p.result==='Win') hourMap[h].w++;
-  });
+  positions.forEach(p=>{ if(!p.topen) return; const h=parseInt(p.topen.split(':')[0]); if(!hourMap[h]) hourMap[h]={w:0,t:0}; hourMap[h].t++; if(p.result==='Win') hourMap[h].w++; });
   const hoursEl = document.getElementById('s-hours-body');
-  const hourEntries = Object.entries(hourMap).sort((a,b)=>b[1].w/b[1].t - a[1].w/a[1].t);
+  const hourEntries = Object.entries(hourMap).sort((a,b)=>b[1].w/b[1].t-a[1].w/a[1].t);
   if(hourEntries.length) {
-    const grid = document.createElement('div');
-    grid.className = 'hour-grid';
+    const grid = document.createElement('div'); grid.className='hour-grid';
     hourEntries.slice(0,12).forEach(([h,d])=>{
-      const wr = d.w/d.t;
-      const cell = document.createElement('div');
-      cell.className = 'hour-cell';
-      cell.style.background = wr>=0.6?'rgba(0,214,143,0.12)':wr<=0.4?'rgba(255,77,109,0.1)':'var(--bg3)';
-      cell.innerHTML = `<span class="h">${String(h).padStart(2,'0')}:00</span><span class="r" style="color:${wr>=0.5?'var(--green)':'var(--red)'}">${(wr*100).toFixed(0)}%</span>`;
+      const wr=d.w/d.t; const cell=document.createElement('div'); cell.className='hour-cell';
+      cell.style.background=wr>=0.6?'rgba(0,214,143,0.12)':wr<=0.4?'rgba(255,77,109,0.1)':'var(--bg3)';
+      cell.innerHTML=`<span class="h">${String(h).padStart(2,'0')}:00</span><span class="r" style="color:${wr>=0.5?'var(--green)':'var(--red)'}">${(wr*100).toFixed(0)}%</span>`;
       grid.appendChild(cell);
     });
-    hoursEl.innerHTML = '<div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin-bottom:6px">Win rate by open hour (top 12)</div>';
+    hoursEl.innerHTML='<div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin-bottom:6px">Win rate by open hour (top 12)</div>';
     hoursEl.appendChild(grid);
-  } else { hoursEl.innerHTML = '<div style="color:var(--text3);font-size:12px;font-family:var(--mono)">Add Time Open to positions to see this.</div>'; }
+  } else { hoursEl.innerHTML='<div style="color:var(--text3);font-size:12px;font-family:var(--mono)">Add Time Open to positions to see this.</div>'; }
 
-  // ── Best Symbols ──
+  // Symbols
   const symMap = {};
-  positions.forEach(p=>{
-    if(!p.symbol||p.symbol==='—') return;
-    if(!symMap[p.symbol]) symMap[p.symbol]={w:0,t:0,pnl:0};
-    symMap[p.symbol].t++;
-    symMap[p.symbol].pnl+=(p.pnl||0);
-    if(p.result==='Win') symMap[p.symbol].w++;
-  });
+  positions.forEach(p=>{ if(!p.symbol||p.symbol==='—') return; if(!symMap[p.symbol]) symMap[p.symbol]={w:0,t:0,pnl:0}; symMap[p.symbol].t++; symMap[p.symbol].pnl+=(p.pnl||0); if(p.result==='Win') symMap[p.symbol].w++; });
   const symEl = document.getElementById('s-symbols-body');
   const symEntries = Object.entries(symMap).sort((a,b)=>b[1].pnl-a[1].pnl);
   if(symEntries.length) {
-    symEl.innerHTML = symEntries.map(([sym,d])=>{
-      const wr=d.w/d.t;
-      return `<div class="sym-row">
-        <span style="color:var(--text);font-weight:600">${sym}</span>
-        <span style="color:var(--text3)">${d.t} trades</span>
-        <span style="color:${wr>=0.5?'var(--green)':'var(--red)'}">${(wr*100).toFixed(0)}% WR</span>
-        <span style="color:${d.pnl>=0?'var(--green)':'var(--red)'}">${d.pnl>=0?'+$':'-$'}${Math.abs(d.pnl).toFixed(2)}</span>
-      </div>`;
-    }).join('');
-  } else { symEl.innerHTML = '<div style="color:var(--text3);font-size:12px;font-family:var(--mono)">No symbol data yet.</div>'; }
+    symEl.innerHTML = symEntries.map(([sym,d])=>{ const wr=d.w/d.t; return `<div class="sym-row"><span style="color:var(--text);font-weight:600">${sym}</span><span style="color:var(--text3)">${d.t} trades</span><span style="color:${wr>=0.5?'var(--green)':'var(--red)'}">${(wr*100).toFixed(0)}% WR</span><span style="color:${d.pnl>=0?'var(--green)':'var(--red)'}">${d.pnl>=0?'+$':'-$'}${Math.abs(d.pnl).toFixed(2)}</span></div>`; }).join('');
+  } else { symEl.innerHTML='<div style="color:var(--text3);font-size:12px;font-family:var(--mono)">No symbol data yet.</div>'; }
 
-  // ── TF Performance ──
+  // TF
   const tfMap = {};
-  positions.forEach(p=>{
-    const tf=p.tf||'?';
-    if(!tfMap[tf]) tfMap[tf]={w:0,t:0,pnl:0};
-    tfMap[tf].t++;
-    tfMap[tf].pnl+=(p.pnl||0);
-    if(p.result==='Win') tfMap[tf].w++;
-  });
+  positions.forEach(p=>{ const tf=p.tf||'?'; if(!tfMap[tf]) tfMap[tf]={w:0,t:0,pnl:0}; tfMap[tf].t++; tfMap[tf].pnl+=(p.pnl||0); if(p.result==='Win') tfMap[tf].w++; });
   const tfEl = document.getElementById('s-tf-body');
   const maxPnl = Math.max(...Object.values(tfMap).map(d=>Math.abs(d.pnl)));
-  tfEl.innerHTML = Object.entries(tfMap).map(([tf,d])=>{
-    const wr=d.w/d.t;
-    const pct=maxPnl>0?Math.abs(d.pnl)/maxPnl*100:0;
-    return `<div class="tf-row">
-      <span class="tf-label">${tf}</span>
-      <div class="tf-bar-wrap"><div class="tf-bar${d.pnl<0?' neg':''}" style="width:${pct}%"></div></div>
-      <span class="tf-stats">${d.t}tr · <span>${(wr*100).toFixed(0)}%WR</span> · ${d.pnl>=0?'+$':'-$'}${Math.abs(d.pnl).toFixed(2)}</span>
-    </div>`;
-  }).join('');
+  tfEl.innerHTML = Object.entries(tfMap).map(([tf,d])=>{ const wr=d.w/d.t; const pct=maxPnl>0?Math.abs(d.pnl)/maxPnl*100:0; return `<div class="tf-row"><span class="tf-label">${tf}</span><div class="tf-bar-wrap"><div class="tf-bar${d.pnl<0?' neg':''}" style="width:${pct}%"></div></div><span class="tf-stats">${d.t}tr · <span>${(wr*100).toFixed(0)}%WR</span> · ${d.pnl>=0?'+$':'-$'}${Math.abs(d.pnl).toFixed(2)}</span></div>`; }).join('');
 
-  // ── Checklist Correlation ──
-  const clKeys = [
-    {key:'sma7',  label:'SMA 7 Above'},
-    {key:'sma29', label:'SMA 29 Above'},
-    {key:'sma99', label:'SMA 99 Above'},
-    {key:'vwap',  label:'VWAP Above'},
-  ];
-  const withAll   = positions.filter(p=>p.sma7==='Above'&&p.sma29==='Above'&&p.sma99==='Above'&&p.vwap==='Above');
-  const wrAll     = withAll.length ? withAll.filter(p=>p.result==='Win').length/withAll.length : null;
-  const clInsight = document.getElementById('s-cl-insight');
-  if(wrAll!==null) {
-    clInsight.textContent = `Positions where ALL (SMA7, SMA29, SMA99, VWAP) are Above: ${withAll.length} trades · ${(wrAll*100).toFixed(0)}% Win Rate`;
-    clInsight.className = 'stats-insight'+(wrAll>=0.6?'':' warn');
-  } else { clInsight.textContent = 'Fill Checklist on your positions to see correlation data.'; clInsight.className='stats-insight'; }
+  // Checklist
+  const clKeys=[{key:'sma7',label:'SMA 7 Above'},{key:'sma29',label:'SMA 29 Above'},{key:'sma99',label:'SMA 99 Above'},{key:'vwap',label:'VWAP Above'}];
+  const withAll=positions.filter(p=>p.sma7==='Above'&&p.sma29==='Above'&&p.sma99==='Above'&&p.vwap==='Above');
+  const wrAll=withAll.length?withAll.filter(p=>p.result==='Win').length/withAll.length:null;
+  const clInsight=document.getElementById('s-cl-insight');
+  if(wrAll!==null){clInsight.textContent=`All SMAs + VWAP Above: ${withAll.length} trades · ${(wrAll*100).toFixed(0)}% Win Rate`;clInsight.className='stats-insight'+(wrAll>=0.6?'':' warn');}
+  else{clInsight.textContent='Fill Checklist on your positions to see correlation data.';clInsight.className='stats-insight';}
+  const clEl=document.getElementById('s-cl-body');
+  clEl.innerHTML=clKeys.map(({key,label})=>{ const withIt=positions.filter(p=>p[key]==='Above'); if(!withIt.length) return ''; const wr=withIt.filter(p=>p.result==='Win').length/withIt.length; const baseWr=wins.length/positions.length; const diff=wr-baseWr; return `<div class="cl-row"><span class="cl-name">${label}</span><div class="cl-bar-wrap"><div class="cl-bar" style="width:${wr*100}%;background:${wr>=baseWr?'var(--green)':'var(--red)'}"></div></div><span class="cl-wr" style="color:${wr>=baseWr?'var(--green)':'var(--red)'}">${(wr*100).toFixed(0)}%</span><span class="cl-count" style="color:${diff>=0?'var(--green)':'var(--red)'}">${diff>=0?'+':''}${(diff*100).toFixed(0)}% vs avg</span></div>`; }).join('');
 
-  const clEl = document.getElementById('s-cl-body');
-  clEl.innerHTML = clKeys.map(({key,label})=>{
-    const withIt = positions.filter(p=>p[key]==='Above');
-    if(!withIt.length) return '';
-    const wr=withIt.filter(p=>p.result==='Win').length/withIt.length;
-    const baseWr=wins.length/positions.length;
-    const diff=wr-baseWr;
-    return `<div class="cl-row">
-      <span class="cl-name">${label}</span>
-      <div class="cl-bar-wrap"><div class="cl-bar" style="width:${wr*100}%;background:${wr>=baseWr?'var(--green)':'var(--red)'}"></div></div>
-      <span class="cl-wr" style="color:${wr>=baseWr?'var(--green)':'var(--red)'}">${(wr*100).toFixed(0)}%</span>
-      <span class="cl-count" style="color:${diff>=0?'var(--green)':'var(--red)'}">${diff>=0?'+':''}${(diff*100).toFixed(0)}% vs avg</span>
-    </div>`;
-  }).join('');
-
-  // ── Charts ──
+  // Charts
   Chart.defaults.color = tickColor;
   if(pieChart) pieChart.destroy();
-  pieChart = new Chart(document.getElementById('pie-chart').getContext('2d'),{
-    type:'doughnut',
-    data:{labels:['Win','Loss','BE'],datasets:[{data:[wins.length,losses.length,bes.length],backgroundColor:['#00d68f','#ff4d6d','#f0a500'],borderWidth:0}]},
-    options:{plugins:{legend:{position:'bottom',labels:{color:tickColor,font:{family:'DM Mono',size:11}}}},cutout:'65%'}
-  });
+  pieChart = new Chart(document.getElementById('pie-chart').getContext('2d'),{type:'doughnut',data:{labels:['Win','Loss','BE'],datasets:[{data:[wins.length,losses.length,bes.length],backgroundColor:['#00d68f','#ff4d6d','#f0a500'],borderWidth:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:tickColor,font:{family:'DM Mono',size:11}}}},cutout:'65%'}});
 
   if(balChart) balChart.destroy();
-  const balData = positions.filter(p=>p.balance>0).map(p=>p.balance);
-  const balLabels = positions.filter(p=>p.balance>0).map(p=>'#'+p.row);
-  balChart = new Chart(document.getElementById('bal-chart').getContext('2d'),{
-    type:'line',
-    data:{labels:balLabels,datasets:[{data:balData,borderColor:'#00d68f',backgroundColor:'rgba(0,214,143,0.07)',tension:.35,fill:true,pointRadius:2,pointBackgroundColor:'#00d68f'}]},
-    options:{plugins:{legend:{display:false}},scales:{y:{grid:{color:gridColor},ticks:{color:tickColor,font:{family:'DM Mono',size:10}}},x:{grid:{display:false},ticks:{color:tickColor,font:{family:'DM Mono',size:10},maxTicksLimit:10}}}}
-  });
+  const balData=positions.filter(p=>p.balance>0).map(p=>p.balance);
+  const balLabels=positions.filter(p=>p.balance>0).map(p=>'#'+p.row);
+  balChart = new Chart(document.getElementById('bal-chart').getContext('2d'),{type:'line',data:{labels:balLabels,datasets:[{data:balData,borderColor:'#00d68f',backgroundColor:'rgba(0,214,143,0.07)',tension:.35,fill:true,pointRadius:2,pointBackgroundColor:'#00d68f'}]},options:{plugins:{legend:{display:false}},scales:{y:{grid:{color:gridColor},ticks:{color:tickColor,font:{family:'DM Mono',size:10}}},x:{grid:{display:false},ticks:{color:tickColor,font:{family:'DM Mono',size:10},maxTicksLimit:10}}}}});
 
   if(pnlDistChart) pnlDistChart.destroy();
-  const pnlVals = positions.map(p=>p.pnl||0).filter(v=>v!==0);
-  const buckets = {};
+  const pnlVals=positions.map(p=>p.pnl||0).filter(v=>v!==0);
+  const buckets={};
   pnlVals.forEach(v=>{ const b=Math.round(v/5)*5; buckets[b]=(buckets[b]||0)+1; });
-  const bKeys = Object.keys(buckets).map(Number).sort((a,b)=>a-b);
-  pnlDistChart = new Chart(document.getElementById('pnl-dist-chart').getContext('2d'),{
-    type:'bar',
-    data:{labels:bKeys.map(k=>k>=0?'+$'+k:'-$'+Math.abs(k)),datasets:[{data:bKeys.map(k=>buckets[k]),backgroundColor:bKeys.map(k=>k>=0?'rgba(0,214,143,0.7)':'rgba(255,77,109,0.7)'),borderWidth:0}]},
-    options:{plugins:{legend:{display:false}},scales:{y:{grid:{color:gridColor},ticks:{color:tickColor,font:{family:'DM Mono',size:10}}},x:{grid:{display:false},ticks:{color:tickColor,font:{family:'DM Mono',size:10}}}}}
-  });
+  const bKeys=Object.keys(buckets).map(Number).sort((a,b)=>a-b);
+  pnlDistChart = new Chart(document.getElementById('pnl-dist-chart').getContext('2d'),{type:'bar',data:{labels:bKeys.map(k=>k>=0?'+$'+k:'-$'+Math.abs(k)),datasets:[{data:bKeys.map(k=>buckets[k]),backgroundColor:bKeys.map(k=>k>=0?'rgba(0,214,143,0.7)':'rgba(255,77,109,0.7)'),borderWidth:0}]},options:{plugins:{legend:{display:false}},scales:{y:{grid:{color:gridColor},ticks:{color:tickColor,font:{family:'DM Mono',size:10}}},x:{grid:{display:false},ticks:{color:tickColor,font:{family:'DM Mono',size:10}}}}}});
 }
 
 function saveSettings() {
@@ -1667,17 +1490,7 @@ function exportJSON() {
 }
 function importJSON(input) {
   const fr=new FileReader();
-  fr.onload=e=>{
-    try {
-      const d=JSON.parse(e.target.result);
-      positions=d.positions||[]; settings=d.settings||settings;
-      localStorage.setItem('tj_positions',JSON.stringify(positions));
-      localStorage.setItem('tj_settings',JSON.stringify(settings));
-      document.getElementById('s-initbal').value=settings.initBal;
-      document.getElementById('s-defrisk').value=settings.defRisk;
-      updateSidebarBalance(); alert('Backup loaded!'); renderLog();
-    } catch{alert('Invalid backup file.');}
-  };
+  fr.onload=e=>{ try { const d=JSON.parse(e.target.result); positions=d.positions||[]; settings=d.settings||settings; localStorage.setItem('tj_positions',JSON.stringify(positions)); localStorage.setItem('tj_settings',JSON.stringify(settings)); document.getElementById('s-initbal').value=settings.initBal; document.getElementById('s-defrisk').value=settings.defRisk; updateSidebarBalance(); alert('Backup loaded!'); renderLog(); } catch{alert('Invalid backup file.');} };
   fr.readAsText(input.files[0]);
 }
 
@@ -1688,37 +1501,26 @@ function toggleTsCard() {
   if (on) updateTsCard();
 }
 
-// Called whenever entry/stop/tp/possize change — updates RR1 fields
 function updateTsCard() {
   if (!document.getElementById('ts-toggle').checked) return;
-
   const entry   = parseFloat(document.getElementById('f-entry').value)   || 0;
   const stop    = parseFloat(document.getElementById('f-exit').value)    || 0;
   const posSize = parseFloat(document.getElementById('f-possize').value) || 0;
   const dir     = document.getElementById('f-dir').value;
-
-  // ── R:R 1 level ──
   if (entry > 0 && stop > 0) {
     const slDist = Math.abs(entry - stop);
     const rr1price = dir === 'Long' ? entry + slDist : entry - slDist;
     const decimals = entry < 1 ? 6 : entry < 100 ? 4 : 2;
-
     document.getElementById('ts-rr1').value      = rr1price.toFixed(decimals);
     document.getElementById('ts-rr1-dist').value = slDist.toFixed(decimals);
-
     if (posSize > 0) {
-      const profit = posSize * (slDist / entry);
-      document.getElementById('ts-rr1-pnl').value = '$' + profit.toFixed(2);
-    } else {
-      document.getElementById('ts-rr1-pnl').value = '—';
-    }
+      document.getElementById('ts-rr1-pnl').value = '$' + (posSize * (slDist / entry)).toFixed(2);
+    } else { document.getElementById('ts-rr1-pnl').value = '—'; }
   } else {
-    document.getElementById('ts-rr1').value      = '';
+    document.getElementById('ts-rr1').value = '';
     document.getElementById('ts-rr1-dist').value = '';
-    document.getElementById('ts-rr1-pnl').value  = '';
+    document.getElementById('ts-rr1-pnl').value = '';
   }
-
-  // Re-run trailing calc in case posSize changed
   calcTrailingStop();
 }
 
@@ -1729,97 +1531,42 @@ function calcTrailingStop() {
   const newStop  = parseFloat(document.getElementById('ts-newstop').value)|| 0;
   const dir      = document.getElementById('f-dir').value;
   const resultEl = document.getElementById('ts-result');
-
-  // Clear auto fields
   document.getElementById('ts-newsl-pct').value = '';
   document.getElementById('ts-new-rr').value    = '';
   resultEl.style.display = 'none';
-
   if (!entry || !stop || !posSize || !newStop) return;
-
-  const decimals = entry < 1 ? 6 : entry < 100 ? 4 : 2;
-
-  // New SL%
   const newSlPct = Math.abs((newStop - entry) / entry) * 100;
   document.getElementById('ts-newsl-pct').value = newSlPct.toFixed(3) + '%';
-
-  // New R/R vs original TP (if available)
   const tp = parseFloat(document.getElementById('f-tp').value) || 0;
   if (tp > 0 && newSlPct > 0) {
-    const tpDist = Math.abs(tp - entry);
-    const newSlDist = Math.abs(newStop - entry);
-    const newRR = newSlDist > 0 ? tpDist / newSlDist : 0;
+    const newRR = Math.abs(tp - entry) / Math.abs(newStop - entry);
     document.getElementById('ts-new-rr').value = newRR.toFixed(2);
   }
-
-  // Profit/loss at new stop vs entry
-  // If new stop is ABOVE entry (long) or BELOW entry (short) → it's a guaranteed profit zone
-  const newStopPnlPct = dir === 'Long'
-    ? (newStop - entry) / entry
-    : (entry - newStop) / entry;
+  const newStopPnlPct = dir === 'Long' ? (newStop - entry) / entry : (entry - newStop) / entry;
   const curPnlAtNewStop = posSize * newStopPnlPct;
-
-  document.getElementById('ts-cur-profit').textContent =
-    (curPnlAtNewStop >= 0 ? '+$' : '-$') + Math.abs(curPnlAtNewStop).toFixed(2);
-  document.getElementById('ts-cur-profit').className =
-    'val ' + (curPnlAtNewStop >= 0 ? '' : 'warn');
-
-  // How much can you close?
-  // Logic: you want to lock in AT LEAST break-even on total trade.
-  // Original risk = posSize * (|entry - originalStop| / entry)
+  document.getElementById('ts-cur-profit').textContent = (curPnlAtNewStop >= 0 ? '+$' : '-$') + Math.abs(curPnlAtNewStop).toFixed(2);
+  document.getElementById('ts-cur-profit').className = 'val ' + (curPnlAtNewStop >= 0 ? '' : 'warn');
   const origSlDist = Math.abs(entry - stop);
-  const origRisk   = posSize * (origSlDist / entry); // $ you'd lose if original stop hit
-
-  // Risk on remaining position at NEW stop (per $ of remaining position)
-  // If newStop is in profit zone: remaining position carries ZERO downside risk past entry
-  // If newStop is still in loss zone: remaining carries some risk
-  const newStopRiskPerUnit = Math.max(0, Math.abs(newStop - entry) / entry);
-  // direction check: if Long and newStop < entry → still losing zone
-  const isNewStopInLoss = dir === 'Long' ? newStop < entry : newStop > entry;
-  const newStopRiskPct = isNewStopInLoss ? newSlPct / 100 : 0;
-
-  // Closed portion profit must cover remaining portion's risk
-  // closedAmt * (profitPct from closing now at market... we don't know current price)
-  // Instead: show how much to close so that profit from closed portion = original risk
-  // This makes total trade risk-free.
-  // We need: closedAmt * |newStop - entry| / entry >= origRisk  (if newStop > entry for long)
-  // OR: closedAmt * curPnlPct >= origRisk
-
-  let closeAmt = 0, closePct = 0, remainAmt = 0, worstCase = 0;
-
+  const origRisk   = posSize * (origSlDist / entry);
+  let closeAmt=0,closePct=0,remainAmt=0,worstCase=0;
   if (curPnlAtNewStop > 0) {
-    // New stop is in profit — close enough so locked profit >= original risk
-    // profitPerDollar at new stop level = newStopPnlPct
     if (newStopPnlPct > 0) {
-      // closeAmt * newStopPnlPct = origRisk  →  closeAmt = origRisk / newStopPnlPct
-      closeAmt  = origRisk / newStopPnlPct;
-      closeAmt  = Math.min(closeAmt, posSize); // can't close more than 100%
+      closeAmt  = Math.min(origRisk / newStopPnlPct, posSize);
       closePct  = (closeAmt / posSize) * 100;
       remainAmt = posSize - closeAmt;
-      // Worst case: remaining hits new stop (which is profit) + closed portion profit
       const closedProfit  = closeAmt * newStopPnlPct;
       const remainProfit  = remainAmt * newStopPnlPct;
-      worstCase = closedProfit + remainProfit - origRisk; // net vs original risk
+      worstCase = closedProfit + remainProfit - origRisk;
     }
   } else {
-    // New stop is still below entry (still a losing stop) — show risk reduction
-    closeAmt  = posSize * 0.5; // default suggestion: close 50%
-    closePct  = 50;
-    remainAmt = posSize * 0.5;
-    worstCase = -(remainAmt * newStopRiskPct) ; // remaining risk
+    closeAmt=posSize*0.5; closePct=50; remainAmt=posSize*0.5;
+    worstCase=-(remainAmt*(Math.abs(newStop-entry)/entry));
   }
-
-  document.getElementById('ts-close-amt').textContent =
-    '$' + closeAmt.toFixed(2);
-  document.getElementById('ts-close-pct').textContent =
-    closePct.toFixed(1) + '%';
-  document.getElementById('ts-remain').textContent =
-    '$' + remainAmt.toFixed(2);
-  document.getElementById('ts-worst').textContent =
-    (worstCase >= 0 ? '+$' : '-$') + Math.abs(worstCase).toFixed(2);
-  document.getElementById('ts-worst').className =
-    'val ' + (worstCase >= 0 ? '' : 'warn');
-
+  document.getElementById('ts-close-amt').textContent = '$' + closeAmt.toFixed(2);
+  document.getElementById('ts-close-pct').textContent = closePct.toFixed(1) + '%';
+  document.getElementById('ts-remain').textContent    = '$' + remainAmt.toFixed(2);
+  document.getElementById('ts-worst').textContent     = (worstCase >= 0 ? '+$' : '-$') + Math.abs(worstCase).toFixed(2);
+  document.getElementById('ts-worst').className       = 'val ' + (worstCase >= 0 ? '' : 'warn');
   resultEl.style.display = 'block';
 }
 
